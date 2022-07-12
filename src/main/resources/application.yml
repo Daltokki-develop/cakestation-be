@@ -8,11 +8,6 @@ spring:
     password: cakestation
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-  sql:
-    init:
-      mode: always
-      encoding: utf-8
-
   jpa:
     hibernate:
       ddl-auto: update
