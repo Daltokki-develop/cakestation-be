@@ -1,0 +1,30 @@
+spring:
+  profiles:
+    default: dev
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/cakestation?serverTimezone=Asia/Seoul
+    username: cakestation
+    password: cakestation
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  sql:
+    init:
+      mode: always
+      encoding: utf-8
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        #show_sql: true
+        format_sql: true
+        default_batch_fetch_size: 100
+        dialect: org.hibernate.dialect.MySQL57Dialect
+    defer-datasource-initialization: true
+
+logging.level:
+  org.hibernate.SQL: debug
+  org.springframework.boot.autoconfigure: error
+#  org.hibernate.type: trace
