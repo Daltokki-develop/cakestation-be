@@ -1,9 +1,7 @@
 spring:
   datasource:
-    url: jdbc:mysql://cakestation.c934jir1azhz.ap-northeast-2.rds.amazonaws.com:3306/cakestation?serverTimezone=Asia/Seoul
-    username: cakestation
-    password: cakestation
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:mysql:8:///
 
   jpa:
     hibernate:
