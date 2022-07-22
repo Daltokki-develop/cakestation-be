@@ -29,17 +29,19 @@ public class Store {
     @Column(length = 64)
     private String name;
 
-    private Float score;
+    private String address;
 
-    private boolean isOpened;
+    private String businessHours;
+
+    private String phone;
 
     private String photoUrl;
 
-    private String address;
+    private String webpageUrl;
 
-    private String snsAddress;
+    private String kakaoMapUrl;
 
-    private String phone;
+    private Float score;
 
     private Integer numOfPhoto;
 
@@ -47,6 +49,6 @@ public class Store {
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date createdDate;
+    private Date uploadDate;
 
 }

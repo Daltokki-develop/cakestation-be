@@ -21,29 +21,30 @@ public class CreateStoreDto {
 
     private String name;
 
-    private Float score;
+    private String address;
 
-    private boolean isOpened;
+    private String businessHours;
+
+    private String phone;
 
     private String photoUrl;
 
-    private String address;
+    private String webpageUrl;
 
-    private String snsAddress;
+    private String kakaoMapUrl;
 
-    private String phone;
+    private Float score;
 
     public static Store toEntity(User user, CreateStoreDto createStoreDto){
         return Store.builder()
                 .user(user)
                 .name(createStoreDto.getName())
-                .score(createStoreDto.getScore())
-                .isOpened(createStoreDto.isOpened())
-                .photoUrl(createStoreDto.getPhotoUrl())
                 .address(createStoreDto.getAddress())
-                .snsAddress(createStoreDto.getSnsAddress())
+                .businessHours(createStoreDto.getBusinessHours())
                 .phone(createStoreDto.getPhone())
-                .createdDate(new Date())
+                .photoUrl(createStoreDto.getPhotoUrl())
+                .webpageUrl(createStoreDto.getWebpageUrl())
+                .kakaoMapUrl(createStoreDto.getKakaoMapUrl())
                 .build();
     }
 }
