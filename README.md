@@ -2,7 +2,7 @@
 
 ## Environment
 
-- java 버전 몇
+- java 버전 몇 이런거 쓰기
 
 ## Prerequisite
 
