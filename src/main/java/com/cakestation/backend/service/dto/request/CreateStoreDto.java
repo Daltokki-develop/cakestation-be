@@ -8,8 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.AccessLevel;
-
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -45,6 +43,9 @@ public class CreateStoreDto {
                 .photoUrl(createStoreDto.getPhotoUrl())
                 .webpageUrl(createStoreDto.getWebpageUrl())
                 .kakaoMapUrl(createStoreDto.getKakaoMapUrl())
+                .score(0.0)
+                .numOfReviews(0)
+                .uploadDate(new Date())
                 .build();
     }
 }
