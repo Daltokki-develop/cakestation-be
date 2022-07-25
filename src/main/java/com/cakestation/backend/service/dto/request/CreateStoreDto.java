@@ -31,7 +31,7 @@ public class CreateStoreDto {
 
     private String kakaoMapUrl;
 
-    private Float score;
+    private Double score;
 
     public static Store toEntity(User user, CreateStoreDto createStoreDto){
         return Store.builder()

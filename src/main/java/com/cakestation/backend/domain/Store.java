@@ -44,6 +44,8 @@ public class Store {
 
     private Double score;
 
+    private Integer numOfPhoto;
+
     private Integer numOfReviews;
 
     @Temporal(TemporalType.DATE)
