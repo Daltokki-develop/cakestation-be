@@ -1,5 +1,6 @@
 package com.cakestation.backend.domain;
 
+import com.cakestation.backend.service.dto.request.CreateStoreDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,7 +42,7 @@ public class Store {
 
     private String kakaoMapUrl;
 
-    private Float score;
+    private Double score;
 
     private Integer numOfPhoto;
 
@@ -50,5 +51,22 @@ public class Store {
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date uploadDate;
+
+    public static Store createStore(User user, CreateStoreDto createStoreDto){
+        return Store.builder()
+                .user(user)
+                .name(createStoreDto.getName())
+                .address(createStoreDto.getAddress())
+                .businessHours(createStoreDto.getBusinessHours())
+                .phone(createStoreDto.getPhone())
+                .photoUrl(createStoreDto.getPhotoUrl())
+                .webpageUrl(createStoreDto.getWebpageUrl())
+                .kakaoMapUrl(createStoreDto.getKakaoMapUrl())
+                .score(0.0)
+                .numOfPhoto(0)
+                .numOfReviews(0)
+                .uploadDate(new Date())
+                .build();
+        }
 
 }

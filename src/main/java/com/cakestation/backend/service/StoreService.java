@@ -17,9 +17,9 @@ public class StoreService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void saveStore(CreateStoreDto createStoreDto) {
+    public Long saveStore(CreateStoreDto createStoreDto) {
         User user = userRepository.findById(createStoreDto.getUserId()).get();
-        Store store = CreateStoreDto.toEntity(user,createStoreDto);
-        storeRepository.save(store);
+        Store store = Store.createStore(user,createStoreDto);
+        return storeRepository.save(store).getId();
     }
 }

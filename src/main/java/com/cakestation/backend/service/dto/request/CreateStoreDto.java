@@ -8,8 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.AccessLevel;
-
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -33,11 +31,10 @@ public class CreateStoreDto {
 
     private String kakaoMapUrl;
 
-    private Float score;
+    private Double score;
 
-    public static Store toEntity(User user, CreateStoreDto createStoreDto){
+    public static Store toEntity(CreateStoreDto createStoreDto){
         return Store.builder()
-                .user(user)
                 .name(createStoreDto.getName())
                 .address(createStoreDto.getAddress())
                 .businessHours(createStoreDto.getBusinessHours())

@@ -25,6 +25,6 @@ public class SubwayController {
     @GetMapping("/subway/all")
     public ResponseEntity getAllSubwayStation(){
         List<Subway> subways = subwayService.findAll();
-        return ResponseEntity.ok().body(new ResponseDto(200,true,"지하철역 전체 조회 성공", subways));
+        return ResponseEntity.ok().body(new ResponseDto(HttpStatus.OK.value(), true,"지하철역 전체 조회 성공", subways));
     }
 }
