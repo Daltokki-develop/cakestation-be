@@ -52,6 +52,7 @@ public class StoreFixture {
                 .uploadDate(new Date())
                 .numOfReviews(0)
                 .numOfPhoto(0)
+                .uploadDate(uploadDate)
                 .build();
     }
 }

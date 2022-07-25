@@ -33,9 +33,8 @@ public class CreateStoreDto {
 
     private Double score;
 
-    public static Store toEntity(User user, CreateStoreDto createStoreDto){
+    public static Store toEntity(CreateStoreDto createStoreDto){
         return Store.builder()
-                .user(user)
                 .name(createStoreDto.getName())
                 .address(createStoreDto.getAddress())
                 .businessHours(createStoreDto.getBusinessHours())
@@ -43,9 +42,6 @@ public class CreateStoreDto {
                 .photoUrl(createStoreDto.getPhotoUrl())
                 .webpageUrl(createStoreDto.getWebpageUrl())
                 .kakaoMapUrl(createStoreDto.getKakaoMapUrl())
-                .score(0.0)
-                .numOfReviews(0)
-                .uploadDate(new Date())
                 .build();
     }
 }
