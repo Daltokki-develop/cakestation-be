@@ -1,7 +1,7 @@
 package com.cakestation.backend.controller;
 
 import com.cakestation.backend.fixture.SubwayFixture;
-import com.cakestation.backend.service.SubwayService;
+import com.cakestation.backend.subway.service.SubwayService;
 import com.cakestation.backend.service.dto.request.CreateSubwayDto;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;

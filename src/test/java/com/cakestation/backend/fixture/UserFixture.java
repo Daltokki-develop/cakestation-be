@@ -1,8 +1,8 @@
 package com.cakestation.backend.fixture;
 
-import com.cakestation.backend.domain.Role;
-import com.cakestation.backend.domain.User;
-import com.cakestation.backend.service.dto.response.KakaoUserDto;
+import com.cakestation.backend.user.domain.Role;
+import com.cakestation.backend.user.domain.User;
+import com.cakestation.backend.user.dto.response.KakaoUserDto;
 
 public class UserFixture {
     public static String username = "song2"; // 닉네임

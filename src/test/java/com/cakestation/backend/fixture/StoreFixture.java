@@ -1,7 +1,7 @@
 package com.cakestation.backend.fixture;
 
-import com.cakestation.backend.domain.Store;
-import com.cakestation.backend.service.dto.request.CreateStoreDto;
+import com.cakestation.backend.store.domain.Store;
+import com.cakestation.backend.store.dto.request.CreateStoreDto;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;

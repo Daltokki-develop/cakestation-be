@@ -1,8 +1,9 @@
 package com.cakestation.backend.service;
 
-import com.cakestation.backend.domain.Store;
-import com.cakestation.backend.repository.StoreRepository;
-import com.cakestation.backend.repository.UserRepository;
+import com.cakestation.backend.store.domain.Store;
+import com.cakestation.backend.store.repository.StoreRepository;
+import com.cakestation.backend.store.service.StoreService;
+import com.cakestation.backend.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

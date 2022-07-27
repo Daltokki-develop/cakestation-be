@@ -1,7 +1,8 @@
 package com.cakestation.backend.service;
 
-import com.cakestation.backend.domain.Subway;
-import com.cakestation.backend.repository.SubwayRepository;
+import com.cakestation.backend.subway.domain.Subway;
+import com.cakestation.backend.subway.repository.SubwayRepository;
+import com.cakestation.backend.subway.service.SubwayService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

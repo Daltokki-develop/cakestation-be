@@ -1,6 +1,5 @@
 package com.cakestation.backend.fixture;
 
-import com.cakestation.backend.domain.Subway;
 import com.cakestation.backend.service.dto.request.CreateSubwayDto;
 
 public class SubwayFixture {
