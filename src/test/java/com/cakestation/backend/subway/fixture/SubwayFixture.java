@@ -1,6 +1,6 @@
-package com.cakestation.backend.fixture;
+package com.cakestation.backend.subway.fixture;
 
-import com.cakestation.backend.service.dto.request.CreateSubwayDto;
+import com.cakestation.backend.subway.dto.request.CreateSubwayDto;
 
 public class SubwayFixture {
 

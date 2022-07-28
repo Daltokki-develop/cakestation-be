@@ -1,4 +1,4 @@
-package com.cakestation.backend.service;
+package com.cakestation.backend.subway.service;
 
 import com.cakestation.backend.subway.domain.Subway;
 import com.cakestation.backend.subway.repository.SubwayRepository;
