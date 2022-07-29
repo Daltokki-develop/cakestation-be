@@ -1,10 +1,4 @@
 spring:
-  datasource:
-    url: aws_rds_url
-    username: cakestation
-    password: cakestation
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -20,3 +14,7 @@ logging.level:
   org.hibernate.SQL: debug
   org.springframework.boot.autoconfigure: error
 #  org.hibernate.type: trace
+--- 
+spring:
+  profiles:
+    active: dev
