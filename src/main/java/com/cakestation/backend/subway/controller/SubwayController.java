@@ -28,6 +28,6 @@ public class SubwayController {
     public ResponseEntity<ApiResponse> getAllSubwayStation(){
         List<Subway> subways = subwayService.findAll();
         List<SubwayResponse> response = subways.stream().map(SubwayResponse::new).collect(Collectors.toList());
-        return ResponseEntity.ok().body(new ApiResponse(HttpStatus.OK.value(), true,"지하철역 전체 조회 성공", response));
+        return ResponseEntity.ok().body(new ApiResponse(HttpStatus.OK.value(),"지하철역 전체 조회 성공", response));
     }
 }

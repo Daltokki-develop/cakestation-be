@@ -29,7 +29,7 @@ public class UserController {
         httpHeaders.add("Authorization", "Bearer " + tokenDto.getAccessToken());
 
         Long userId = userService.join(kakaoUserDto);
-        return new ResponseEntity<>(new ApiResponse(200,true,"로그인 성공",kakaoUserDto), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(200,"로그인 성공",kakaoUserDto), httpHeaders, HttpStatus.OK);
     }
 
     //로그아웃

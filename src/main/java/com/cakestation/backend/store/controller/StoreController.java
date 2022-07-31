@@ -18,9 +18,9 @@ public class StoreController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/stores")
-    public ResponseEntity uploadStore(@RequestBody @Validated CreateStoreDto createStoreDto){
+    public ResponseEntity<ApiResponse<Long>> uploadStore(@RequestBody @Validated CreateStoreDto createStoreDto){
         Long storeId = storeService.saveStore(createStoreDto);
-        return ResponseEntity.ok().body(new ApiResponse(HttpStatus.CREATED.value(),true,"가게 등록 성공", storeId));
+        return ResponseEntity.ok().body(
+                new ApiResponse<Long>(HttpStatus.CREATED.value(),"가게 등록 성공", storeId));
     }
-
 }
