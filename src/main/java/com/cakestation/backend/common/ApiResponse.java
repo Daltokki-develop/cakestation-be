@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 public class ApiResponse<T> {
 
     private int code;
-    private Boolean success;
     private String responseMsg;
     private T result;
 }
