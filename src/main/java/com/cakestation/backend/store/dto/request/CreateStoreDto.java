@@ -13,8 +13,6 @@ import lombok.AccessLevel;
 @Builder
 @Getter
 public class CreateStoreDto {
-    private Long userId;
-
     private String name;
 
     private String address;

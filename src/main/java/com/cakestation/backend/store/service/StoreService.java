@@ -18,7 +18,9 @@ public class StoreService {
 
     @Transactional
     public Long saveStore(CreateStoreDto createStoreDto) {
-        User user = userRepository.findById(createStoreDto.getUserId()).get();
+        //TODO user id 가져오도록 수정
+        Long userId = 1L;
+        User user = userRepository.findById(userId).get();
         Store store = Store.createStore(user,createStoreDto);
         return storeRepository.save(store).getId();
     }
