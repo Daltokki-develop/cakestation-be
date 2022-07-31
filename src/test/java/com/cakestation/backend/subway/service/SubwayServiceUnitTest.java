@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.cakestation.backend.subway.fixture.SubwayFixture.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -30,12 +31,13 @@ class SubwayServiceUnitTest {
         //given
         List<Subway> subways = new ArrayList<>();
         Subway subway = Subway.builder()
-                .id(1L)
-                .line("1호선")
-                .station("희룡")
-                .longitude(127.046895)
-                .latitude(37.724846)
+                .id(SUBWAY_ID)
+                .line(LINE)
+                .station(STATION)
+                .longitude(LONGITUDE)
+                .latitude(LATITUDE)
                 .build();
+
         subways.add(subway);
         when(subwayRepository.findAll()).thenReturn(subways); // mock 객체 주입
 
