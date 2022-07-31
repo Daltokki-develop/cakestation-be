@@ -25,9 +25,9 @@ public class SubwayController {
     // 지하철 역 전체 조회
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/subway/all")
-    public ResponseEntity<ApiResponse> getAllSubwayStation(){
+    public ResponseEntity<ApiResponse<List<SubwayResponse>>> getAllSubwayStation(){
         List<Subway> subways = subwayService.findAll();
-        List<SubwayResponse> response = subways.stream().map(SubwayResponse::new).collect(Collectors.toList());
-        return ResponseEntity.ok().body(new ApiResponse(HttpStatus.OK.value(),"지하철역 전체 조회 성공", response));
+        List<SubwayResponse> response = subways.stream().map(SubwayResponse::from).collect(Collectors.toList());
+        return ResponseEntity.ok().body(new ApiResponse<>(HttpStatus.OK.value(),"지하철역 전체 조회 성공", response));
     }
 }
