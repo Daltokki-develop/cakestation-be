@@ -22,14 +22,10 @@ import static com.cakestation.backend.config.KakaoConfig.REST_API_KEY;
 public class KakaoService {
 
     public TokenDto getKaKaoAccessToken(String code) {
-        String access_Token = "";
-        String refresh_Token = "";
-        String reqURL = "https://kauth.kakao.com/oauth/token";
-
         TokenDto tokenDto = null;
 
         try {
-            URL url = new URL(reqURL);
+            URL url = new URL("https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=" + REST_API_KEY + "&redirect_uri=" + REDIRECT_URI + "&code=" + code);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
             //POST 요청을 위해 기본값이 false인 setDoOutput을 true로
@@ -39,16 +35,13 @@ public class KakaoService {
             //POST 요청에 필요로 요구하는 파라미터 스트림을 통해 전송
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
-            sb.append("grant_type=authorization_code");
-            sb.append("&client_id=" + REST_API_KEY); // TODO REST_API_KEY 입력
-            sb.append("&redirect_uri=" + REDIRECT_URI); // TODO 인가코드 받은 redirect_uri 입력
-            sb.append("&code=" + code);
             bw.write(sb.toString());
+
             bw.flush();
 
             //결과 코드가 200이라면 성공
             int responseCode = conn.getResponseCode();
-            System.out.println("responseCode : " + responseCode);
+
             //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
@@ -63,12 +56,9 @@ public class KakaoService {
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
 
-            access_Token = element.getAsJsonObject().get("access_token").getAsString();
-            refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
-
             tokenDto = TokenDto.builder()
-                    .accessToken(access_Token)
-                    .refreshToken(refresh_Token)
+                    .accessToken(element.getAsJsonObject().get("access_token").getAsString())
+                    .refreshToken(element.getAsJsonObject().get("refresh_token").getAsString())
                     .build();
 
             br.close();
@@ -89,7 +79,7 @@ public class KakaoService {
         try {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
+            conn.setRequestMethod("POST");
 
             // 요청에 필요한 Header에 포함될 내용
             conn.setRequestProperty("Authorization", "Bearer " + access_Token);
@@ -105,17 +95,16 @@ public class KakaoService {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            System.out.println("response body : " + result);
 
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
 
-            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
+            System.out.println("Element" + element);
             JsonObject account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 
-            String username = properties.getAsJsonObject().get("nickname").getAsString();
+            String username = account.getAsJsonObject().get("profile").getAsJsonObject().get("nickname").getAsString();
             String email = account.getAsJsonObject().get("email").getAsString();
-
+            
             kakaoUserDto = KakaoUserDto.builder()
                     .username(username)
                     .email(email)
