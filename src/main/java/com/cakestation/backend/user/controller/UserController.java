@@ -34,7 +34,7 @@ public class UserController {
     @RequestMapping("/login")
     public RedirectView exRedirect4() {
         RedirectView redirectView = new RedirectView();
-
+        
         //추후 refresh토큰 확인 후 바로 accessToken발급 상태로 전환
         //없을 경우 아래 redirect url을 통해 새로운 토큰 발급
         redirectView.setUrl(REDIRECT_LOGINPAGE);
@@ -103,7 +103,9 @@ public class UserController {
     private final UserRepository userRepository;
     @GetMapping("/userinfo")
     @ResponseBody
+    //Entity 를 DTO로 만들어서 반환할 수 있도록 할것
     public List<User> userInfo(){
+        //Service에 Userinfo를 호출해서 값을 만들수 있도록 할것
         List<User> userList = userRepository.findAll();
         return  userList;
     }
