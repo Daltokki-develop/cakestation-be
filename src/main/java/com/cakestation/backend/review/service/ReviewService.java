@@ -34,9 +34,9 @@ public class ReviewService {
 
         // 리뷰 생성
         Review review = Review.createReview(user, store, createReviewDto);
-        reviewRepository.save(review);
+        Review SavedReview = reviewRepository.save(review);
 
-        return review.getId();
+        return SavedReview.getId();
     }
 
     public Review findReviewById(Long reviewId){

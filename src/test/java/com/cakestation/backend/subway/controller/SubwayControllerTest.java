@@ -1,6 +1,5 @@
 package com.cakestation.backend.subway.controller;
 
-// import com.cakestation.backend.controller.AbstractContainerBaseTest;
 import com.cakestation.backend.subway.fixture.SubwayFixture;
 import com.cakestation.backend.subway.dto.request.CreateSubwayDto;
 import com.cakestation.backend.subway.service.SubwayService;
