@@ -34,6 +34,8 @@ public class Review {
     @JoinColumn(name = "store_id")
     private Store store;
 
+    private String nearByStation; // 가장 가까운 역
+
     @Enumerated(value = EnumType.ORDINAL)
     private Distance walkingDistance; // 도보 거리
 
@@ -45,14 +47,14 @@ public class Review {
 
     private String requestOption; // 추가 옵션
 
-    private int satisfaction; // 만족도
+    private String designSatisfaction; // 만족도
 
     private int score; // 별점
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReviewTag> tags = new ArrayList<>();
 
-    private String content; // 내용
+    private String content; // 하고 싶은 말
 
     private LocalDateTime createdAt;
 
@@ -62,12 +64,13 @@ public class Review {
         Review review = Review.builder()
                 .writer(user)
                 .store(store)
+                .nearByStation(createReviewDto.getNearByStation())
                 .walkingDistance(createReviewDto.getWalkingDistance())
                 .photoUrl(createReviewDto.getPhotoUrl())
                 .cakeNumber(createReviewDto.getCakeNumber())
                 .sheetType(createReviewDto.getSheetType())
                 .requestOption(createReviewDto.getRequestOption())
-                .satisfaction(createReviewDto.getSatisfaction())
+                .designSatisfaction(createReviewDto.getDesignSatisfaction())
                 .score(createReviewDto.getScore())
                 .content(createReviewDto.getContent())
                 .createdAt(LocalDateTime.now())
