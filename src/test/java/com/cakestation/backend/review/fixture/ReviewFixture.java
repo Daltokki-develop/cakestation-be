@@ -25,7 +25,7 @@ public class ReviewFixture {
 
     public static String REQUEST_OPTION = ""; // 추가 옵션
 
-    public static int SATISFACTION = 5; // 만족도
+    public static String DESIGN_SATISFACTION = "매우 만족해요!"; // 만족도
 
     public static int SCORE = 5; // 별점
 
@@ -41,7 +41,7 @@ public class ReviewFixture {
                 .cakeNumber(CAKE_NUMBER)
                 .sheetType(SHEET_TYPE)
                 .requestOption(REQUEST_OPTION)
-                .satisfaction(SATISFACTION)
+                .designSatisfaction(DESIGN_SATISFACTION)
                 .score(SCORE)
                 .tags(TAGS)
                 .content(CONTENT)
@@ -61,7 +61,7 @@ public class ReviewFixture {
                 .cakeNumber(CAKE_NUMBER)
                 .sheetType(SHEET_TYPE)
                 .requestOption(REQUEST_OPTION)
-                .satisfaction(SATISFACTION)
+                .designSatisfaction(DESIGN_SATISFACTION)
                 .score(SCORE)
                 .content(CONTENT)
                 .tags(List.of(reviewTag))
