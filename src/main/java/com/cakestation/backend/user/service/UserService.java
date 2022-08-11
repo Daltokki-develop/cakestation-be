@@ -31,6 +31,19 @@ public class UserService {
             User user = User.createUser(kakaoUserDto);
             return userRepository.save(user).getId();
         }
-
     }
+    
+    public Long getUserId(KakaoUserDto kakaoUserDto) {
+    
+    User targetUser = null;
+
+    try{
+        targetUser = userRepository.findUserByEmail(kakaoUserDto.getEmail());
+    }catch(NullPointerException e){
+        e.printStackTrace();
+    }
+    return targetUser.getId();
+        
+    }
+
 }
