@@ -3,7 +3,7 @@ package com.cakestation.backend.user.controller;
 import com.cakestation.backend.common.ApiResponse;
 import com.cakestation.backend.user.service.KakaoService;
 import com.cakestation.backend.user.service.UserService;
-import com.cakestation.backend.user.service.utilService;
+import com.cakestation.backend.user.service.UtilService;
 import com.cakestation.backend.user.dto.response.KakaoUserDto;
 import com.cakestation.backend.user.dto.response.CheckDto;
 import com.cakestation.backend.user.dto.response.TokenDto;
@@ -35,7 +35,8 @@ import org.springframework.web.servlet.view.RedirectView;
 public class UserController {
     private final KakaoService kakaoService;
     private final UserService userService;
-    
+    private final UtilService utilService;
+
     //인가 코드 반환
     @GetMapping("/login")
     public RedirectView redirectLogin(HttpServletRequest request) {
