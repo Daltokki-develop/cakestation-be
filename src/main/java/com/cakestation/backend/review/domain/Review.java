@@ -51,6 +51,7 @@ public class Review {
 
     private int score; // 별점
 
+    @Builder.Default
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReviewTag> tags = new ArrayList<>();
 
@@ -74,7 +75,6 @@ public class Review {
                 .score(createReviewDto.getScore())
                 .content(createReviewDto.getContent())
                 .createdAt(LocalDateTime.now())
-                .tags(new ArrayList<>())
                 .build();
 
         for (Tag tag: createReviewDto.getTags()){

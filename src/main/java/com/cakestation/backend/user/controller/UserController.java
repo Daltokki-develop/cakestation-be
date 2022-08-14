@@ -3,14 +3,12 @@ package com.cakestation.backend.user.controller;
 import com.cakestation.backend.common.ApiResponse;
 import com.cakestation.backend.user.service.KakaoService;
 import com.cakestation.backend.user.service.UserService;
-import com.cakestation.backend.user.service.utilService;
+import com.cakestation.backend.user.service.UtilService;
 import com.cakestation.backend.user.dto.response.KakaoUserDto;
 import com.cakestation.backend.user.dto.response.CheckDto;
 import com.cakestation.backend.user.dto.response.TokenDto;
 import static com.cakestation.backend.config.KakaoConfig.REDIRECT_LOGINPAGE;
 
-import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 
 import javax.servlet.http.Cookie;
@@ -19,11 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
@@ -35,7 +35,9 @@ import org.springframework.web.servlet.view.RedirectView;
 public class UserController {
     private final KakaoService kakaoService;
     private final UserService userService;
-    
+    private final UtilService utilService;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
     //인가 코드 반환
     @GetMapping("/login")
     public RedirectView redirectLogin(HttpServletRequest request) {
@@ -73,8 +75,14 @@ public class UserController {
         TokenDto tokenDto = kakaoService.getKaKaoAccessToken(code);
         //얻은 토큰을 통한 유저정보 조회 및 저장
         kakaoUserDto =  kakaoService.getUserInfo(tokenDto.getAccessToken());
-   
-        HashMap cookies = utilService.makeCookie(tokenDto); 
+
+        //시큐리티 컨텍스트에 저장
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(kakaoUserDto.getEmail(),kakaoUserDto.getEmail());
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        HashMap cookies = UtilService.makeCookie(tokenDto);
         // accessCookie =
         // refreshCookie = 
         response.addCookie((Cookie) cookies.get("access"));
@@ -95,7 +103,7 @@ public class UserController {
 
         try{
             //토큰을 찾는 메서드 
-            String findCookie = utilService.CookieAccessToken(cookies, "Authorization");
+            String findCookie = utilService.cookieAccessToken(cookies, "Authorization");
             
             //찾은 토큰을 통한 로그아웃 메서드
             result = kakaoService.LogoutToken(findCookie);

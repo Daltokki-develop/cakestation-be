@@ -8,9 +8,13 @@ import com.cakestation.backend.store.exception.InvalidStoreIdException;
 import com.cakestation.backend.store.repository.StoreRepository;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.repository.UserRepository;
+import com.cakestation.backend.user.service.UtilService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.security.auth.login.AccountNotFoundException;
 
 @Service
 @Transactional(readOnly = true)
@@ -23,22 +27,21 @@ public class ReviewService {
 
     @Transactional
     public Long saveReview(Long storeId, CreateReviewDto createReviewDto){
-        // TODO 사용자 ID 받아오도록 추후 수정 필요
-        Long userId = 1L;
+        String email = UtilService.getCurrentUserEmail().orElseThrow(RuntimeException::new);
 
         // 엔티티 조회
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findUserByEmail(email);
 
         Store store = storeRepository.findById(storeId).orElseThrow(InvalidStoreIdException::new);
 
         // 리뷰 생성
-        Review review = Review.createReview(user, store, createReviewDto);
-        Review SavedReview = reviewRepository.save(review);
+        Review review = reviewRepository.save(Review.createReview(user, store, createReviewDto));
 
-        return SavedReview.getId();
+        return review.getId();
     }
 
     public Review findReviewById(Long reviewId){
+        // TODO 예외 처리 필요
         return reviewRepository.findById(reviewId).get();
     }
 }
