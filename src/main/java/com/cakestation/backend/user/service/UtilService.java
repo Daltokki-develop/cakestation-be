@@ -51,7 +51,7 @@ public class UtilService {
         return TokenValue;
     }
 
-    public Optional<String> getCurrentUserEmail(){
+    public static Optional<String> getCurrentUserEmail(){
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null) {

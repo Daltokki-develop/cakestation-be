@@ -20,7 +20,6 @@ public class UserService {
 
         User findUser = userRepository.findUserByEmail(kakaoUserDto.getEmail());
 
-        System.out.println(findUser+"!!!!!");
         // 이미 회원이 존재하는 경우
         if (findUser != null) {
             return findUser.getId();
