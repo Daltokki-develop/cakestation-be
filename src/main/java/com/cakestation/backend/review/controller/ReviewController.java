@@ -2,6 +2,7 @@ package com.cakestation.backend.review.controller;
 
 import com.cakestation.backend.common.ApiResponse;
 import com.cakestation.backend.review.dto.request.CreateReviewDto;
+import com.cakestation.backend.review.service.ImageUploadService;
 import com.cakestation.backend.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,12 +19,13 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
+    // 리뷰 등록
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/stores/{storeId}/reviews")
     public ResponseEntity<ApiResponse<Long>> uploadReview(@PathVariable Long storeId,
                                                           @ModelAttribute List<MultipartFile> reviewImages,
                                                           @ModelAttribute CreateReviewDto createReviewDto){
-        Long reviewId = reviewService.saveReview(storeId, createReviewDto);
+        Long reviewId = reviewService.saveReview(storeId, createReviewDto, reviewImages);
         return ResponseEntity.ok().body(
                 new ApiResponse<Long>(HttpStatus.CREATED.value(),"리뷰 등록 성공",reviewId));
     }

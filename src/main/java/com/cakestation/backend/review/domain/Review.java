@@ -39,7 +39,11 @@ public class Review {
     @Enumerated(value = EnumType.STRING)
     private Distance walkingDistance; // 도보 거리
 
-    private String photoUrl; // 리뷰 사진 url
+    @ElementCollection
+    @CollectionTable(name = "review_image", joinColumns =
+    @JoinColumn(name = "review_id"))
+    @Column(name = "image_url")
+    private List<String> imageUrls = new ArrayList<>(); // 리뷰 사진 url
 
     private int cakeNumber; // 케이크 호수
 
@@ -68,7 +72,7 @@ public class Review {
                 .store(store)
                 .nearByStation(createReviewDto.getNearByStation())
                 .walkingDistance(createReviewDto.getWalkingDistance())
-                .photoUrl(createReviewDto.getPhotoUrl())
+                .imageUrls(createReviewDto.getImageUrls())
                 .cakeNumber(createReviewDto.getCakeNumber())
                 .sheetType(createReviewDto.getSheetType())
                 .requestOption(createReviewDto.getRequestOption())

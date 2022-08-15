@@ -6,6 +6,7 @@ import com.cakestation.backend.review.domain.Tag;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,7 +21,7 @@ public class CreateReviewDto {
     @Enumerated(value = EnumType.STRING)
     private Distance walkingDistance; // 도보 거리 (5, 10, 15, 15이상)
 
-    private String photoUrl; // 리뷰 사진 url
+    private List<String> imageUrls = new ArrayList<>(); // 리뷰 사진 url
 
     private int cakeNumber; // 케이크 호수
 

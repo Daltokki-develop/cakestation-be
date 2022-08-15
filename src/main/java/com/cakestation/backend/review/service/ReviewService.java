@@ -13,28 +13,32 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.security.auth.login.AccountNotFoundException;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ReviewService {
 
+    private final ImageUploadService imageUploadService;
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
     private final ReviewRepository reviewRepository;
 
     @Transactional
-    public Long saveReview(Long storeId, CreateReviewDto createReviewDto){
+    public Long saveReview(Long storeId, CreateReviewDto createReviewDto, List<MultipartFile> reviewImages){
         String email = UtilService.getCurrentUserEmail().orElseThrow(RuntimeException::new);
 
         // 엔티티 조회
         User user = userRepository.findUserByEmail(email);
-
         Store store = storeRepository.findById(storeId).orElseThrow(InvalidStoreIdException::new);
 
         // 리뷰 생성
+        List<String> imageUrls = imageUploadService.uploadFiles(reviewImages);
+        createReviewDto.setImageUrls(imageUrls);
         Review review = reviewRepository.save(Review.createReview(user, store, createReviewDto));
 
         return review.getId();
