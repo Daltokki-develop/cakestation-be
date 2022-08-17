@@ -1,5 +1,7 @@
 package com.cakestation.backend.store.service;
 
+import java.util.Optional;
+
 import com.cakestation.backend.store.domain.Store;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.store.repository.StoreRepository;
@@ -21,7 +23,16 @@ public class StoreService {
         //TODO user id 가져오도록 수정
         Long userId = 1L;
         User user = userRepository.findById(userId).get();
-        Store store = Store.createStore(user,createStoreDto);
+        Store store = Store.createStore(user, createStoreDto);
         return storeRepository.save(store).getId();
+    }
+
+    public Store findStoreById(Long storeId) {
+        Optional<Store> storeOptional = storeRepository.findById(storeId);
+        if (storeOptional.isEmpty()) {
+            // error
+            System.out.println("error!");
+        }
+        return storeOptional.get();
     }
 }
