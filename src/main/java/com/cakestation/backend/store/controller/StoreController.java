@@ -1,6 +1,8 @@
 package com.cakestation.backend.store.controller;
 
 import com.cakestation.backend.common.ApiResponse;
+import com.cakestation.backend.store.domain.Store;
+import com.cakestation.backend.store.dto.response.StoreResponse;
 import com.cakestation.backend.store.service.StoreService;
 import com.cakestation.backend.store.dto.request.CreateStoreDto;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +20,17 @@ public class StoreController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/stores")
-    public ResponseEntity<ApiResponse<Long>> uploadStore(@RequestBody @Validated CreateStoreDto createStoreDto){
+    public ResponseEntity<ApiResponse<Long>> uploadStore(@RequestBody @Validated CreateStoreDto createStoreDto) {
         Long storeId = storeService.saveStore(createStoreDto);
         return ResponseEntity.ok().body(
-                new ApiResponse<Long>(HttpStatus.CREATED.value(),"가게 등록 성공", storeId));
+                new ApiResponse<Long>(HttpStatus.CREATED.value(), "가게 등록 성공", storeId));
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/stores/{storeId}")
+    public ResponseEntity<ApiResponse<StoreResponse>> showStore(@PathVariable Long storeId) {
+        Store store = storeService.findStoreById(storeId);
+        StoreResponse response = StoreResponse.from(store);
+        return ResponseEntity.ok().body(new ApiResponse<>(HttpStatus.OK.value(), "가게 조회 성공", response));
     }
 }
