@@ -1,24 +1,27 @@
 package com.cakestation.backend.review.dto.request;
 
+import com.cakestation.backend.review.domain.DesignSatisfaction;
 import com.cakestation.backend.review.domain.Distance;
 import com.cakestation.backend.review.domain.Tag;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
+@Setter
 @Builder
 public class CreateReviewDto {
 
     private String nearByStation; // 가장 가까운 역
 
-    @Enumerated(value = EnumType.ORDINAL)
+    @Enumerated(value = EnumType.STRING)
     private Distance walkingDistance; // 도보 거리 (5, 10, 15, 15이상)
 
-    private String photoUrl; // 리뷰 사진 url
+    private List<String> imageUrls = new ArrayList<>(); // 리뷰 사진 url
 
     private int cakeNumber; // 케이크 호수
 
@@ -26,10 +29,12 @@ public class CreateReviewDto {
 
     private String requestOption; // 추가 옵션
 
-    private String designSatisfaction; // 만족도
+    @Enumerated(value = EnumType.STRING)
+    private DesignSatisfaction designSatisfaction; // 만족도
 
     private int score; // 별점
 
+    @Enumerated(value = EnumType.STRING)
     private List<Tag> tags;
 
     private String content; // 하고 싶은 말

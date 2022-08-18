@@ -36,10 +36,14 @@ public class Review {
 
     private String nearByStation; // 가장 가까운 역
 
-    @Enumerated(value = EnumType.ORDINAL)
+    @Enumerated(value = EnumType.STRING)
     private Distance walkingDistance; // 도보 거리
 
-    private String photoUrl; // 리뷰 사진 url
+    @ElementCollection
+    @CollectionTable(name = "review_image", joinColumns =
+    @JoinColumn(name = "review_id"))
+    @Column(name = "image_url")
+    private List<String> imageUrls = new ArrayList<>(); // 리뷰 사진 url
 
     private int cakeNumber; // 케이크 호수
 
@@ -47,7 +51,8 @@ public class Review {
 
     private String requestOption; // 추가 옵션
 
-    private String designSatisfaction; // 만족도
+    @Enumerated(value = EnumType.STRING)
+    private DesignSatisfaction designSatisfaction; // 만족도
 
     private int score; // 별점
 
@@ -67,7 +72,7 @@ public class Review {
                 .store(store)
                 .nearByStation(createReviewDto.getNearByStation())
                 .walkingDistance(createReviewDto.getWalkingDistance())
-                .photoUrl(createReviewDto.getPhotoUrl())
+                .imageUrls(createReviewDto.getImageUrls())
                 .cakeNumber(createReviewDto.getCakeNumber())
                 .sheetType(createReviewDto.getSheetType())
                 .requestOption(createReviewDto.getRequestOption())
