@@ -53,4 +53,17 @@ public class StoreFixture {
                 .uploadDate(UPLOAD_DATE)
                 .build();
     }
+
+    public static CreateStoreDto getStoreDto(){
+        return CreateStoreDto.builder()
+                .name(NAME)
+                .address(ADDRESS)
+                .businessHours(BUSINESS_HOURS)
+                .phone(PHONE)
+                .photoUrl(PHOTO_URL)
+                .webpageUrl(WEBPAGE_URL)
+                .kakaoMapUrl(KAKAOMAP_URL)
+                .score(SCORE)
+                .build();
+    }
 }
