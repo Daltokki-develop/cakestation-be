@@ -1,11 +1,10 @@
 package com.cakestation.backend.review.fixture;
 
-import com.cakestation.backend.review.domain.Distance;
-import com.cakestation.backend.review.domain.Review;
-import com.cakestation.backend.review.domain.ReviewTag;
-import com.cakestation.backend.review.domain.Tag;
+import com.cakestation.backend.review.domain.*;
 import com.cakestation.backend.review.dto.request.CreateReviewDto;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.cakestation.backend.store.fixture.StoreFixture.storeEntity;
@@ -17,7 +16,7 @@ public class ReviewFixture {
 
     public static Distance WALKING_DISTANCE = Distance.FIVE; // 도보 거리 (5, 10, 15, 15이상)
 
-    public static String PHOTO_URL = "aaa"; // 리뷰 사진 url
+    public static List<String> IMAGE_URLS = new ArrayList<>(); // 리뷰 사진 url
 
     public static int CAKE_NUMBER = 1; // 케이크 호수
 
@@ -25,7 +24,7 @@ public class ReviewFixture {
 
     public static String REQUEST_OPTION = ""; // 추가 옵션
 
-    public static String DESIGN_SATISFACTION = "매우 만족해요!"; // 만족도
+    public static DesignSatisfaction SATISFACTION = DesignSatisfaction.NORMAL; // 만족도
 
     public static int SCORE = 5; // 별점
 
@@ -37,11 +36,11 @@ public class ReviewFixture {
 
         return CreateReviewDto.builder()
                 .walkingDistance(WALKING_DISTANCE)
-                .photoUrl(PHOTO_URL)
+                .imageUrls(IMAGE_URLS)
                 .cakeNumber(CAKE_NUMBER)
                 .sheetType(SHEET_TYPE)
                 .requestOption(REQUEST_OPTION)
-                .designSatisfaction(DESIGN_SATISFACTION)
+                .designSatisfaction(SATISFACTION)
                 .score(SCORE)
                 .tags(TAGS)
                 .content(CONTENT)
@@ -57,11 +56,11 @@ public class ReviewFixture {
         Review review = Review.builder()
                 .id(REVIEW_ID)
                 .walkingDistance(WALKING_DISTANCE)
-                .photoUrl(PHOTO_URL)
+                .imageUrls(IMAGE_URLS)
                 .cakeNumber(CAKE_NUMBER)
                 .sheetType(SHEET_TYPE)
                 .requestOption(REQUEST_OPTION)
-                .designSatisfaction(DESIGN_SATISFACTION)
+                .designSatisfaction(SATISFACTION)
                 .score(SCORE)
                 .content(CONTENT)
                 .tags(List.of(reviewTag))

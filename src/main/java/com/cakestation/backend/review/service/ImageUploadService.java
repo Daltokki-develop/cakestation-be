@@ -26,10 +26,11 @@ public class ImageUploadService {
     private String bucketName;
     private static final String FILE_EXTENSION_SEPARATOR = ".";
 
+    // 파일(리스트) S3 bucket 업로드
     public List<String> uploadFiles(List<MultipartFile> multipartFiles) {
         List<String> fileUrls = new ArrayList<>();
 
-        for(MultipartFile file : multipartFiles) {
+        for (MultipartFile file : multipartFiles) {
             String fileName = buildFileName("review", Objects.requireNonNull(file.getOriginalFilename()));
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentType(file.getContentType());
@@ -46,6 +47,7 @@ public class ImageUploadService {
 
     }
 
+    // 파일 이름 생성
     public String buildFileName(String category, String originalFileName) {
         int fileExtensionIndex = originalFileName.lastIndexOf(FILE_EXTENSION_SEPARATOR);
         String fileExtension = originalFileName.substring(fileExtensionIndex);

@@ -24,9 +24,10 @@ public class ReviewController {
     @PostMapping("/stores/{storeId}/reviews")
     public ResponseEntity<ApiResponse<Long>> uploadReview(@PathVariable Long storeId,
                                                           @ModelAttribute List<MultipartFile> reviewImages,
-                                                          @ModelAttribute CreateReviewDto createReviewDto){
+                                                          @ModelAttribute CreateReviewDto createReviewDto) {
         Long reviewId = reviewService.saveReview(storeId, createReviewDto, reviewImages);
         return ResponseEntity.ok().body(
-                new ApiResponse<Long>(HttpStatus.CREATED.value(),"리뷰 등록 성공",reviewId));
+                new ApiResponse<Long>(HttpStatus.CREATED.value(), "리뷰 등록 성공", reviewId));
     }
+
 }
