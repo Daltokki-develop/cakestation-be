@@ -43,9 +43,9 @@ public class ReviewService {
         return review.getId();
     }
 
-    public Review findReviewByUser(Long reviewId) {
+    public Review findReviewsByWriter(Long reviewId) {
         // TODO: 실제 사용자로 변경 필요
         Long writerId = 1L;
-        return reviewRepository.findReviewsByWriter(writerId);
+        return reviewRepository.findAllByWriter(writerId);
     }
 }

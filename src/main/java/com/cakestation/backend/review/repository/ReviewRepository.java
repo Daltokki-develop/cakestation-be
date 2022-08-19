@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Query("select r from Review r where r.writer.id =:writerId")
-    Review findReviewsByWriter(@Param("writerId") Long writerId);
+    Review findAllByWriter(@Param("writerId") Long writerId);
 }
