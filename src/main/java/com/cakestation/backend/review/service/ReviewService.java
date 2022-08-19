@@ -1,21 +1,18 @@
 package com.cakestation.backend.review.service;
 
+import com.cakestation.backend.common.handler.exception.IdNotFoundException;
 import com.cakestation.backend.review.domain.Review;
 import com.cakestation.backend.review.dto.request.CreateReviewDto;
 import com.cakestation.backend.review.repository.ReviewRepository;
 import com.cakestation.backend.store.domain.Store;
-import com.cakestation.backend.store.exception.InvalidStoreIdException;
 import com.cakestation.backend.store.repository.StoreRepository;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.repository.UserRepository;
-import com.cakestation.backend.user.service.UtilService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.security.auth.login.AccountNotFoundException;
 import java.util.List;
 
 @Service
@@ -29,12 +26,14 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Transactional
-    public Long saveReview(Long storeId, CreateReviewDto createReviewDto, List<MultipartFile> reviewImages){
-        String email = UtilService.getCurrentUserEmail().orElseThrow(RuntimeException::new);
+    public Long saveReview(Long storeId, CreateReviewDto createReviewDto, List<MultipartFile> reviewImages) {
 
         // 엔티티 조회
-        User user = userRepository.findUserByEmail(email);
-        Store store = storeRepository.findById(storeId).orElseThrow(InvalidStoreIdException::new);
+        // TODO: 실제 사용자로 변경 필요
+        Long userId = 1L;
+        User user = userRepository.findById(userId).orElseThrow(() -> new IdNotFoundException("회원 정보를 찾을 수 없습니다."));
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(()-> new IdNotFoundException("가게 정보를 찾을 수 없습니다."));
 
         // 리뷰 생성
         List<String> imageUrls = imageUploadService.uploadFiles(reviewImages);
@@ -44,8 +43,9 @@ public class ReviewService {
         return review.getId();
     }
 
-    public Review findReviewById(Long reviewId){
-        // TODO 예외 처리 필요
-        return reviewRepository.findById(reviewId).get();
+    public Review findReviewsByWriter(Long reviewId) {
+        // TODO: 실제 사용자로 변경 필요
+        Long writerId = 1L;
+        return reviewRepository.findAllByWriter(writerId);
     }
 }

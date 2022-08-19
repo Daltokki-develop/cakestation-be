@@ -57,7 +57,6 @@ class SubwayControllerTest {
                                 .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(MockMvcResultMatchers.jsonPath("$.result").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.success").value(true))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
     }

@@ -13,6 +13,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static com.cakestation.backend.review.fixture.ReviewFixture.REVIEW_ID;
@@ -39,6 +41,9 @@ class ReviewServiceUnitTest {
     @InjectMocks
     ReviewService reviewService;
 
+    @Mock
+    ImageUploadService imageUploadService;
+
     @Test
     void 리뷰_등록(){
         // given
@@ -47,9 +52,10 @@ class ReviewServiceUnitTest {
         doReturn(Optional.of(userEntity())).when(userRepository).findById(any());
         doReturn(Optional.of(storeEntity())).when(storeRepository).findById(any());
         doReturn(reviewEntity()).when(reviewRepository).save(any());
+        doReturn(new ArrayList<String>()).when(imageUploadService).uploadFiles(new ArrayList<>());
 
         // when
-        Long reviewId = reviewService.saveReview(STORE_ID, reviewDto);
+        Long reviewId = reviewService.saveReview(STORE_ID, reviewDto, new ArrayList<>());
 
         // then
         assertEquals(reviewId,REVIEW_ID);
