@@ -13,6 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+
+import javax.security.auth.login.AccountNotFoundException;
+import javax.servlet.http.HttpServletRequest;
+
 import java.util.List;
 
 @Service
@@ -24,9 +28,11 @@ public class ReviewService {
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
     private final ReviewRepository reviewRepository;
+    private final UtilService utilService;
 
     @Transactional
-    public Long saveReview(Long storeId, CreateReviewDto createReviewDto, List<MultipartFile> reviewImages) {
+    public Long saveReview(Long storeId, CreateReviewDto createReviewDto, List<MultipartFile> reviewImages, HttpServletRequest request){
+        String email = utilService.getCurrentUserEmail(request).orElseThrow(RuntimeException::new);
 
         // 엔티티 조회
         // TODO: 실제 사용자로 변경 필요

@@ -4,8 +4,12 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
+import com.cakestation.backend.user.dto.response.KakaoUserDto;
 import com.cakestation.backend.user.dto.response.TokenDto;
+import com.cakestation.backend.user.service.KakaoService;
+import lombok.RequiredArgsConstructor;
 import org.apache.catalina.security.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +19,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UtilService {
+
+    private final KakaoService kakaoService;
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityUtil.class);
 
@@ -51,22 +58,31 @@ public class UtilService {
         return TokenValue;
     }
 
-    public static Optional<String> getCurrentUserEmail(){
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public Optional<String> getCurrentUserEmail(HttpServletRequest request){
 
-        if (authentication == null) {
-            logger.debug("Security Context에 인증 정보가 없습니다.");
-            return Optional.empty();
+        String accessToken=null;
+        Cookie [] cookies = request.getCookies();
+        if(cookies != null){
+           accessToken = this.cookieAccessToken(cookies, "Authorization");
         }
 
-        String username = null;
-        if (authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-            username = springSecurityUser.getUsername();
-        } else if (authentication.getPrincipal() instanceof String) {
-            username = (String) authentication.getPrincipal();
-        }
-
-        return Optional.ofNullable(username); // 현재 username 리턴
+        KakaoUserDto userDto = kakaoService.getUserInfo(accessToken);
+        return Optional.ofNullable(userDto.getEmail());
+//        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//
+//        if (authentication == null) {
+//            logger.debug("Security Context에 인증 정보가 없습니다.");
+//            return Optional.empty();
+//        }
+//
+//        String username = null;
+//        if (authentication.getPrincipal() instanceof UserDetails) {
+//            UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
+//            username = springSecurityUser.getUsername();
+//        } else if (authentication.getPrincipal() instanceof String) {
+//            username = (String) authentication.getPrincipal();
+//        }
+//
+//        return Optional.ofNullable(username); // 현재 username 리턴
     }
 }

@@ -8,7 +8,7 @@ import com.cakestation.backend.user.dto.response.KakaoUserDto;
 import com.cakestation.backend.user.dto.response.CheckDto;
 import com.cakestation.backend.user.dto.response.TokenDto;
 import static com.cakestation.backend.config.KakaoConfig.REDIRECT_LOGINPAGE;
-import static com.cakestation.backend.user.service.UtilService.getCurrentUserEmail;
+//import static com.cakestation.backend.user.service.UtilService.getCurrentUserEmail;
 
 import java.util.HashMap;
 
@@ -37,6 +37,7 @@ public class UserController {
     private final KakaoService kakaoService;
     private final UserService userService;
     private final UtilService utilService;
+
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     //인가 코드 반환
@@ -66,7 +67,7 @@ public class UserController {
     }
 
     
-    //"login" API에서 redirect된 URL에서 Code parameter를 추출하여 아래 API문을 실행하여 유저정보를 저장하고 AccessToken을 획득하여 쿠키로 보내준다.
+    //"login" API에서 redirect된 URL에서 Code parameter를 추출하여 아래 메서드를 실행하여 유저정보를 저장및 토큰을 쿠키로 보내준다.
     @GetMapping("/oauth/kakao")
     public ResponseEntity KakaoCallback(@RequestParam String code,  HttpServletResponse response) {
         
@@ -77,15 +78,13 @@ public class UserController {
         //얻은 토큰을 통한 유저정보 조회 및 저장
         kakaoUserDto =  kakaoService.getUserInfo(tokenDto.getAccessToken());
 
-        //시큐리티 컨텍스트에 저장
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(kakaoUserDto.getEmail(),kakaoUserDto.getEmail());
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        //시큐리티 컨텍스트에 저장
+//        UsernamePasswordAuthenticationToken authenticationToken =
+//                new UsernamePasswordAuthenticationToken(kakaoUserDto.getEmail(),kakaoUserDto.getEmail());
+//        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         HashMap cookies = UtilService.makeCookie(tokenDto);
-        // accessCookie =
-        // refreshCookie = 
         response.addCookie((Cookie) cookies.get("access"));
         response.addCookie((Cookie) cookies.get("refresh"));
    
