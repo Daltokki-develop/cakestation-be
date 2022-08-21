@@ -1,7 +1,7 @@
 package com.cakestation.backend.review.domain;
 
 
-import com.cakestation.backend.review.service.dto.CreateReviewDto;
+import com.cakestation.backend.review.dto.request.CreateReviewDto;
 import com.cakestation.backend.store.domain.Store;
 import com.cakestation.backend.user.domain.User;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,6 @@ import lombok.AccessLevel;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

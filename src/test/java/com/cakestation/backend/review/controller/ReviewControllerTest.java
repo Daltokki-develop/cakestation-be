@@ -1,21 +1,17 @@
 package com.cakestation.backend.review.controller;
 
 
-import com.cakestation.backend.review.controller.dto.CreateReviewRequest;
+import com.cakestation.backend.review.dto.request.CreateReviewRequest;
 import com.cakestation.backend.review.fixture.ReviewFixture;
 import com.cakestation.backend.review.service.ReviewService;
-import com.cakestation.backend.review.service.dto.CreateReviewDto;
+import com.cakestation.backend.review.dto.request.CreateReviewDto;
 import com.cakestation.backend.store.service.StoreService;
-import com.cakestation.backend.subway.dto.request.CreateSubwayDto;
-import com.cakestation.backend.subway.fixture.SubwayFixture;
-import com.cakestation.backend.subway.service.SubwayService;
 import com.cakestation.backend.user.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;

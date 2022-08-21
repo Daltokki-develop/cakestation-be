@@ -1,9 +1,8 @@
-package com.cakestation.backend.review.controller.dto;
+package com.cakestation.backend.review.dto.request;
 
 import com.cakestation.backend.review.domain.DesignSatisfaction;
 import com.cakestation.backend.review.domain.Distance;
 import com.cakestation.backend.review.domain.Tag;
-import com.cakestation.backend.review.service.dto.CreateReviewDto;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,7 +15,7 @@ import java.util.List;
 @Builder
 public class CreateReviewRequest {
 
-    private List<MultipartFile> reviewImages;
+    private List<MultipartFile> reviewImages; // 리뷰 이미지 파일 리스트
     private String nearByStation; // 가장 가까운 역
     private Distance walkingDistance; // 도보 거리 (5, 10, 15, 15이상)
     private int cakeNumber; // 케이크 호수

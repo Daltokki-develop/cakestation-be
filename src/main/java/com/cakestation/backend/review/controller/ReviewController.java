@@ -1,9 +1,9 @@
 package com.cakestation.backend.review.controller;
 
 import com.cakestation.backend.common.ApiResponse;
-import com.cakestation.backend.review.controller.dto.CreateReviewRequest;
+import com.cakestation.backend.review.dto.request.CreateReviewRequest;
 import com.cakestation.backend.review.service.ReviewService;
-import com.cakestation.backend.review.service.dto.ReviewDto;
+import com.cakestation.backend.review.dto.response.ReviewResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +32,8 @@ public class ReviewController {
     // 리뷰 조회 by writer id
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/users/{writerId}/reviews")
-    public ResponseEntity<ApiResponse<List<ReviewDto>>> getReviewsByWriter(@PathVariable Long writerId){
-        List<ReviewDto> reviews = reviewService.findReviewsByWriter(writerId);
+    public ResponseEntity<ApiResponse<List<ReviewResponse>>> getReviewsByWriter(@PathVariable Long writerId){
+        List<ReviewResponse> reviews = reviewService.findReviewsByWriter(writerId);
         return ResponseEntity.ok().body(
                 new ApiResponse<>(HttpStatus.OK.value(),"리뷰 조회 성공",reviews)
         );
@@ -41,8 +41,8 @@ public class ReviewController {
     // 리뷰 조회 by store id
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/stores/{storeId}/reviews")
-    public ResponseEntity<ApiResponse<List<ReviewDto>>> getReviewsByStore(@PathVariable Long storeId){
-        List<ReviewDto> reviews = reviewService.findReviewsByStore(storeId);
+    public ResponseEntity<ApiResponse<List<ReviewResponse>>> getReviewsByStore(@PathVariable Long storeId){
+        List<ReviewResponse> reviews = reviewService.findReviewsByStore(storeId);
         return ResponseEntity.ok().body(
                 new ApiResponse<>(HttpStatus.OK.value(),"리뷰 조회 성공",reviews)
         );

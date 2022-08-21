@@ -1,9 +1,7 @@
 package com.cakestation.backend.review.service;
 
-import com.cakestation.backend.review.controller.dto.CreateReviewRequest;
-import com.cakestation.backend.review.fixture.ReviewFixture;
 import com.cakestation.backend.review.repository.ReviewRepository;
-import com.cakestation.backend.review.service.dto.ReviewDto;
+import com.cakestation.backend.review.dto.response.ReviewResponse;
 import com.cakestation.backend.store.repository.StoreRepository;
 import com.cakestation.backend.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -59,10 +57,10 @@ class ReviewServiceUnitTest {
         doReturn(Collections.singletonList(reviewEntity())).when(reviewRepository).findAllByWriter(any());
 
         // when
-        List<ReviewDto> reviewDtoList = reviewService.findReviewsByWriter(USER_ID);
+        List<ReviewResponse> reviewResponseList = reviewService.findReviewsByWriter(USER_ID);
 
         // then
-        assertEquals(USERNAME,reviewDtoList.get(0).getUsername());
+        assertEquals(USERNAME, reviewResponseList.get(0).getUsername());
     }
 
     @Test
@@ -71,9 +69,9 @@ class ReviewServiceUnitTest {
         doReturn(Collections.singletonList(reviewEntity())).when(reviewRepository).findAllByStore(any());
 
         // when
-        List<ReviewDto> reviewDtoList = reviewService.findReviewsByStore(STORE_ID);
+        List<ReviewResponse> reviewResponseList = reviewService.findReviewsByStore(STORE_ID);
 
         // then
-        assertEquals(USERNAME,reviewDtoList.get(0).getUsername());
+        assertEquals(USERNAME, reviewResponseList.get(0).getUsername());
     }
 }

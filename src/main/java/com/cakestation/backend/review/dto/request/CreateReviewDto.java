@@ -1,4 +1,4 @@
-package com.cakestation.backend.review.service.dto;
+package com.cakestation.backend.review.dto.request;
 
 import com.cakestation.backend.review.domain.DesignSatisfaction;
 import com.cakestation.backend.review.domain.Distance;
@@ -6,8 +6,6 @@ import com.cakestation.backend.review.domain.Tag;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.util.ArrayList;
 import java.util.List;
 

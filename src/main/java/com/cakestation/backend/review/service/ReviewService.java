@@ -3,8 +3,8 @@ package com.cakestation.backend.review.service;
 import com.cakestation.backend.common.handler.exception.IdNotFoundException;
 import com.cakestation.backend.review.domain.Review;
 import com.cakestation.backend.review.repository.ReviewRepository;
-import com.cakestation.backend.review.service.dto.CreateReviewDto;
-import com.cakestation.backend.review.service.dto.ReviewDto;
+import com.cakestation.backend.review.dto.request.CreateReviewDto;
+import com.cakestation.backend.review.dto.response.ReviewResponse;
 import com.cakestation.backend.store.domain.Store;
 import com.cakestation.backend.store.repository.StoreRepository;
 import com.cakestation.backend.user.domain.User;
@@ -14,8 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import javax.servlet.http.HttpServletRequest;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,16 +50,16 @@ public class ReviewService {
     }
 
     // 리뷰 조회 by writer
-    public List<ReviewDto> findReviewsByWriter(Long writerId) {
+    public List<ReviewResponse> findReviewsByWriter(Long writerId) {
         // TODO: 실제 사용자로 변경 필요
         List<Review> reviews = reviewRepository.findAllByWriter(writerId);
-        return reviews.stream().map(ReviewDto::from).collect(Collectors.toList());
+        return reviews.stream().map(ReviewResponse::from).collect(Collectors.toList());
     }
 
     // 리뷰 조회 by store
-    public List<ReviewDto> findReviewsByStore(Long storeId){
+    public List<ReviewResponse> findReviewsByStore(Long storeId){
         List<Review> reviews = reviewRepository.findAllByStore(storeId);
-        return reviews.stream().map(ReviewDto::from).collect(Collectors.toList());
+        return reviews.stream().map(ReviewResponse::from).collect(Collectors.toList());
     }
 
 }

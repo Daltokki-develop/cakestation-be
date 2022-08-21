@@ -1,4 +1,4 @@
-package com.cakestation.backend.review.service.dto;
+package com.cakestation.backend.review.dto.response;
 
 import com.cakestation.backend.review.domain.Review;
 import lombok.*;
@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class ReviewDto {
+public class ReviewResponse {
 
     private String username;
     private int cakeNumber;
@@ -21,8 +21,8 @@ public class ReviewDto {
     private String content;
     private LocalDate createdDate;
 
-    public static ReviewDto from(Review review){
-        return ReviewDto.builder()
+    public static ReviewResponse from(Review review){
+        return ReviewResponse.builder()
                 .username(review.getWriter().getUsername())
                 .cakeNumber(review.getCakeNumber())
                 .sheetType(review.getSheetType())
