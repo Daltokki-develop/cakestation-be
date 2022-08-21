@@ -8,7 +8,7 @@ public class SubwayFixture {
     public static String LINE = "1호선";
     public static String STATION = "대전역";
     public static Double LONGITUDE = 12.2131;
-    public static final Double LATITUDE = 34.2345;
+    public static Double LATITUDE = 34.2345;
 
     public static CreateSubwayDto getSubwayDto(){
         return CreateSubwayDto.builder()

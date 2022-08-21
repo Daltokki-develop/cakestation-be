@@ -1,4 +1,4 @@
-package com.cakestation.backend.common.handler.exception.error;
+package com.cakestation.backend.common.handler.error;
 
 import lombok.*;
 import org.springframework.validation.BindingResult;

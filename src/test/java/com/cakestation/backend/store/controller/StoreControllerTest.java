@@ -1,13 +1,15 @@
-package com.cakestation.backend.subway.controller;
+package com.cakestation.backend.store.controller;
 
-import com.cakestation.backend.subway.fixture.SubwayFixture;
-import com.cakestation.backend.subway.dto.request.CreateSubwayDto;
-import com.cakestation.backend.subway.service.SubwayService;
+import com.cakestation.backend.store.domain.Store;
+import com.cakestation.backend.store.dto.request.CreateStoreDto;
+import com.cakestation.backend.store.fixture.StoreFixture;
+import com.cakestation.backend.store.service.StoreService;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -20,43 +22,44 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-
 @Testcontainers
 @AutoConfigureMockMvc
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-class SubwayControllerTest {
+public class StoreControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    private SubwayService subwayService;
+    private StoreService storeService;
 
     static final String MYSQL_IMAGE = "mysql:8";
     static final MySQLContainer MY_SQL_CONTAINER = new MySQLContainer(MYSQL_IMAGE);
 
     @BeforeAll
-    static void beforeAll(){
+    static void beforeAll() {
         MY_SQL_CONTAINER.start();
+
     }
 
     @AfterAll
-    static void afterAll(){
+    static void afterAll() {
         MY_SQL_CONTAINER.stop();
     }
 
     @Test
-    public void 지하철_전체조회() throws Exception {
+    public void 가게_조회() throws Exception {
+        CreateStoreDto createStoreDto = StoreFixture.getStoreDto();
+        storeService.saveStore(createStoreDto);
+        Store store = storeService.findStoreById(1L);
 
-        CreateSubwayDto createSubwayDto = SubwayFixture.getSubwayDto();
-        subwayService.saveSubway(createSubwayDto);
-        String uri = "/api/subway/all";
-
+        String uri = "/api/stores/1";
         MvcResult result = mockMvc.perform(
                         MockMvcRequestBuilders.get(uri)
                                 .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(MockMvcResultMatchers.jsonPath("$.result").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success").value(true))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
     }
