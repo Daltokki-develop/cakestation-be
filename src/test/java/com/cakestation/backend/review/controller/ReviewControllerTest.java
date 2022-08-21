@@ -1,10 +1,10 @@
 package com.cakestation.backend.review.controller;
 
 
-import com.cakestation.backend.review.dto.request.CreateReviewRequest;
+import com.cakestation.backend.review.controller.dto.request.CreateReviewRequest;
 import com.cakestation.backend.review.fixture.ReviewFixture;
 import com.cakestation.backend.review.service.ReviewService;
-import com.cakestation.backend.review.dto.request.CreateReviewDto;
+import com.cakestation.backend.review.service.dto.CreateReviewDto;
 import com.cakestation.backend.store.service.StoreService;
 import com.cakestation.backend.user.service.UserService;
 import org.junit.jupiter.api.Test;

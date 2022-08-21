@@ -1,9 +1,10 @@
 package com.cakestation.backend.review.controller;
 
 import com.cakestation.backend.common.ApiResponse;
-import com.cakestation.backend.review.dto.request.CreateReviewRequest;
+import com.cakestation.backend.review.controller.dto.request.CreateReviewRequest;
+import com.cakestation.backend.review.controller.dto.response.ReviewResponse;
 import com.cakestation.backend.review.service.ReviewService;
-import com.cakestation.backend.review.dto.response.ReviewResponse;
+import com.cakestation.backend.review.service.dto.ReviewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,7 +35,8 @@ public class ReviewController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/users/{writerId}/reviews")
     public ResponseEntity<ApiResponse<List<ReviewResponse>>> getReviewsByWriter(@PathVariable Long writerId){
-        List<ReviewResponse> reviews = reviewService.findReviewsByWriter(writerId);
+        List<ReviewResponse> reviews = reviewService.findReviewsByWriter(writerId)
+                .stream().map(ReviewResponse::from).collect(Collectors.toList());
         return ResponseEntity.ok().body(
                 new ApiResponse<>(HttpStatus.OK.value(),"리뷰 조회 성공",reviews)
         );
@@ -42,7 +45,8 @@ public class ReviewController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/stores/{storeId}/reviews")
     public ResponseEntity<ApiResponse<List<ReviewResponse>>> getReviewsByStore(@PathVariable Long storeId){
-        List<ReviewResponse> reviews = reviewService.findReviewsByStore(storeId);
+        List<ReviewResponse> reviews = reviewService.findReviewsByStore(storeId)
+                .stream().map(ReviewResponse::from).collect(Collectors.toList());
         return ResponseEntity.ok().body(
                 new ApiResponse<>(HttpStatus.OK.value(),"리뷰 조회 성공",reviews)
         );

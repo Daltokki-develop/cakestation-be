@@ -1,4 +1,4 @@
-package com.cakestation.backend.review.dto.response;
+package com.cakestation.backend.review.service.dto;
 
 import com.cakestation.backend.review.domain.Review;
 import lombok.*;
@@ -6,12 +6,12 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Setter
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ReviewResponse {
+public class ReviewDto {
 
     private String username;
     private int cakeNumber;
@@ -21,8 +21,8 @@ public class ReviewResponse {
     private String content;
     private LocalDate createdDate;
 
-    public static ReviewResponse from(Review review){
-        return ReviewResponse.builder()
+    public static ReviewDto from(Review review){
+        return ReviewDto.builder()
                 .username(review.getWriter().getUsername())
                 .cakeNumber(review.getCakeNumber())
                 .sheetType(review.getSheetType())

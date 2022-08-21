@@ -1,8 +1,8 @@
 package com.cakestation.backend.review.fixture;
 
 import com.cakestation.backend.review.domain.*;
-import com.cakestation.backend.review.dto.request.CreateReviewRequest;
-import com.cakestation.backend.review.dto.request.CreateReviewDto;
+import com.cakestation.backend.review.controller.dto.request.CreateReviewRequest;
+import com.cakestation.backend.review.service.dto.CreateReviewDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;

@@ -1,17 +1,18 @@
-package com.cakestation.backend.review.dto.request;
+package com.cakestation.backend.review.controller.dto.request;
 
 import com.cakestation.backend.review.domain.DesignSatisfaction;
 import com.cakestation.backend.review.domain.Distance;
 import com.cakestation.backend.review.domain.Tag;
+import com.cakestation.backend.review.service.dto.CreateReviewDto;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class CreateReviewRequest {
 
