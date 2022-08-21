@@ -1,9 +1,9 @@
 package com.cakestation.backend.review.service;
 
-import com.cakestation.backend.review.domain.Review;
-import com.cakestation.backend.review.dto.request.CreateReviewDto;
+import com.cakestation.backend.review.controller.dto.CreateReviewRequest;
 import com.cakestation.backend.review.fixture.ReviewFixture;
 import com.cakestation.backend.review.repository.ReviewRepository;
+import com.cakestation.backend.review.service.dto.ReviewDto;
 import com.cakestation.backend.store.repository.StoreRepository;
 import com.cakestation.backend.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -11,22 +11,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.*;
 
-import static com.cakestation.backend.review.fixture.ReviewFixture.REVIEW_ID;
-import static com.cakestation.backend.review.fixture.ReviewFixture.reviewEntity;
+import static com.cakestation.backend.review.fixture.ReviewFixture.*;
 import static com.cakestation.backend.store.fixture.StoreFixture.STORE_ID;
 import static com.cakestation.backend.store.fixture.StoreFixture.storeEntity;
-import static com.cakestation.backend.user.fixture.UserFixture.userEntity;
+import static com.cakestation.backend.user.fixture.UserFixture.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ReviewServiceUnitTest {
@@ -47,18 +41,39 @@ class ReviewServiceUnitTest {
     @Test
     void 리뷰_등록(){
         // given
-        CreateReviewDto reviewDto = ReviewFixture.reviewDto();
-
         doReturn(Optional.of(userEntity())).when(userRepository).findById(any());
         doReturn(Optional.of(storeEntity())).when(storeRepository).findById(any());
         doReturn(reviewEntity()).when(reviewRepository).save(any());
-        doReturn(new ArrayList<String>()).when(imageUploadService).uploadFiles(new ArrayList<>());
+        doReturn(new ArrayList<String>()).when(imageUploadService).uploadFiles(IMAGES);
 
         // when
-        Long reviewId = reviewService.saveReview(STORE_ID, reviewDto, new ArrayList<>());
+        Long reviewId = reviewService.saveReview(getCreateReviewDto());
 
         // then
         assertEquals(reviewId,REVIEW_ID);
+    }
 
+    @Test
+    void 리뷰_조회_BY_작성자(){
+        // given
+        doReturn(Collections.singletonList(reviewEntity())).when(reviewRepository).findAllByWriter(any());
+
+        // when
+        List<ReviewDto> reviewDtoList = reviewService.findReviewsByWriter(USER_ID);
+
+        // then
+        assertEquals(USERNAME,reviewDtoList.get(0).getUsername());
+    }
+
+    @Test
+    void 리뷰_조회_BY_가게(){
+        // given
+        doReturn(Collections.singletonList(reviewEntity())).when(reviewRepository).findAllByStore(any());
+
+        // when
+        List<ReviewDto> reviewDtoList = reviewService.findReviewsByStore(STORE_ID);
+
+        // then
+        assertEquals(USERNAME,reviewDtoList.get(0).getUsername());
     }
 }

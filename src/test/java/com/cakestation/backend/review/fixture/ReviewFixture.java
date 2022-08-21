@@ -1,7 +1,8 @@
 package com.cakestation.backend.review.fixture;
 
 import com.cakestation.backend.review.domain.*;
-import com.cakestation.backend.review.dto.request.CreateReviewDto;
+import com.cakestation.backend.review.controller.dto.CreateReviewRequest;
+import com.cakestation.backend.review.service.dto.CreateReviewDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class ReviewFixture {
 
     public static Distance WALKING_DISTANCE = Distance.FIVE; // 도보 거리 (5, 10, 15, 15이상)
 
+    public static List<MultipartFile> IMAGES = new ArrayList<>();
     public static List<String> IMAGE_URLS = new ArrayList<>(); // 리뷰 사진 url
 
     public static int CAKE_NUMBER = 1; // 케이크 호수
@@ -32,10 +34,25 @@ public class ReviewFixture {
 
     public static String CONTENT = ""; // 내용
 
-    public static CreateReviewDto reviewDto(){
+    public static CreateReviewRequest getCreateReviewRequest(){
 
+        return CreateReviewRequest.builder()
+                .walkingDistance(WALKING_DISTANCE)
+                .reviewImages(IMAGES)
+                .cakeNumber(CAKE_NUMBER)
+                .sheetType(SHEET_TYPE)
+                .requestOption(REQUEST_OPTION)
+                .designSatisfaction(SATISFACTION)
+                .score(SCORE)
+                .tags(TAGS)
+                .content(CONTENT)
+                .build();
+    }
+
+    public static CreateReviewDto getCreateReviewDto(){
         return CreateReviewDto.builder()
                 .walkingDistance(WALKING_DISTANCE)
+                .reviewImages(IMAGES)
                 .imageUrls(IMAGE_URLS)
                 .cakeNumber(CAKE_NUMBER)
                 .sheetType(SHEET_TYPE)

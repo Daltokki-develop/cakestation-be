@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 
 @Service
 @Transactional(readOnly = true)
@@ -18,11 +20,11 @@ public class UserService {
     @Transactional
     public Long join(KakaoUserDto kakaoUserDto) {
 
-        User findUser = userRepository.findUserByEmail(kakaoUserDto.getEmail());
+        Optional<User> findUser = userRepository.findUserByEmail(kakaoUserDto.getEmail());
 
         // 이미 회원이 존재하는 경우
-        if (findUser != null) {
-            return findUser.getId();
+        if (findUser.isPresent()) {
+            return findUser.get().getId();
         }
         // 회원 정보가 없는 경우
         else {
@@ -32,17 +34,16 @@ public class UserService {
         }
     }
     
-    public Long getUserId(KakaoUserDto kakaoUserDto) {
-    
-    User targetUser = null;
-
-    try{
-        targetUser = userRepository.findUserByEmail(kakaoUserDto.getEmail());
-    }catch(NullPointerException e){
-        e.printStackTrace();
-    }
-    return targetUser.getId();
-        
-    }
+//    public Long getUserId(KakaoUserDto kakaoUserDto) {
+//    User targetUser = null;
+//
+//    try{
+//        targetUser = userRepository.findUserByEmail(kakaoUserDto.getEmail());
+//    }catch(NullPointerException e){
+//        e.printStackTrace();
+//    }
+//    return targetUser.getId();
+//
+//    }
 
 }
