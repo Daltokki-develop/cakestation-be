@@ -21,14 +21,15 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static com.cakestation.backend.review.fixture.ReviewFixture.getCreateReviewDto;
 import static com.cakestation.backend.store.fixture.StoreFixture.STORE_ID;
 import static com.cakestation.backend.store.fixture.StoreFixture.getStoreDto;
+import static com.cakestation.backend.user.fixture.UserFixture.USER_ID;
 import static com.cakestation.backend.user.fixture.UserFixture.getKakaoUserDto;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
 @SpringBootTest
-@ExtendWith(SpringExtension.class)
 @ExtendWith(SpringExtension.class)
 class ReviewControllerTest {
 
@@ -70,4 +71,56 @@ class ReviewControllerTest {
                 .andReturn();
     }
 
+    @Test
+    public void 리뷰_조회_by_작성자() throws Exception {
+
+        //given
+        // 회원 등록
+        userService.join(getKakaoUserDto());
+
+        // 가게 등록
+        storeService.saveStore(getStoreDto());
+
+        // 리뷰 등록
+        CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
+        CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
+
+        reviewService.saveReview(createReviewDto);
+
+        String uri = String.format("/api/users/%d/reviews",USER_ID);
+
+        MvcResult result = mockMvc.perform(
+                        MockMvcRequestBuilders.get(uri)
+                                .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    public void 리뷰_조회_by_가게() throws Exception {
+
+        //given
+        // 회원 등록
+        userService.join(getKakaoUserDto());
+
+        // 가게 등록
+        storeService.saveStore(getStoreDto());
+
+        // 리뷰 등록
+        CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
+        CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
+        reviewService.saveReview(createReviewDto);
+
+        String uri = String.format("/api/stores/%d/reviews",STORE_ID);
+
+        MvcResult result = mockMvc.perform(
+                        MockMvcRequestBuilders.get(uri)
+                                .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
 }
