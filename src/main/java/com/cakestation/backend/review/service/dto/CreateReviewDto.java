@@ -18,6 +18,7 @@ public class CreateReviewDto{
 
     private Long storeId;
     private List<MultipartFile> reviewImages;
+    @Builder.Default
     private List<String> imageUrls = new ArrayList<>();
     private String nearByStation;
     private Distance walkingDistance;

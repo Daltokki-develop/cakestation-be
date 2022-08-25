@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.cakestation.backend.store.fixture.StoreFixture.storeEntity;
-import static com.cakestation.backend.user.fixture.UserFixture.userEntity;
+import static com.cakestation.backend.user.fixture.UserFixture.getUserEntity;
 
 public class ReviewFixture {
 
@@ -81,7 +81,7 @@ public class ReviewFixture {
                 .score(SCORE)
                 .content(CONTENT)
                 .tags(List.of(reviewTag))
-                .writer(userEntity())
+                .writer(getUserEntity())
                 .store(storeEntity())
                 .build();
 

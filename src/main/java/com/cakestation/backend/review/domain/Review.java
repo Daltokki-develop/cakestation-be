@@ -39,6 +39,7 @@ public class Review {
     @Enumerated(value = EnumType.STRING)
     private Distance walkingDistance; // 도보 거리
 
+    @Builder.Default
     @ElementCollection
     @CollectionTable(name = "review_image", joinColumns =
     @JoinColumn(name = "review_id"))

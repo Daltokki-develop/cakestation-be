@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,6 +23,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static com.cakestation.backend.store.fixture.StoreFixture.STORE_ID;
 import static com.cakestation.backend.store.fixture.StoreFixture.getStoreDto;
+import static com.cakestation.backend.user.fixture.UserFixture.getKakaoUserDto;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -45,7 +48,8 @@ class ReviewControllerTest {
 
         //given
         // 회원 등록
-        // TODO()
+        userService.join(getKakaoUserDto());
+
         // 가게 등록
         storeService.saveStore(getStoreDto());
 
@@ -55,13 +59,13 @@ class ReviewControllerTest {
 
         reviewService.saveReview(createReviewDto);
 
-        String uri = String.format("/stores/%d/reviews",STORE_ID);
+        String uri = String.format("/api/stores/%d/reviews",STORE_ID);
 
         MvcResult result = mockMvc.perform(
                         MockMvcRequestBuilders.get(uri)
                                 .accept(MediaType.APPLICATION_JSON)
                 )
-                .andExpect(MockMvcResultMatchers.jsonPath("$.result").exists())
+                .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
     }
