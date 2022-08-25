@@ -1,7 +1,7 @@
 package com.cakestation.backend.review.domain;
 
 
-import com.cakestation.backend.review.dto.request.CreateReviewDto;
+import com.cakestation.backend.review.service.dto.CreateReviewDto;
 import com.cakestation.backend.store.domain.Store;
 import com.cakestation.backend.user.domain.User;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.AccessLevel;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +39,7 @@ public class Review {
     @Enumerated(value = EnumType.STRING)
     private Distance walkingDistance; // 도보 거리
 
+    @Builder.Default
     @ElementCollection
     @CollectionTable(name = "review_image", joinColumns =
     @JoinColumn(name = "review_id"))
@@ -62,7 +63,7 @@ public class Review {
 
     private String content; // 하고 싶은 말
 
-    private LocalDateTime createdAt;
+    private LocalDate createdDate;
 
     // 리뷰 생성 메서드
     public static Review createReview(User user, Store store, CreateReviewDto createReviewDto){
@@ -79,7 +80,7 @@ public class Review {
                 .designSatisfaction(createReviewDto.getDesignSatisfaction())
                 .score(createReviewDto.getScore())
                 .content(createReviewDto.getContent())
-                .createdAt(LocalDateTime.now())
+                .createdDate(LocalDate.now())
                 .build();
 
         for (Tag tag: createReviewDto.getTags()){
