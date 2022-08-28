@@ -11,6 +11,10 @@ import lombok.NoArgsConstructor;
 import lombok.AccessLevel;
 
 import javax.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +59,7 @@ public class Review {
     @Enumerated(value = EnumType.STRING)
     private DesignSatisfaction designSatisfaction; // 만족도
 
+    @Column(nullable = false)
     private int score; // 별점
 
     @Builder.Default
@@ -63,7 +68,11 @@ public class Review {
 
     private String content; // 하고 싶은 말
 
-    private LocalDate createdDate;
+    @CreationTimestamp
+    private Timestamp createdTime;
+
+    @UpdateTimestamp
+    private Timestamp updatedTime;
 
     // 리뷰 생성 메서드
     public static Review createReview(User user, Store store, CreateReviewDto createReviewDto){
@@ -80,7 +89,6 @@ public class Review {
                 .designSatisfaction(createReviewDto.getDesignSatisfaction())
                 .score(createReviewDto.getScore())
                 .content(createReviewDto.getContent())
-                .createdDate(LocalDate.now())
                 .build();
 
         for (Tag tag: createReviewDto.getTags()){

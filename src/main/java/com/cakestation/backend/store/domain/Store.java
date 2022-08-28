@@ -1,5 +1,6 @@
 package com.cakestation.backend.store.domain;
 
+import com.cakestation.backend.review.domain.Review;
 import com.cakestation.backend.store.dto.request.CreateStoreDto;
 import com.cakestation.backend.user.domain.User;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -52,6 +54,10 @@ public class Store {
     private Integer numOfPhoto;
 
     private Integer numOfReviews;
+
+    // fetch 전략은 기본이 LAZY이며, 필요에 따라 EAGER로 바꿈
+    @OneToMany(mappedBy = "store") // , fetch = FetchType.EAGER)
+    private List<Review> reviews;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")

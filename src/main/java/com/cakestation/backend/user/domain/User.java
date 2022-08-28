@@ -1,9 +1,16 @@
 package com.cakestation.backend.user.domain;
 
+import java.sql.Timestamp;
+import java.util.List;
+
+import com.cakestation.backend.review.domain.Review;
 import com.cakestation.backend.user.dto.response.KakaoUserDto;
 import lombok.*;
 
 import javax.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Getter
@@ -21,7 +28,17 @@ public class User {
     private String email;
 
     @Enumerated(EnumType.ORDINAL)
-    private Role role;
+    private Role role = Role.ROLE_USER;
+
+    // fetch 전략은 기본이 LAZY이며, 필요에 따라 EAGER로 바꿈
+    @OneToMany(mappedBy = "user") // , fetch = FetchType.EAGER)
+    private List<Review> reviews;
+
+    @CreationTimestamp
+    private Timestamp createdTime;
+
+    @UpdateTimestamp
+    private Timestamp updatedTime;
 
     public static User createUser(KakaoUserDto kakaoUserDto){
         return User.builder()

@@ -1,12 +1,13 @@
 package com.cakestation.backend.store.domain;
 
 import java.net.URI;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
-import com.cakestation.backend.store.domain.Store;
 import lombok.*;
 
 import javax.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Getter
@@ -28,5 +29,9 @@ public class Menu {
 
     private float outerLength;
 
-    private LocalDateTime createdTime;
+    @CreationTimestamp
+    private Timestamp createdTime;
+
+    @UpdateTimestamp
+    private Timestamp updatedTime;
 }
