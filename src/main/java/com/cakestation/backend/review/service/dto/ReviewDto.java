@@ -29,7 +29,6 @@ public class ReviewDto {
                 .requestOption(review.getRequestOption())
                 .reviewImages(review.getImageUrls())
                 .content(review.getContent())
-                .createdDate(review.getCreatedDate())
                 .build();
     }
 }
