@@ -25,6 +25,7 @@ public class User {
 
     private String username;
 
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Enumerated(EnumType.ORDINAL)
