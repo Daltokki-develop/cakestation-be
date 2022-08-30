@@ -39,7 +39,7 @@ git clone https://github.com/Daltokki-develop/cakestation-be.git
 ```
 **2. 프로젝트 폴더로 이동**
 ```
-cd backend
+cd cakestation-be
 ```
 **3. 프로젝트 빌드**
 ```
