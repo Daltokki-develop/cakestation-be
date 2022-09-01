@@ -2,7 +2,7 @@ package com.cakestation.backend.user.service;
 
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.repository.UserRepository;
-import com.cakestation.backend.user.dto.response.KakaoUserDto;
+import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -6,16 +6,12 @@ import java.util.Optional;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
-import com.cakestation.backend.user.dto.response.KakaoUserDto;
-import com.cakestation.backend.user.dto.response.TokenDto;
-import com.cakestation.backend.user.service.KakaoService;
+import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
+import com.cakestation.backend.user.service.dto.response.TokenDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.security.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
