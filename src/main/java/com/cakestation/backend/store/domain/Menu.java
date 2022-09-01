@@ -8,6 +8,8 @@ import lombok.*;
 import javax.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Getter
@@ -29,9 +31,9 @@ public class Menu {
 
     private float outerLength;
 
-    @CreationTimestamp
+    @CreatedDate
     private Timestamp createdTime;
 
-    @UpdateTimestamp
+    @LastModifiedDate
     private Timestamp updatedTime;
 }

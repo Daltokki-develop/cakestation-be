@@ -13,6 +13,8 @@ import lombok.AccessLevel;
 import javax.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -68,10 +70,10 @@ public class Review {
 
     private String content; // 하고 싶은 말
 
-    @CreationTimestamp
+    @CreatedDate
     private Timestamp createdTime;
 
-    @UpdateTimestamp
+    @LastModifiedDate
     private Timestamp updatedTime;
 
     // 리뷰 생성 메서드

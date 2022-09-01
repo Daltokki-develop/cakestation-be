@@ -11,6 +11,8 @@ import javax.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Getter
@@ -35,10 +37,10 @@ public class User {
     @OneToMany(mappedBy = "user") // , fetch = FetchType.EAGER)
     private List<Review> reviews;
 
-    @CreationTimestamp
+    @CreatedDate
     private Timestamp createdTime;
 
-    @UpdateTimestamp
+    @LastModifiedDate
     private Timestamp updatedTime;
 
     public static User createUser(KakaoUserDto kakaoUserDto){
