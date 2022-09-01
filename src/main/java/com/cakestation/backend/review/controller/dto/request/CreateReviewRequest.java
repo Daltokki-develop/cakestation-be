@@ -18,7 +18,6 @@ public class CreateReviewRequest {
 
     private List<MultipartFile> reviewImages; // 리뷰 이미지 파일 리스트
     private String nearByStation; // 가장 가까운 역
-    private Distance walkingDistance; // 도보 거리 (5, 10, 15, 15이상)
     private int cakeNumber; // 케이크 호수
     private String sheetType; // 시트 종류
     private String requestOption; // 추가 옵션
@@ -32,7 +31,6 @@ public class CreateReviewRequest {
                 .storeId(storeId)
                 .reviewImages(createReviewRequest.getReviewImages())
                 .nearByStation(createReviewRequest.getNearByStation())
-                .walkingDistance(createReviewRequest.getWalkingDistance())
                 .cakeNumber(createReviewRequest.getCakeNumber())
                 .sheetType(createReviewRequest.getSheetType())
                 .requestOption(createReviewRequest.getRequestOption())

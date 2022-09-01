@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,13 +32,12 @@ public class ReviewService {
 
     // 리뷰 등록
     @Transactional
-    public Long saveReview(CreateReviewDto createReviewDto){
-        // TODO ("현재 사용자 이메일 가져오도록 변경 필요")
-//        String email = utilService.getCurrentUserEmail(request).orElseThrow(RuntimeException::new);
-//        User user = userRepository.findUserByEmail(email).orElseThrow(() -> new IdNotFoundException("회원 정보를 찾을 수 없습니다."));
+    public Long saveReview(CreateReviewDto createReviewDto, HttpServletRequest request){
+        String email = utilService.getCurrentUserEmail(request).orElseThrow(RuntimeException::new);
+        User user = userRepository.findUserByEmail(email).orElseThrow(() -> new IdNotFoundException("회원 정보를 찾을 수 없습니다."));
+//        User user = userRepository.findById(1L).orElseThrow(() -> new IdNotFoundException("회원 정보를 찾을 수 없습니다."));;
 
         // 엔티티 조회
-        User user = userRepository.findById(1L).orElseThrow(() -> new IdNotFoundException("회원 정보를 찾을 수 없습니다."));;
         Store store = storeRepository.findById(createReviewDto.getStoreId())
                 .orElseThrow(()-> new IdNotFoundException("가게 정보를 찾을 수 없습니다."));
 
@@ -51,7 +51,6 @@ public class ReviewService {
 
     // 리뷰 조회 by writer
     public List<ReviewDto> findReviewsByWriter(Long writerId) {
-        // TODO: 실제 사용자로 변경 필요
         List<Review> reviews = reviewRepository.findAllByWriter(writerId);
         return reviews.stream().map(ReviewDto::from).collect(Collectors.toList());
     }

@@ -4,8 +4,8 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import com.cakestation.backend.review.domain.Review;
-import com.cakestation.backend.user.dto.response.KakaoUserDto;
 
+import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import lombok.*;
 
 import javax.persistence.*;
