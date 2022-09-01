@@ -8,6 +8,8 @@ import com.cakestation.backend.store.repository.StoreRepository;
 import com.cakestation.backend.user.repository.UserRepository;
 import com.cakestation.backend.store.dto.request.CreateStoreDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,5 +36,9 @@ public class StoreService {
             System.out.println("error!");
         }
         return storeOptional.get();
+    }
+
+    public Page<Store> findAllStores(Pageable pageable) {
+        return storeRepository.findAll(pageable);
     }
 }
