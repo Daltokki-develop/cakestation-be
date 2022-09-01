@@ -1,11 +1,15 @@
 package com.cakestation.backend.subway.domain;
 
+import java.sql.Timestamp;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Getter
@@ -29,4 +33,10 @@ public class Subway {
 
     @Column(nullable = false)
     private Double latitude;
+
+    @CreationTimestamp
+    private Timestamp createdTime;
+
+    @UpdateTimestamp
+    private Timestamp updatedTime;
 }

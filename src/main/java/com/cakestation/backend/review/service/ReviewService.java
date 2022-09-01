@@ -2,22 +2,21 @@ package com.cakestation.backend.review.service;
 
 import com.cakestation.backend.common.handler.exception.IdNotFoundException;
 import com.cakestation.backend.review.domain.Review;
-import com.cakestation.backend.review.dto.request.CreateReviewDto;
 import com.cakestation.backend.review.repository.ReviewRepository;
+import com.cakestation.backend.review.service.dto.CreateReviewDto;
+import com.cakestation.backend.review.service.dto.ReviewDto;
 import com.cakestation.backend.store.domain.Store;
 import com.cakestation.backend.store.repository.StoreRepository;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.repository.UserRepository;
+import com.cakestation.backend.user.service.UtilService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-
-import javax.security.auth.login.AccountNotFoundException;
-import javax.servlet.http.HttpServletRequest;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -30,28 +29,37 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final UtilService utilService;
 
+    // 리뷰 등록
     @Transactional
-    public Long saveReview(Long storeId, CreateReviewDto createReviewDto, List<MultipartFile> reviewImages, HttpServletRequest request){
-        String email = utilService.getCurrentUserEmail(request).orElseThrow(RuntimeException::new);
+    public Long saveReview(CreateReviewDto createReviewDto){
+        // TODO ("현재 사용자 이메일 가져오도록 변경 필요")
+//        String email = utilService.getCurrentUserEmail(request).orElseThrow(RuntimeException::new);
+//        User user = userRepository.findUserByEmail(email).orElseThrow(() -> new IdNotFoundException("회원 정보를 찾을 수 없습니다."));
 
         // 엔티티 조회
-        // TODO: 실제 사용자로 변경 필요
-        Long userId = 1L;
-        User user = userRepository.findById(userId).orElseThrow(() -> new IdNotFoundException("회원 정보를 찾을 수 없습니다."));
-        Store store = storeRepository.findById(storeId)
+        User user = userRepository.findById(1L).orElseThrow(() -> new IdNotFoundException("회원 정보를 찾을 수 없습니다."));;
+        Store store = storeRepository.findById(createReviewDto.getStoreId())
                 .orElseThrow(()-> new IdNotFoundException("가게 정보를 찾을 수 없습니다."));
 
         // 리뷰 생성
-        List<String> imageUrls = imageUploadService.uploadFiles(reviewImages);
+        List<String> imageUrls = imageUploadService.uploadFiles(createReviewDto.getReviewImages());
         createReviewDto.setImageUrls(imageUrls);
         Review review = reviewRepository.save(Review.createReview(user, store, createReviewDto));
 
         return review.getId();
     }
 
-    public Review findReviewsByWriter(Long reviewId) {
+    // 리뷰 조회 by writer
+    public List<ReviewDto> findReviewsByWriter(Long writerId) {
         // TODO: 실제 사용자로 변경 필요
-        Long writerId = 1L;
-        return reviewRepository.findAllByWriter(writerId);
+        List<Review> reviews = reviewRepository.findAllByWriter(writerId);
+        return reviews.stream().map(ReviewDto::from).collect(Collectors.toList());
     }
+
+    // 리뷰 조회 by store
+    public List<ReviewDto> findReviewsByStore(Long storeId){
+        List<Review> reviews = reviewRepository.findAllByStore(storeId);
+        return reviews.stream().map(ReviewDto::from).collect(Collectors.toList());
+    }
+
 }

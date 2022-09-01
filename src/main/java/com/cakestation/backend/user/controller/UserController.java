@@ -37,6 +37,12 @@ public class UserController {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
+    @GetMapping("/api/stores/test")
+    public ResponseEntity getEmail(HttpServletRequest request) throws Exception {
+        String email = utilService.getCurrentUserEmail(request).orElseThrow(Exception::new);
+        return new ResponseEntity<>(new ApiResponse(200,"이메일 획득",email),HttpStatus.OK);
+    }
+
     //인가 코드 반환
     @GetMapping("/login")
     public RedirectView redirectLogin(HttpServletRequest request) {
