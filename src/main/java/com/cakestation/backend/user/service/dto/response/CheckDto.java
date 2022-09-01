@@ -1,4 +1,4 @@
-package com.cakestation.backend.user.dto.response;
+package com.cakestation.backend.user.service.dto.response;
 
 import lombok.*;
 

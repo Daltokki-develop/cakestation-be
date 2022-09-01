@@ -4,9 +4,9 @@ import com.cakestation.backend.common.ApiResponse;
 import com.cakestation.backend.user.service.KakaoService;
 import com.cakestation.backend.user.service.UserService;
 import com.cakestation.backend.user.service.UtilService;
-import com.cakestation.backend.user.dto.response.KakaoUserDto;
-import com.cakestation.backend.user.dto.response.CheckDto;
-import com.cakestation.backend.user.dto.response.TokenDto;
+import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
+import com.cakestation.backend.user.service.dto.response.CheckDto;
+import com.cakestation.backend.user.service.dto.response.TokenDto;
 import static com.cakestation.backend.config.KakaoConfig.REDIRECT_LOGINPAGE;
 //import static com.cakestation.backend.user.service.UtilService.getCurrentUserEmail;
 
@@ -20,10 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,20 +1,18 @@
 package com.cakestation.backend.user.service;
 
-import com.cakestation.backend.user.dto.response.KakaoUserDto;
-import com.cakestation.backend.user.dto.response.CheckDto;
-import com.cakestation.backend.user.dto.response.TokenDto;
+import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
+import com.cakestation.backend.user.service.dto.response.CheckDto;
+import com.cakestation.backend.user.service.dto.response.TokenDto;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
 
-import org.hibernate.annotations.Check;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import static com.cakestation.backend.config.KakaoConfig.*;

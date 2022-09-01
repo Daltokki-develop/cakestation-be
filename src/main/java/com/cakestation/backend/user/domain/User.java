@@ -1,6 +1,6 @@
 package com.cakestation.backend.user.domain;
 
-import com.cakestation.backend.user.dto.response.KakaoUserDto;
+import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import lombok.*;
 
 import javax.persistence.*;
