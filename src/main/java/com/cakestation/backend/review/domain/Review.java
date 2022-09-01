@@ -1,6 +1,7 @@
 package com.cakestation.backend.review.domain;
 
 
+import com.cakestation.backend.common.BaseEntity;
 import com.cakestation.backend.review.service.dto.CreateReviewDto;
 import com.cakestation.backend.store.domain.Store;
 import com.cakestation.backend.user.domain.User;
@@ -11,13 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.AccessLevel;
 
 import javax.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Review {
+public class Review extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id")
@@ -69,12 +63,6 @@ public class Review {
     private List<ReviewTag> tags = new ArrayList<>();
 
     private String content; // 하고 싶은 말
-
-    @CreatedDate
-    private Timestamp createdTime;
-
-    @LastModifiedDate
-    private Timestamp updatedTime;
 
     // 리뷰 생성 메서드
     public static Review createReview(User user, Store store, CreateReviewDto createReviewDto){

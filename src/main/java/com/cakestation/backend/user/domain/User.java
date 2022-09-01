@@ -33,15 +33,9 @@ public class User {
     @Enumerated(EnumType.ORDINAL)
     private Role role = Role.ROLE_USER;
 
-    // fetch 전략은 기본이 LAZY이며, 필요에 따라 EAGER로 바꿈
-    @OneToMany(mappedBy = "user") // , fetch = FetchType.EAGER)
-    private List<Review> reviews;
-
-    @CreatedDate
-    private Timestamp createdTime;
-
-    @LastModifiedDate
-    private Timestamp updatedTime;
+//    // fetch 전략은 기본이 LAZY이며, 필요에 따라 EAGER로 바꿈
+//    @OneToMany(mappedBy = "user") // , fetch = FetchType.EAGER)
+//    private List<Review> reviews;
 
     public static User createUser(KakaoUserDto kakaoUserDto){
         return User.builder()

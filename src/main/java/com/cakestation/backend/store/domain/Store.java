@@ -1,5 +1,6 @@
 package com.cakestation.backend.store.domain;
 
+import com.cakestation.backend.common.BaseEntity;
 import com.cakestation.backend.review.domain.Review;
 import com.cakestation.backend.store.dto.request.CreateStoreDto;
 import com.cakestation.backend.user.domain.User;
@@ -20,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Store {
+public class Store extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_id")
@@ -59,10 +60,6 @@ public class Store {
     @OneToMany(mappedBy = "store") // , fetch = FetchType.EAGER)
     private List<Review> reviews;
 
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date uploadDate;
-
     public static Store createStore(User user, CreateStoreDto createStoreDto){
         return Store.builder()
                 .user(user)
@@ -76,7 +73,6 @@ public class Store {
                 .score(0.0)
                 .numOfPhoto(0)
                 .numOfReviews(0)
-                .uploadDate(new Date())
                 .build();
         }
 }
