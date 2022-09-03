@@ -28,16 +28,15 @@ public class ReviewService {
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
     private final ReviewRepository reviewRepository;
-    private final UtilService utilService;
 
     // 리뷰 등록
     @Transactional
-    public Long saveReview(CreateReviewDto createReviewDto, HttpServletRequest request){
-        String email = utilService.getCurrentUserEmail(request);
-        User user = userRepository.findUserByEmail(email).orElseThrow(
-                () -> new IdNotFoundException("회원 정보를 찾을 수 없습니다."));
+    public Long saveReview(CreateReviewDto createReviewDto, String currentEmail){
 
-        // 엔티티 조회
+        // 검증
+        User user = userRepository.findUserByEmail(currentEmail).orElseThrow(
+                () -> new IdNotFoundException("사용자를 찾을 수 없습니다."));
+
         Store store = storeRepository.findById(createReviewDto.getStoreId())
                 .orElseThrow(()-> new IdNotFoundException("가게 정보를 찾을 수 없습니다."));
 
@@ -62,8 +61,16 @@ public class ReviewService {
     }
 
     // 리뷰 삭제
-    public void deleteReview(Long reviewId, String email){
-        User user = userRepository.findUserByEmail(email).orElseThrow(() -> new IdNotFoundException("권한이 없습니다."));
-        reviewRepository.deleteById(reviewId);
+    @Transactional
+    public void deleteReview(Long reviewId, String currentEmail){
+        // 리뷰 조회
+        Review review = reviewRepository.findById(reviewId).orElseThrow(()-> new IdNotFoundException("리뷰가 존재하지 않습니다."));
+
+        // 권한 조회
+        if (review.getWriter().getEmail().equals(currentEmail)){
+            reviewRepository.deleteById(reviewId);
+        }else {
+            throw new IdNotFoundException("권한이 없습니다.");
+        }
     }
 }

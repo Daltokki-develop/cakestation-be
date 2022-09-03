@@ -68,7 +68,7 @@ public class UtilService {
             KakaoUserDto userDto = kakaoService.getUserInfo(accessToken);
             return userDto.getEmail();
         }catch (Exception e){
-            throw new EmailNotFoundException("사용자를 찾을 수 없습니다.");
+            throw new EmailNotFoundException("로그인이 필요한 서비스입니다.");
         }
     }
 }

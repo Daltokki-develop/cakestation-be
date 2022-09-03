@@ -30,7 +30,9 @@ public class ReviewController {
     public ResponseEntity<ApiResponse<Long>> uploadReview(@PathVariable Long storeId,
                                                           @ModelAttribute CreateReviewRequest createReviewRequest,
                                                           HttpServletRequest req){
-        Long reviewId = reviewService.saveReview(createReviewRequest.toServiceDto(storeId,createReviewRequest),req);
+
+        String userEmail = utilService.getCurrentUserEmail(req);
+        Long reviewId = reviewService.saveReview(createReviewRequest.toServiceDto(storeId,createReviewRequest),userEmail);
         return ResponseEntity.ok().body(
                 new ApiResponse<Long>(HttpStatus.CREATED.value(),"리뷰 등록 성공",reviewId));
     }

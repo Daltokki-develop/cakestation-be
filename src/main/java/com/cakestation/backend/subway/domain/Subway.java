@@ -2,6 +2,7 @@ package com.cakestation.backend.subway.domain;
 
 import java.sql.Timestamp;
 
+import com.cakestation.backend.common.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Subway {
+public class Subway extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "subway_id")
@@ -33,10 +34,4 @@ public class Subway {
 
     @Column(nullable = false)
     private Double latitude;
-
-    @CreationTimestamp
-    private Timestamp createdTime;
-
-    @UpdateTimestamp
-    private Timestamp updatedTime;
 }

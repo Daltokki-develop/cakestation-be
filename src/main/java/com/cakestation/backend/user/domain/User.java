@@ -31,7 +31,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER;
 
 //    // fetch 전략은 기본이 LAZY이며, 필요에 따라 EAGER로 바꿈
