@@ -39,7 +39,7 @@ public class UserController {
 
     @GetMapping("/api/stores/test")
     public ResponseEntity getEmail(HttpServletRequest request) throws Exception {
-        String email = utilService.getCurrentUserEmail(request).orElseThrow(Exception::new);
+        String email = utilService.getCurrentUserEmail(request);
         return new ResponseEntity<>(new ApiResponse(200,"이메일 획득",email),HttpStatus.OK);
     }
 

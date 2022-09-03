@@ -33,9 +33,9 @@ public class ReviewService {
     // 리뷰 등록
     @Transactional
     public Long saveReview(CreateReviewDto createReviewDto, HttpServletRequest request){
-        String email = utilService.getCurrentUserEmail(request).orElseThrow(RuntimeException::new);
-        User user = userRepository.findUserByEmail(email).orElseThrow(() -> new IdNotFoundException("회원 정보를 찾을 수 없습니다."));
-//        User user = userRepository.findById(1L).orElseThrow(() -> new IdNotFoundException("회원 정보를 찾을 수 없습니다."));;
+        String email = utilService.getCurrentUserEmail(request);
+        User user = userRepository.findUserByEmail(email).orElseThrow(
+                () -> new IdNotFoundException("회원 정보를 찾을 수 없습니다."));
 
         // 엔티티 조회
         Store store = storeRepository.findById(createReviewDto.getStoreId())
@@ -61,4 +61,9 @@ public class ReviewService {
         return reviews.stream().map(ReviewDto::from).collect(Collectors.toList());
     }
 
+    // 리뷰 삭제
+    public void deleteReview(Long reviewId, String email){
+        User user = userRepository.findUserByEmail(email).orElseThrow(() -> new IdNotFoundException("권한이 없습니다."));
+        reviewRepository.deleteById(reviewId);
+    }
 }
