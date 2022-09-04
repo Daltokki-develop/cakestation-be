@@ -1,0 +1,9 @@
+labels:
+  'bug':
+    - '\bbug[s]?\b'
+  'enhancement':
+    - '\bfeat\b'
+  'refactor':
+    - '\brefactor\b'
+  'test':
+    - '\btest\b'
