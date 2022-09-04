@@ -4,8 +4,8 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import com.cakestation.backend.review.domain.Review;
-import com.cakestation.backend.user.dto.response.KakaoUserDto;
 
+import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,7 +31,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER;
 
 //    // fetch 전략은 기본이 LAZY이며, 필요에 따라 EAGER로 바꿈

@@ -21,7 +21,6 @@ public class CreateReviewDto{
     @Builder.Default
     private List<String> imageUrls = new ArrayList<>();
     private String nearByStation;
-    private Distance walkingDistance;
     private int cakeNumber;
     private String sheetType;
     private String requestOption;

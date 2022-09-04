@@ -36,9 +36,6 @@ public class Review extends BaseEntity {
 
     private String nearByStation; // 가장 가까운 역
 
-    @Enumerated(value = EnumType.STRING)
-    private Distance walkingDistance; // 도보 거리
-
     @Builder.Default
     @ElementCollection
     @CollectionTable(name = "review_image", joinColumns =
@@ -71,7 +68,6 @@ public class Review extends BaseEntity {
                 .writer(user)
                 .store(store)
                 .nearByStation(createReviewDto.getNearByStation())
-                .walkingDistance(createReviewDto.getWalkingDistance())
                 .imageUrls(createReviewDto.getImageUrls())
                 .cakeNumber(createReviewDto.getCakeNumber())
                 .sheetType(createReviewDto.getSheetType())

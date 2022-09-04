@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class ReviewResponse {
+    private Long reviewId;
     private String username;
     private int cakeNumber;
     private String sheetType;
@@ -30,6 +31,7 @@ public class ReviewResponse {
 
     public static ReviewResponse from(ReviewDto reviewDto){
         return ReviewResponse.builder()
+                .reviewId(reviewDto.getReviewId())
                 .username(reviewDto.getUsername())
                 .cakeNumber(reviewDto.getCakeNumber())
                 .sheetType(reviewDto.getSheetType())

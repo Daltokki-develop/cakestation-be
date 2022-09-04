@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 @Builder
 public class ReviewDto {
 
+    private Long reviewId;
+    private Long userId;
     private String username;
     private int cakeNumber;
     private String sheetType;
@@ -35,6 +37,7 @@ public class ReviewDto {
         ).collect(Collectors.toList());
 
         return ReviewDto.builder()
+                .reviewId(review.getId())
                 .username(review.getWriter().getUsername())
                 .cakeNumber(review.getCakeNumber())
                 .sheetType(review.getSheetType())

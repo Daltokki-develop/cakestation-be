@@ -6,6 +6,8 @@ import java.util.Optional;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
+import com.cakestation.backend.common.handler.exception.EmailNotFoundException;
+import com.cakestation.backend.common.handler.exception.IdNotFoundException;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import com.cakestation.backend.user.service.dto.response.TokenDto;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +56,7 @@ public class UtilService {
         return TokenValue;
     }
 
-    public Optional<String> getCurrentUserEmail(HttpServletRequest request){
+    public String getCurrentUserEmail(HttpServletRequest request){
 
         String accessToken=null;
         Cookie [] cookies = request.getCookies();
@@ -62,23 +64,11 @@ public class UtilService {
            accessToken = this.cookieAccessToken(cookies, "Authorization");
         }
 
-        KakaoUserDto userDto = kakaoService.getUserInfo(accessToken);
-        return Optional.ofNullable(userDto.getEmail());
-//        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//
-//        if (authentication == null) {
-//            logger.debug("Security Context에 인증 정보가 없습니다.");
-//            return Optional.empty();
-//        }
-//
-//        String username = null;
-//        if (authentication.getPrincipal() instanceof UserDetails) {
-//            UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-//            username = springSecurityUser.getUsername();
-//        } else if (authentication.getPrincipal() instanceof String) {
-//            username = (String) authentication.getPrincipal();
-//        }
-//
-//        return Optional.ofNullable(username); // 현재 username 리턴
+        try{
+            KakaoUserDto userDto = kakaoService.getUserInfo(accessToken);
+            return userDto.getEmail();
+        }catch (Exception e){
+            throw new EmailNotFoundException("로그인이 필요한 서비스입니다.");
+        }
     }
 }
