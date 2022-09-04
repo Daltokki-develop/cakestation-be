@@ -1,0 +1,13 @@
+name: "Pull Request Labeler"
+on:
+  pull_request:
+    types: [ opened, edited ]
+    branches: [ develop ]
+
+jobs:
+  update_release_draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: jimschubert/labeler-action@v1
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
