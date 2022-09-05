@@ -31,11 +31,6 @@ jobs:
         echo "${{secrets.APPLICATION_TEST}}" >> src/test/resources/application-test.yml
       shell: bash
 
-    - name: Add Kakao Secret File
-      run: |
-        echo "${{secrets.KAKAO_CONFIG}}" >> src/main/java/com/cakestation/backend/config/KakaoConfig.java
-      shell: bash
-
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:

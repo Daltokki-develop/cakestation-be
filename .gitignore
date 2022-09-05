@@ -6,7 +6,6 @@ build/
 !**/src/test/**/build/
 /src/main/resources/application-dev.yml
 /src/test/resources/application.yml
-/src/main/java/com/cakestation/backend/config/KakaoConfig.java
 ### STS ###
 .apt_generated
 .classpath
