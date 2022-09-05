@@ -8,7 +8,7 @@ import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import com.cakestation.backend.user.service.dto.response.CheckDto;
 import com.cakestation.backend.user.service.dto.response.TokenDto;
 
-import static com.cakestation.backend.config.KakaoConfig.REDIRECT_LOGINPAGE;
+import static com.cakestation.backend.config.KakaoConfig.*;
 
 import java.util.HashMap;
 
