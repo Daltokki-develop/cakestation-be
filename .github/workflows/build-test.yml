@@ -17,19 +17,19 @@ jobs:
 
     - name: Add application-dev.yml file
       run: |
-        printf ${{secrets.APPLICATION_DEV}} >> src/main/resources/application-dev.yml
+        echo "${{secrets.APPLICATION_DEV}}" >> src/main/resources/application-dev.yml
       shell: bash
 
     - name: Add application-test.yml file
       run: |
-        printf ${{secrets.APPLICATION_TEST}} >> src/test/resources/application-test.yml
+        echo "${{secrets.APPLICATION_TEST}}" >> src/test/resources/application-test.yml
       shell: bash
 
     - name: Add Kakao Secret File
       run: |
-        printf ${{secrets.KAKAO_CONFIG}} >> src/main/java/com.cakestation.backend/config/KakaoConfig
+        echo "${{secrets.KAKAO_CONFIG}}" >> src/main/java/com.cakestation.backend/config/KakaoConfig
       shell: bash
-      
+
     - name: Set up JDK 11
       uses: actions/setup-java@v3
       with:
