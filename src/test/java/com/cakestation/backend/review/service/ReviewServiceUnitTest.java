@@ -39,7 +39,7 @@ class ReviewServiceUnitTest {
     @Test
     void 리뷰_등록(){
         // given
-        doReturn(Optional.of(getUserEntity())).when(userRepository).findById(any());
+        doReturn(Optional.of(getUserEntity())).when(userRepository).findUserByEmail(any());
         doReturn(Optional.of(storeEntity())).when(storeRepository).findById(any());
         doReturn(reviewEntity()).when(reviewRepository).save(any());
         doReturn(new ArrayList<String>()).when(imageUploadService).uploadFiles(IMAGES);
