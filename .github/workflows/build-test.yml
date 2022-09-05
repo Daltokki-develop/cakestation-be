@@ -27,7 +27,7 @@ jobs:
 
     - name: Add Kakao Secret File
       run: |
-        echo "${{secrets.KAKAO_CONFIG}}" >> src/main/java/com.cakestation.backend/config/KakaoConfig
+        echo "${{secrets.KAKAO_CONFIG}}" >> src/main/java/com.cakestation.backend/config/KakaoConfig.class
       shell: bash
 
     - name: Set up JDK 11
