@@ -8,7 +8,6 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        #show_sql: true
         format_sql: true
         default_batch_fetch_size: 100
         dialect: org.hibernate.dialect.MySQL57Dialect
@@ -28,7 +27,6 @@ cloud:
 logging.level:
   org.hibernate.SQL: debug
   org.springframework.boot.autoconfigure: error
-#  org.hibernate.type: trace
 
 kakao:
   key: ba0f1a18785e403d95d70d608874b9af
