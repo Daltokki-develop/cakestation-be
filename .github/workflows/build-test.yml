@@ -22,11 +22,15 @@ jobs:
         distribution: 'temurin'
 
     - name: Add application-dev.yml file
-      run: echo "${{secrets.APPLICATION_DEV}}" >> src/main/resources/application-dev.yml
+      run: |
+        echo "${{secrets.APPLICATION_DEV}}" > src/main/resources/application-dev.yml.b64
+        base64 -d -i application-dev.yml.b64 > application-dev.yml
       shell: bash
 
     - name: Add application-test.yml file
-      run: echo "${{secrets.APPLICATION_TEST}}" >> src/test/resources/application-test.yml
+      run: |
+        echo "${{secrets.APPLICATION_TEST}}" > src/test/resources/application-test.yml
+        base64 -d -i application-test.yml.b64 > application-test.yml
       shell: bash
 
     - name: Build with Gradle
