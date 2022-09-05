@@ -50,7 +50,6 @@ public class StoreFixture {
                 .score(SCORE)
                 .numOfPhoto(NUM_OF_PHOTO)
                 .numOfReviews(NUM_OF_REVIEWS)
-                .uploadDate(UPLOAD_DATE)
                 .build();
     }
 

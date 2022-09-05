@@ -45,7 +45,7 @@ class ReviewServiceUnitTest {
         doReturn(new ArrayList<String>()).when(imageUploadService).uploadFiles(IMAGES);
 
         // when
-        Long reviewId = reviewService.saveReview(getCreateReviewDto());
+        Long reviewId = reviewService.saveReview(getCreateReviewDto(),getKakaoUserDto().getEmail());
 
         // then
         assertEquals(reviewId,REVIEW_ID);

@@ -14,14 +14,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static com.cakestation.backend.review.fixture.ReviewFixture.getCreateReviewDto;
 import static com.cakestation.backend.store.fixture.StoreFixture.STORE_ID;
 import static com.cakestation.backend.store.fixture.StoreFixture.getStoreDto;
 import static com.cakestation.backend.user.fixture.UserFixture.USER_ID;
@@ -31,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
+@TestPropertySource(properties = { "spring.config.location=classpath:application-test.yml" })
 class ReviewControllerTest {
 
     @Autowired
@@ -58,7 +58,7 @@ class ReviewControllerTest {
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
         CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
 
-        reviewService.saveReview(createReviewDto);
+        reviewService.saveReview(createReviewDto,getKakaoUserDto().getEmail());
 
         String uri = String.format("/api/stores/%d/reviews",STORE_ID);
 
@@ -85,7 +85,7 @@ class ReviewControllerTest {
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
         CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
 
-        reviewService.saveReview(createReviewDto);
+        reviewService.saveReview(createReviewDto,getKakaoUserDto().getEmail());
 
         String uri = String.format("/api/users/%d/reviews",USER_ID);
 
@@ -111,7 +111,7 @@ class ReviewControllerTest {
         // 리뷰 등록
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
         CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
-        reviewService.saveReview(createReviewDto);
+        reviewService.saveReview(createReviewDto,getKakaoUserDto().getEmail());
 
         String uri = String.format("/api/stores/%d/reviews",STORE_ID);
 

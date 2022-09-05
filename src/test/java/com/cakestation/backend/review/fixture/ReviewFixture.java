@@ -37,7 +37,6 @@ public class ReviewFixture {
     public static CreateReviewRequest getCreateReviewRequest(){
 
         return CreateReviewRequest.builder()
-                .walkingDistance(WALKING_DISTANCE)
                 .reviewImages(IMAGES)
                 .cakeNumber(CAKE_NUMBER)
                 .sheetType(SHEET_TYPE)
@@ -51,7 +50,6 @@ public class ReviewFixture {
 
     public static CreateReviewDto getCreateReviewDto(){
         return CreateReviewDto.builder()
-                .walkingDistance(WALKING_DISTANCE)
                 .reviewImages(IMAGES)
                 .imageUrls(IMAGE_URLS)
                 .cakeNumber(CAKE_NUMBER)
@@ -72,7 +70,6 @@ public class ReviewFixture {
 
         Review review = Review.builder()
                 .id(REVIEW_ID)
-                .walkingDistance(WALKING_DISTANCE)
                 .imageUrls(IMAGE_URLS)
                 .cakeNumber(CAKE_NUMBER)
                 .sheetType(SHEET_TYPE)

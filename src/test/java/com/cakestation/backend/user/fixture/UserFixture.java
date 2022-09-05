@@ -2,7 +2,7 @@ package com.cakestation.backend.user.fixture;
 
 import com.cakestation.backend.user.domain.Role;
 import com.cakestation.backend.user.domain.User;
-import com.cakestation.backend.user.dto.response.KakaoUserDto;
+import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 
 public class UserFixture {
     public static Long USER_ID = 1L;
