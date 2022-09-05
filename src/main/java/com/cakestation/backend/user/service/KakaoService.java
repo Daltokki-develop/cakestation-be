@@ -1,5 +1,6 @@
 package com.cakestation.backend.user.service;
 
+import com.cakestation.backend.config.KakaoConfig;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import com.cakestation.backend.user.service.dto.response.CheckDto;
 import com.cakestation.backend.user.service.dto.response.TokenDto;
@@ -22,12 +23,14 @@ import static com.cakestation.backend.config.KakaoConfig.*;
 @RequiredArgsConstructor
 public class KakaoService {
 
+    private final KakaoConfig kakaoConfig;
+
     //URL을 통해 토큰을 얻을때 
     public TokenDto getKaKaoAccessToken(String code) {
         TokenDto tokenDto = null;
 
         try {
-            String getTokenURL = GET_TOKEN_URL + "&code=" +code; 
+            String getTokenURL = kakaoConfig.GET_TOKEN_URL + "&code=" +code;
             URL url = new URL(getTokenURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
@@ -56,8 +59,7 @@ public class KakaoService {
             System.out.println("response body : " + result);
 
             //Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(result);
+            JsonElement element = JsonParser.parseString(result);
             System.out.println(element);
 
             tokenDto = TokenDto.builder()
@@ -96,8 +98,7 @@ public class KakaoService {
                 result += line;
             }
 
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(result);
+            JsonElement element = JsonParser.parseString(result);
 
             System.out.println("Element" + element);
             int userId = element.getAsJsonObject().get("id").getAsInt();
@@ -113,7 +114,7 @@ public class KakaoService {
 
     //refresh를 통한 토큰 최신화
     public TokenDto refreshAccessToken(String refreshToken){
-        String refreshURL = REFRESH_ACCESS + refreshToken; 
+        String refreshURL = kakaoConfig.REFRESH_ACCESS + refreshToken;
         TokenDto tokenDto = null;    
 
             try {
@@ -143,8 +144,7 @@ public class KakaoService {
                 }
     
                 //Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
-                JsonParser parser = new JsonParser();
-                JsonElement element = parser.parse(result);
+                JsonElement element = JsonParser.parseString(result);
                 
                 tokenDto = TokenDto.builder()
                 .accessToken(element.getAsJsonObject().get("access_token").getAsString())
@@ -175,15 +175,14 @@ public class KakaoService {
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            String line = "";
-            String result = "";
+            String line;
+            StringBuilder result = new StringBuilder();
 
             while ((line = br.readLine()) != null) {
-                result += line;
+                result.append(line);
             }
 
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(result);
+            JsonElement element = JsonParser.parseString(result.toString());
 
             System.out.println("Element" + element);
             int userId = element.getAsJsonObject().get("id").getAsInt();
@@ -217,8 +216,7 @@ public class KakaoService {
                 result += line;
             }
 
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(result);
+            JsonElement element = JsonParser.parseString(result);
 
             System.out.println("Element" + element);
             int userId = element.getAsJsonObject().get("id").getAsInt();
@@ -248,14 +246,13 @@ public class KakaoService {
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
             String line = "";
-            String result = "";
+            StringBuilder result = new StringBuilder();
 
             while ((line = br.readLine()) != null) {
-                result += line;
+                result.append(line);
             }
 
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(result);
+            JsonElement element = JsonParser.parseString(result.toString());
 
             System.out.println("Element" + element);
             JsonObject account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();

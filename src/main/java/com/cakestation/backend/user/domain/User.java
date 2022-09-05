@@ -31,6 +31,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER;
 

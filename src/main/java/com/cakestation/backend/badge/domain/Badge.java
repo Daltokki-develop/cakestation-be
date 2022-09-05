@@ -30,6 +30,7 @@ public class Badge {
             joinColumns = @JoinColumn(name="badge_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+    @Builder.Default
     private List<User> userList = new ArrayList<>();
 
     public static Badge createBadge(Badge badge){
