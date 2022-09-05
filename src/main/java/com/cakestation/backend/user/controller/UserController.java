@@ -1,14 +1,13 @@
 package com.cakestation.backend.user.controller;
 
 import com.cakestation.backend.common.ApiResponse;
+import com.cakestation.backend.config.KakaoConfig;
 import com.cakestation.backend.user.service.KakaoService;
 import com.cakestation.backend.user.service.UserService;
 import com.cakestation.backend.user.service.UtilService;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import com.cakestation.backend.user.service.dto.response.CheckDto;
 import com.cakestation.backend.user.service.dto.response.TokenDto;
-
-import static com.cakestation.backend.config.KakaoConfig.*;
 
 import java.util.HashMap;
 
@@ -35,6 +34,8 @@ public class UserController {
     private final UtilService utilService;
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    private final KakaoConfig kakaoConfig;
 
     @GetMapping("/api/stores/test")
     public ResponseEntity getEmail(HttpServletRequest request) throws Exception {
@@ -63,7 +64,7 @@ public class UserController {
         // }
         //없을 경우 아래 redirect url을 통해 새로운 토큰 발급
         RedirectView redirectView = new RedirectView();
-        redirectView.setUrl(REDIRECT_LOGINPAGE);
+        redirectView.setUrl(kakaoConfig.REDIRECT_LOGINPAGE);
 
         return redirectView;
     }
@@ -79,12 +80,6 @@ public class UserController {
         TokenDto tokenDto = kakaoService.getKaKaoAccessToken(code);
         //얻은 토큰을 통한 유저정보 조회 및 저장
         kakaoUserDto = kakaoService.getUserInfo(tokenDto.getAccessToken());
-
-//        //시큐리티 컨텍스트에 저장
-//        UsernamePasswordAuthenticationToken authenticationToken =
-//                new UsernamePasswordAuthenticationToken(kakaoUserDto.getEmail(),kakaoUserDto.getEmail());
-//        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         HashMap cookies = UtilService.makeCookie(tokenDto);
         response.addCookie((Cookie) cookies.get("access"));
