@@ -23,11 +23,15 @@ jobs:
 
     - name: Add application-dev.yml file
       run: |
+        cd ./src/main/resources
+        touch ./application-dev.yml
         echo "${{secrets.APPLICATION_DEV}}" > src/main/resources/application-dev.yml
       shell: bash
 
     - name: Add application-test.yml file
       run: |
+        cd ./src/test/resources
+        touch ./application-test.yml
         echo "${{secrets.APPLICATION_TEST}}" > src/test/resources/application-test.yml
       shell: bash
 
