@@ -2,8 +2,10 @@
 
 ## Environment
 
-- java 버전 몇 이런거 쓰기
+- Java Version : 11   
+- Spring boot Version : 2.7.1
 
+<!--
 ## Prerequisite
 
 - Make a virtual environment
@@ -31,7 +33,7 @@
 
     ```
     (myvenv) ~$ 어쩌고COMMAND
-    ```
+-->
 ## Docker
 **1. git repo clone**
 ```
@@ -54,12 +56,14 @@ docker build -t cakestation-server .
 docker run -itd -p 8080:8080 -it --name cakestation-server cakestation-server
 ```
 
+<!--
 ## Usage
 
 ```
 (myvenv) ~/cakestaion-be $ 어쩌고COMMAND
 (myvenv) ~/cakestaion-be $ 어쩌고COMMAND
 ```
+-->
 
 
 
