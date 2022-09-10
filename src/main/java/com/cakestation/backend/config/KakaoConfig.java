@@ -10,7 +10,7 @@ public class KakaoConfig implements ApplicationListener<ApplicationStartedEvent>
 
     @Value("${kakao.key}")
     public String key;
-    public static String REDIRECT_URI = "http://127.0.0.1:8080/oauth/kakao";
+    public static String REDIRECT_URI = "http://127.0.0.1:8080/api/oauth/kakao";
     //회원정보 조회시 사용하는 URL
     public static String GET_USER_URL = "https://kapi.kakao.com/v2/user/me";
     //로그아웃을 통해 발급된 토큰 만료시 사용

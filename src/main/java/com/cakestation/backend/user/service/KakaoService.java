@@ -51,15 +51,15 @@ public class KakaoService {
             //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
-            String result = "";
+            StringBuilder result = new StringBuilder();
 
             while ((line = br.readLine()) != null) {
-                result += line;
+                result.append(line);
             }
             System.out.println("response body : " + result);
 
             //Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
-            JsonElement element = JsonParser.parseString(result);
+            JsonElement element = JsonParser.parseString(result.toString());
             System.out.println(element);
 
             tokenDto = TokenDto.builder()
@@ -92,13 +92,13 @@ public class KakaoService {
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
             String line = "";
-            String result = "";
+            StringBuilder result = new StringBuilder();
 
             while ((line = br.readLine()) != null) {
-                result += line;
+                result.append(line);
             }
 
-            JsonElement element = JsonParser.parseString(result);
+            JsonElement element = JsonParser.parseString(result.toString());
 
             System.out.println("Element" + element);
             int userId = element.getAsJsonObject().get("id").getAsInt();
