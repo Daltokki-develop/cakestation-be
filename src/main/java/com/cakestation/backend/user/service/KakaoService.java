@@ -100,7 +100,6 @@ public class KakaoService {
 
             JsonElement element = JsonParser.parseString(result.toString());
 
-            System.out.println("Element" + element);
             int userId = element.getAsJsonObject().get("id").getAsInt();
             tokenUser = CheckDto.builder()
                             .userUid(userId)
@@ -230,7 +229,7 @@ public class KakaoService {
         return withdrawal;
     }
 
-    //User정보를 확인및 저장하기 위한 메서드
+    //User정보를 확인하기 위한 메서드
     public KakaoUserDto getUserInfo(String access_Token) {
 
         KakaoUserDto kakaoUserDto = null;

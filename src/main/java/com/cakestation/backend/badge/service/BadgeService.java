@@ -33,11 +33,11 @@ public class BadgeService {
         Long testBadge = 1L; //테스트를 위해서 배지 아이디를 1로 지정
         Badge badge = badgeRepository.findById(testBadge).get();
 
-        badge.addUser(userInfo);
-        System.out.println(":::::::::" + badge.getUserList());
+//        badge.addUser(userInfo);
+//        System.out.println(":::::::::" + badge.getUserList());
 
         Badge badge1 = badgeRepository.save(badge);
-        System.out.println(":::::::::" + badge1.getUserList());
+//        System.out.println(":::::::::" + badge1.getUserList());
 
         ProvideBage provideBage = ProvideBage.builder()
                                                 .badgename(badge.getBadgename())

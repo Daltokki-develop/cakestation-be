@@ -20,6 +20,8 @@ public class User {
 
     private String username;
 
+    private String nickname;
+
     @Column(nullable = false, unique = true)
     private String email;
 

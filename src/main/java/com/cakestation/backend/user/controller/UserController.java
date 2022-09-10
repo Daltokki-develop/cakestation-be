@@ -42,6 +42,9 @@ public class UserController {
     @GetMapping("/stores/test")
     public ResponseEntity getEmail(HttpServletRequest request) throws Exception {
         String email = utilService.getCurrentUserEmail(request);
+
+        int test = utilService.makeNickName(request);
+
         return new ResponseEntity<>(new ApiResponse(200, "이메일 획득", email), HttpStatus.OK);
     }
 
@@ -51,19 +54,6 @@ public class UserController {
 
         TokenDto tokenDto;
         //추후 refresh토큰 확인 후 바로 accessToken발급 상태로 전환
-        // Cookie[] cookies = request.getCookies();
-        // !!! response Data에 accessToken만 존재한다
-        // System.out.println("Cookies::::" + cookies);
-
-        // if(cookies != null){
-        //     for(Cookie ele: cookies){
-        //         if("refresh".equals(ele.getName())){
-        //             System.out.println("Refresh Token사용");
-        //             String refreshValue = ele.getValue();
-        //             tokenDto = kakaoService.refreshAccessToken(refreshValue);
-        //         }
-        //     }
-        // }
         //없을 경우 아래 redirect url을 통해 새로운 토큰 발급
         RedirectView redirectView = new RedirectView();
         redirectView.setUrl(kakaoConfig.REDIRECT_LOGINPAGE);
@@ -89,20 +79,20 @@ public class UserController {
 
         Long userId = userService.join(kakaoUserDto);
 
-        return new ResponseEntity<>(new ApiResponse(200, "로그인 성공", kakaoUserDto), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(200, "로그인 성공", userId), HttpStatus.OK);
     }
 
     //로그아웃
     @GetMapping("/logout/kakao")
     public ResponseEntity KakaoLogout(HttpServletRequest request, HttpServletResponse response) {
-        Cookie[] cookies = request.getCookies();
         CheckDto result = null;
         Cookie accesscookie = null;
         Cookie refreshcookie = null;
 
+
         try {
             //토큰을 찾는 메서드 
-            String findCookie = utilService.cookieAccessToken(cookies, "Authorization");
+            String findCookie = utilService.cookieAccessToken(request, "Authorization");
 
             //찾은 토큰을 통한 로그아웃 메서드
             result = kakaoService.LogoutToken(findCookie);
