@@ -30,8 +30,11 @@ jobs:
 
     - name: Add application-test.yml file
       run: |
-        touch /src/test/resources/application-test.yml
-        echo "${{secrets.APPLICATION_TEST}}" > /src/test/resources/application-test.yml
+        cd ./src/test
+        mkdir resources
+        cd ./resources
+        touch ./application-test.yml
+        echo "${{secrets.APPLICATION_TEST}}" > ./application-test.yml
       shell: bash
 
     - name: Build with Gradle
