@@ -1,17 +1,15 @@
 package com.cakestation.backend.review.controller.dto.response;
 
-import com.cakestation.backend.review.domain.Review;
 import com.cakestation.backend.review.domain.Tag;
 import com.cakestation.backend.review.service.dto.ReviewDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
