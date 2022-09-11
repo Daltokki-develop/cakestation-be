@@ -2,6 +2,7 @@
 
 ## 개발환경 & 사용 기술
 
+```
 - OS : Ubuntu 20.04
 - Java Version : JDK 11   
 - Framework : Spring boot 2.7.1
@@ -12,6 +13,7 @@
 - Build : Gradle
 - CI / CD : Github Actions 
 - Infrastructure : AWS EC2, RDS, S3, Docker 
+```
 
 ## Docker
 **1. git repo clone**
