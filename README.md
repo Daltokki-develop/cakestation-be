@@ -1,39 +1,18 @@
-# Cake Station
+# Cake Station BE 
 
-## Environment
+## 개발환경 & 사용 기술
 
-- Java Version : 11   
-- Spring boot Version : 2.7.1
+- OS : Ubuntu 20.04
+- Java Version : JDK 11   
+- Framework : Spring boot 2.7.1
+- ORM : Spring Data JPA
+- Security : Spring Security
+- Test : JUnit5, mockito, testcontainer, jacoco
+- DB : MySQL
+- Build : Gradle
+- CI / CD : Github Actions 
+- Infrastructure : AWS EC2, RDS, S3, Docker 
 
-<!--
-## Prerequisite
-
-- Make a virtual environment
-
-  ```
-  $ cd cakestation-be
-  $ 어쩌고COMMAND
-  ```
-
-- Run a virtual environment
-
-  ```
-  (myvenv) ~/cakestaion-be $ 어쩌고COMMAND
-  ```
-
-- Install requirements
-
-  - install requirements
-
-    ```
-    (myvenv) ~$ pip install -r requirements.txt
-    ```
-
-  - pip upgrade (npm일수도)
-
-    ```
-    (myvenv) ~$ 어쩌고COMMAND
--->
 ## Docker
 **1. git repo clone**
 ```
@@ -55,16 +34,6 @@ docker build -t cakestation-server .
 ```
 docker run -itd -p 8080:8080 -it --name cakestation-server cakestation-server
 ```
-
-<!--
-## Usage
-
-```
-(myvenv) ~/cakestaion-be $ 어쩌고COMMAND
-(myvenv) ~/cakestaion-be $ 어쩌고COMMAND
-```
--->
-
 
 
 ## Service Description
