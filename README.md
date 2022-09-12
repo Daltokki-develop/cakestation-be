@@ -1,6 +1,5 @@
-# Cake Station BE 
-
-## 개발환경 & 사용 기술
+# Cake Station BE 🍰 🚏
+## Tech Stack 🛠
 
 ```
 - OS : Ubuntu 20.04
@@ -15,7 +14,7 @@
 - Infrastructure : AWS EC2, RDS, S3, Docker 
 ```
 
-## Docker
+## Docker 🐳
 **1. git repo clone**
 ```
 git clone https://github.com/Daltokki-develop/cakestation-be.git
