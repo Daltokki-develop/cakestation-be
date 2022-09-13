@@ -2,7 +2,9 @@ package com.cakestation.backend.badge.service;
 
 
 import com.cakestation.backend.badge.domain.Badge;
+import com.cakestation.backend.badge.domain.Badge_User;
 import com.cakestation.backend.badge.repository.BadgeRepository;
+import com.cakestation.backend.badge.repository.Badge_UserRepository;
 import com.cakestation.backend.badge.service.dto.response.ProvideBage;
 import com.cakestation.backend.user.repository.UserRepository;
 import com.cakestation.backend.user.domain.User;
@@ -22,8 +24,10 @@ public class BadgeService {
 
     private final UserRepository userRepository;
 
+    private final Badge_UserRepository badge_userRepository;
     // - 공통 기능
     // 조건 충족시 배지를 (임의)부여하는 기능
+    @Transactional(readOnly = false)
     public ProvideBage providebadge() {
 
         // TODO 유저정보와 배지정보 받는것으로 변경
@@ -31,18 +35,22 @@ public class BadgeService {
         User userInfo = userRepository.findById(1L).get();
 
         Long testBadge = 1L; //테스트를 위해서 배지 아이디를 1로 지정
-        Badge badge = badgeRepository.findById(testBadge).get();
+        Badge Getbadge = badgeRepository.findById(testBadge).get();
 
-//        badge.addUser(userInfo);
-//        System.out.println(":::::::::" + badge.getUserList());
+        Badge_User relationBadge = badge_userRepository.save(Badge_User.builder()
+                .user(userInfo)
+                .badge(Getbadge)
+                .build());
 
-        Badge badge1 = badgeRepository.save(badge);
-//        System.out.println(":::::::::" + badge1.getUserList());
+        Getbadge.getUserList().add(relationBadge);
+        userInfo.getBadgeList().add(relationBadge);
+        userRepository.save(userInfo);
+        badgeRepository.save(Getbadge);
 
         ProvideBage provideBage = ProvideBage.builder()
-                                                .badgename(badge.getBadgename())
+                                                .badgename(Getbadge.getBadgename())
                                                 .username(userInfo.getUsername())
-                                                .misson(badge.getMission())
+                                                .misson(Getbadge.getMission())
                                                 .build();
                                                 
         return provideBage;

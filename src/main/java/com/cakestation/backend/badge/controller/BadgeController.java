@@ -15,7 +15,7 @@ public class BadgeController {
     private final BadgeService badgeService;
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/badge")
+    @GetMapping("/badge")
     public ProvideBage provideBadge(){
         
         ProvideBage result = badgeService.providebadge();

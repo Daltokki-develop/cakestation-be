@@ -1,9 +1,13 @@
 package com.cakestation.backend.user.domain;
 
+import com.cakestation.backend.badge.domain.Badge;
+import com.cakestation.backend.badge.domain.Badge_User;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -28,6 +32,9 @@ public class User {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER;
+
+    @OneToMany(mappedBy = "user")
+    private List<Badge_User> badgeList = new ArrayList<>();
 
     public static User createUser(KakaoUserDto kakaoUserDto) {
         return User.builder()
