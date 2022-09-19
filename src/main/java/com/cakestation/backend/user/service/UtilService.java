@@ -28,7 +28,7 @@ public class UtilService {
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityUtil.class);
 
-    public static HashMap makeCookie(TokenDto tokenDto){
+    public HashMap makeCookie(TokenDto tokenDto){
         HashMap<String, Cookie> cookieMap = new HashMap<String,Cookie>();
 
         Cookie accessToken = new Cookie("Authorization", tokenDto.getAccessToken());
