@@ -1,0 +1,80 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.1'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'jacoco'
+}
+
+jacoco {
+	toolVersion = '0.8.5'
+}
+
+tasks.withType(Test) {
+	jacoco.includeNoLocationClasses = true
+	jacoco.excludes = ['jdk.internal.*']
+}
+
+group = 'com.cakestation'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	//log
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
+
+	//security
+	//spring security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	testImplementation 'org.springframework.security:spring-security-test'
+
+	// https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity5
+	// 타임리프 관련 의존성을 추가해주지 않으면 시큐리티 태그 sec 를 사용할 수 없다.
+	implementation group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity5', version: '3.0.4.RELEASE'
+
+	//OAuth
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation'com.google.code.gson:gson:2.8.7'
+
+	//jwt
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+
+	//mysql
+	runtimeOnly 'mysql:mysql-connector-java'
+
+	//test container
+	testImplementation "org.testcontainers:testcontainers:1.16.3"
+	testImplementation "org.testcontainers:junit-jupiter:1.16.3"
+	testImplementation "org.testcontainers:mysql:1.16.3"
+
+	// JUnit5
+	testImplementation("org.junit.jupiter:junit-jupiter:5.7.0")
+
+	// swagger
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+
+	// aws
+	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.3.1'
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
