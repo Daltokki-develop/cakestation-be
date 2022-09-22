@@ -29,7 +29,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
 public class UserController {
     private final KakaoService kakaoService;
     private final UserService userService;
@@ -49,9 +48,9 @@ public class UserController {
     }
 
     //인가 코드 반환
-    @GetMapping("/login")
+    @GetMapping("/api/login")
     public RedirectView redirectLogin(HttpServletRequest request) {
-
+        System.out.println("::::::::::::: /login 컨트롤러 동작 확인");
         TokenDto tokenDto;
         //추후 refresh토큰 확인 후 바로 accessToken발급 상태로 전환
         //없을 경우 아래 redirect url을 통해 새로운 토큰 발급
@@ -63,9 +62,9 @@ public class UserController {
 
 
     //"login" API에서 redirect된 URL에서 Code parameter를 추출하여 아래 메서드를 실행하여 유저정보를 저장및 토큰을 쿠키로 보내준다.
-    @GetMapping("/oauth/kakao")
+    @GetMapping("/api/oauth/kakao")
     public ResponseEntity KakaoCallback(@RequestParam String code, HttpServletResponse response) {
-
+        System.out.println("::::::::::::: /oauth/kakao 컨트롤러 동작 확인");
         KakaoUserDto kakaoUserDto = null;
 
         //Token획득 메드 호출
@@ -73,7 +72,7 @@ public class UserController {
         //얻은 토큰을 통한 유저정보 조회 및 저장
         kakaoUserDto = kakaoService.getUserInfo(tokenDto.getAccessToken());
 
-        HashMap cookies = UtilService.makeCookie(tokenDto);
+        HashMap cookies = utilService.makeCookie(tokenDto);
         response.addCookie((Cookie) cookies.get("access"));
         response.addCookie((Cookie) cookies.get("refresh"));
 
