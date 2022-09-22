@@ -26,8 +26,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Practice Swagger")
-                .description("practice swagger config")
+                .title("List all APIs of CakeStation Server.")
+                .description("")
                 .version("1.0")
                 .build();
     }
