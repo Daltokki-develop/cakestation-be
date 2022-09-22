@@ -9,8 +9,10 @@ import org.springframework.context.annotation.Configuration;
 public class KakaoConfig implements ApplicationListener<ApplicationStartedEvent> {
 
     @Value("${kakao.key}")
-    public String key;
-    public static String REDIRECT_URI = "http://127.0.0.1:8080/api/oauth/kakao";
+    private String key;
+    @Value("${cloud.aws.ip}")
+    private String ip;
+    private String REDIRECT_URI;
     //회원정보 조회시 사용하는 URL
     public static String GET_USER_URL = "https://kapi.kakao.com/v2/user/me";
     //로그아웃을 통해 발급된 토큰 만료시 사용
@@ -26,15 +28,15 @@ public class KakaoConfig implements ApplicationListener<ApplicationStartedEvent>
 
     @Override
     public void onApplicationEvent(ApplicationStartedEvent event) {
+        REDIRECT_URI = "http://"+ip+":8080/api/oauth/kakao";
+
         GET_TOKEN_URL = "https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id="+
                 key +
-                "&redirect_uri="+
-                KakaoConfig.REDIRECT_URI;
+                "&redirect_uri="+ REDIRECT_URI;
 
         REDIRECT_LOGINPAGE = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id="+
                 key +
-                "&redirect_uri="+
-                KakaoConfig.REDIRECT_URI;
+                "&redirect_uri="+ REDIRECT_URI;
 
         REFRESH_ACCESS = "https://kauth.kakao.com/oauth/token?grant_type=refresh_token&client_id="+
                 key + "&refresh_token=";
