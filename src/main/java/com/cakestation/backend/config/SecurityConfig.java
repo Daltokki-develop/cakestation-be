@@ -52,9 +52,11 @@ public class SecurityConfig {
                 .exceptionHandling()
 
                 .and()
-                .headers()
-                .frameOptions()
-                .sameOrigin()
+                .httpBasic().disable()
+                .cors().configurationSource(corsConfigurationSource())
+//                .headers()
+//                .frameOptions()
+//                .sameOrigin()
 
                 .and()
                 .sessionManagement()
@@ -81,11 +83,11 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("*"));
-        configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOriginPatterns(List.of("*"));
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
