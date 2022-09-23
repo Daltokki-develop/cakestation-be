@@ -17,7 +17,6 @@ import java.util.List;
 public class CreateReviewRequest {
 
     private List<MultipartFile> reviewImages; // 리뷰 이미지 파일 리스트
-    private String nearByStation; // 가장 가까운 역
     private int cakeNumber; // 케이크 호수
     private String sheetType; // 시트 종류
     private String requestOption; // 추가 옵션
@@ -30,7 +29,6 @@ public class CreateReviewRequest {
         return CreateReviewDto.builder()
                 .storeId(storeId)
                 .reviewImages(createReviewRequest.getReviewImages())
-                .nearByStation(createReviewRequest.getNearByStation())
                 .cakeNumber(createReviewRequest.getCakeNumber())
                 .sheetType(createReviewRequest.getSheetType())
                 .requestOption(createReviewRequest.getRequestOption())

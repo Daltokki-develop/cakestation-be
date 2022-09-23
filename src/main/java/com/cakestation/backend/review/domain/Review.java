@@ -34,8 +34,6 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    private String nearByStation; // 가장 가까운 역
-
     @Builder.Default
     @ElementCollection
     @CollectionTable(name = "review_image", joinColumns =
@@ -67,7 +65,6 @@ public class Review extends BaseEntity {
         Review review = Review.builder()
                 .writer(user)
                 .store(store)
-                .nearByStation(createReviewDto.getNearByStation())
                 .imageUrls(createReviewDto.getImageUrls())
                 .cakeNumber(createReviewDto.getCakeNumber())
                 .sheetType(createReviewDto.getSheetType())
