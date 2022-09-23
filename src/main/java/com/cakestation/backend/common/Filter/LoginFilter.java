@@ -46,9 +46,13 @@ public class LoginFilter implements Filter {
         HttpServletResponse httpres = (HttpServletResponse) res;
         System.out.println(CheckPath(reqURI));
         System.out.println(reqURI);
+        ((HttpServletResponse) res).setHeader("Access-Control-Allow-Origin", "*");
+        ((HttpServletResponse) res).setHeader("Access-Control-Allow-Methods", "*");
+        ((HttpServletResponse) res).setHeader("Access-Control-Allow-Headers", "*");
+
         try{
             if(CheckPath(reqURI)){
-                log.info("인증체크 시작" , reqURI);
+                log.info("인증 체크 시작" , reqURI);
                 String findCookie = utilService.cookieAccessToken(httpreq, "Authorization");
                 kakaoService.checkAccessToken(findCookie);
             }
