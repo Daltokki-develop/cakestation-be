@@ -46,4 +46,15 @@ public class StoreController {
         return ResponseEntity.ok().body(
                 new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", storeResponseList));
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/stores/search")
+    ResponseEntity<ApiResponse<Page<StoreResponse>>> searchStoresByKeyword(@RequestParam String keyword, @PageableDefault(size = 10, sort = "uploadDate", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<Store> storeList = storeService.searchStoresByKeyword(keyword, pageable);
+        Page<StoreResponse> storeResponseList = storeList.map(StoreResponse::from);
+        return ResponseEntity.ok().body(
+                new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", storeResponseList));
+    }
+
 }
