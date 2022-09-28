@@ -33,7 +33,7 @@ public class KakaoConfig implements ApplicationListener<ApplicationStartedEvent>
 
         GET_TOKEN_URL = "https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id="+
                 key +
-                "&redirect_uri="+ REDIRECT_URI;
+                "&redirect_uri=http://localhost:3000/api/oauth/kakao";
 
         REDIRECT_LOGINPAGE = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id="+
                 key +
