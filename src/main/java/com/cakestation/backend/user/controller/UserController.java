@@ -69,6 +69,8 @@ public class UserController {
 
         //Token획득 메드 호출
         TokenDto tokenDto = kakaoService.getKaKaoAccessToken(code);
+        System.out.println("token 존재 여부:"+tokenDto.getAccessToken());
+
         //얻은 토큰을 통한 유저정보 조회 및 저장
         kakaoUserDto = kakaoService.getUserInfo(tokenDto.getAccessToken());
 
