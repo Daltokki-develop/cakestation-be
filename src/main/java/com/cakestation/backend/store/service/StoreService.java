@@ -41,4 +41,8 @@ public class StoreService {
     public Page<Store> findAllStores(Pageable pageable) {
         return storeRepository.findAll(pageable);
     }
+
+    public Page<Store> searchStoresByKeyword(String keyword, Pageable pageable) {
+        return storeRepository.findStoresByStoreName(pageable, keyword);
+    }
 }
