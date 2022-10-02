@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.*;
 
@@ -31,7 +32,7 @@ class ReviewServiceUnitTest {
     ReviewRepository reviewRepository;
 
     @InjectMocks
-    ReviewService reviewService;
+    ReviewServiceImpl reviewService;
 
     @Mock
     ImageUploadService imageUploadService;
@@ -54,10 +55,11 @@ class ReviewServiceUnitTest {
     @Test
     void 리뷰_조회_BY_작성자(){
         // given
-        doReturn(Collections.singletonList(reviewEntity())).when(reviewRepository).findAllByWriter(any());
+        doReturn(Collections.singletonList(reviewEntity())).when(reviewRepository).findAllByWriter(any(),any());
 
         // when
-        List<ReviewDto> reviewDtoList = reviewService.findReviewsByWriter(USER_ID);
+        PageRequest pageRequest = PageRequest.of(0,1);
+        List<ReviewDto> reviewDtoList = reviewService.findReviewsByWriter(USER_ID,pageRequest);
 
         // then
         assertEquals(USERNAME, reviewDtoList.get(0).getUsername());
@@ -66,10 +68,11 @@ class ReviewServiceUnitTest {
     @Test
     void 리뷰_조회_BY_가게(){
         // given
-        doReturn(Collections.singletonList(reviewEntity())).when(reviewRepository).findAllByStore(any());
+        doReturn(Collections.singletonList(reviewEntity())).when(reviewRepository).findAllByStore(any(),any());
 
         // when
-        List<ReviewDto> reviewDtoList = reviewService.findReviewsByStore(STORE_ID);
+        PageRequest pageRequest = PageRequest.of(0,1);
+        List<ReviewDto> reviewDtoList = reviewService.findReviewsByStore(STORE_ID,pageRequest);
 
         // then
         assertEquals(USERNAME, reviewDtoList.get(0).getUsername());

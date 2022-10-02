@@ -77,7 +77,7 @@ public class ReviewFixture {
                 .designSatisfaction(SATISFACTION)
                 .score(SCORE)
                 .content(CONTENT)
-                .tags(List.of(reviewTag))
+                .reviewTags(List.of(reviewTag))
                 .writer(getUserEntity())
                 .store(storeEntity())
                 .build();
