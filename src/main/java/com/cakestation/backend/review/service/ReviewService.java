@@ -10,12 +10,11 @@ import com.cakestation.backend.store.repository.StoreRepository;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,15 +48,14 @@ public class ReviewService {
     }
 
     // 리뷰 조회 by writer
-    public List<ReviewDto> findReviewsByWriter(Long writerId, Pageable pageable) {
-        List<Review> reviews = reviewRepository.findAllByWriter(writerId,pageable);
+    public List<ReviewDto> findReviewsByWriter(Long writerId) {
+        List<Review> reviews = reviewRepository.findAllByWriter(writerId);
         return reviews.stream().map(ReviewDto::from).collect(Collectors.toList());
     }
 
     // 리뷰 조회 by store
-    public List<ReviewDto> findReviewsByStore(Long storeId, Pageable pageable){
-
-        List<Review> reviews = reviewRepository.findAllByStore(storeId,pageable);
+    public List<ReviewDto> findReviewsByStore(Long storeId){
+        List<Review> reviews = reviewRepository.findAllByStore(storeId);
         return reviews.stream().map(ReviewDto::from).collect(Collectors.toList());
     }
 
