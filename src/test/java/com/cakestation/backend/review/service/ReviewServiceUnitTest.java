@@ -53,6 +53,17 @@ class ReviewServiceUnitTest {
     }
 
     @Test
+    void 리뷰_단일_조회() {
+        // given
+        doReturn(Optional.of(reviewEntity())).when(reviewRepository).findById(any());
+        // when
+        ReviewDto reviewDto = reviewService.findReviewById(REVIEW_ID);
+        // then
+        assertEquals(REVIEW_ID,reviewDto.getReviewId());
+
+    }
+
+    @Test
     void 리뷰_조회_BY_작성자() {
         // given
         doReturn(Collections.singletonList(reviewEntity())).when(reviewRepository).findAllByWriter(any(), any());
