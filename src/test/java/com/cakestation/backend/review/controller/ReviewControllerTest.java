@@ -12,7 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -20,6 +19,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+
+import javax.transaction.Transactional;
 
 import static com.cakestation.backend.store.fixture.StoreFixture.STORE_ID;
 import static com.cakestation.backend.store.fixture.StoreFixture.getStoreDto;
@@ -44,8 +45,9 @@ class ReviewControllerTest {
     @Autowired
     private UserService userService;
 
+
     @Test
-    public void 리뷰_등록() throws Exception {
+    public void HTTP_리뷰_등록() throws Exception {
 
         //given
         // 회원 등록
@@ -72,7 +74,7 @@ class ReviewControllerTest {
     }
 
     @Test
-    public void 리뷰_조회_by_작성자() throws Exception {
+    public void HTTP_리뷰_조회_by_작성자() throws Exception {
 
         //given
         // 회원 등록
@@ -99,7 +101,7 @@ class ReviewControllerTest {
     }
 
     @Test
-    public void 리뷰_조회_by_가게() throws Exception {
+    public void HTTP_리뷰_조회_by_가게() throws Exception {
 
         //given
         // 회원 등록
@@ -123,4 +125,30 @@ class ReviewControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
     }
+
+    @Test
+    public void HTTP_리뷰이미지_조회_by_가게() throws Exception {
+
+        //given
+        // 회원 등록
+        userService.join(getKakaoUserDto());
+
+        // 가게 등록
+        storeService.saveStore(getStoreDto());
+
+        // 리뷰 등록
+        CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
+        CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
+        reviewService.saveReview(createReviewDto,getKakaoUserDto().getEmail());
+
+        String uri = String.format("/api/stores/%d/reviewImages",STORE_ID);
+        MvcResult result = mockMvc.perform(
+                        MockMvcRequestBuilders.get(uri)
+                                .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
 }
