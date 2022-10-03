@@ -51,6 +51,15 @@ public class ReviewServiceImpl implements ReviewService {
         return review.getId();
     }
 
+    @Override
+    public ReviewDto findReviewById(Long reviewId) {
+        Review review =
+                reviewRepository.findById(reviewId).orElseThrow(() -> new IdNotFoundException("리뷰 정보를 찾을 수 없습니다"));
+
+        return ReviewDto.from(review);
+
+    }
+
     // 리뷰 조회 by writer
     @Override
     public List<ReviewDto> findReviewsByWriter(Long writerId, Pageable pageable) {
