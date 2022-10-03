@@ -20,8 +20,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import javax.transaction.Transactional;
-
+import static com.cakestation.backend.review.fixture.ReviewFixture.REVIEW_ID;
 import static com.cakestation.backend.store.fixture.StoreFixture.STORE_ID;
 import static com.cakestation.backend.store.fixture.StoreFixture.getStoreDto;
 import static com.cakestation.backend.user.fixture.UserFixture.USER_ID;
@@ -31,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-@TestPropertySource(properties = { "spring.config.location=classpath:application-test.yml" })
+@TestPropertySource(properties = {"spring.config.location=classpath:application-test.yml"})
 class ReviewControllerTest {
 
     @Autowired
@@ -60,9 +59,36 @@ class ReviewControllerTest {
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
         CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
 
-        reviewService.saveReview(createReviewDto,getKakaoUserDto().getEmail());
+        reviewService.saveReview(createReviewDto, getKakaoUserDto().getEmail());
 
-        String uri = String.format("/api/stores/%d/reviews",STORE_ID);
+        String uri = String.format("/api/stores/%d/reviews", STORE_ID);
+
+        MvcResult result = mockMvc.perform(
+                        MockMvcRequestBuilders.get(uri)
+                                .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    public void HTTP_리뷰_단일_조회() throws Exception {
+
+        //given
+        // 회원 등록
+        userService.join(getKakaoUserDto());
+
+        // 가게 등록
+        storeService.saveStore(getStoreDto());
+
+        // 리뷰 등록
+        CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
+        CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
+
+        reviewService.saveReview(createReviewDto, getKakaoUserDto().getEmail());
+
+        String uri = String.format("/api/reviews/%d", REVIEW_ID);
 
         MvcResult result = mockMvc.perform(
                         MockMvcRequestBuilders.get(uri)
@@ -87,9 +113,9 @@ class ReviewControllerTest {
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
         CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
 
-        reviewService.saveReview(createReviewDto,getKakaoUserDto().getEmail());
+        reviewService.saveReview(createReviewDto, getKakaoUserDto().getEmail());
 
-        String uri = String.format("/api/users/%d/reviews",USER_ID);
+        String uri = String.format("/api/users/%d/reviews", USER_ID);
 
         MvcResult result = mockMvc.perform(
                         MockMvcRequestBuilders.get(uri)
@@ -113,9 +139,9 @@ class ReviewControllerTest {
         // 리뷰 등록
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
         CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
-        reviewService.saveReview(createReviewDto,getKakaoUserDto().getEmail());
+        reviewService.saveReview(createReviewDto, getKakaoUserDto().getEmail());
 
-        String uri = String.format("/api/stores/%d/reviews",STORE_ID);
+        String uri = String.format("/api/stores/%d/reviews", STORE_ID);
 
         MvcResult result = mockMvc.perform(
                         MockMvcRequestBuilders.get(uri)
@@ -139,9 +165,9 @@ class ReviewControllerTest {
         // 리뷰 등록
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
         CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
-        reviewService.saveReview(createReviewDto,getKakaoUserDto().getEmail());
+        reviewService.saveReview(createReviewDto, getKakaoUserDto().getEmail());
 
-        String uri = String.format("/api/stores/%d/reviewImages",STORE_ID);
+        String uri = String.format("/api/stores/%d/reviewImages", STORE_ID);
         MvcResult result = mockMvc.perform(
                         MockMvcRequestBuilders.get(uri)
                                 .accept(MediaType.APPLICATION_JSON)

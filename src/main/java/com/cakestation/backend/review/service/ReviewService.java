@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface ReviewService {
     Long saveReview(CreateReviewDto createReviewDto, String currentEmail);
+    ReviewDto findReviewById(Long reviewId);
     List<ReviewDto> findReviewsByWriter(Long writerId, Pageable pageable);
     List<ReviewDto> findReviewsByStore(Long storeId, Pageable pageable);
     void deleteReview(Long reviewId, String currentEmail);

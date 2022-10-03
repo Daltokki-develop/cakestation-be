@@ -6,6 +6,7 @@ import com.cakestation.backend.review.controller.dto.response.ReviewImageRespons
 import com.cakestation.backend.review.controller.dto.response.ReviewResponse;
 import com.cakestation.backend.review.service.ReviewService;
 import com.cakestation.backend.review.service.ReviewServiceImpl;
+import com.cakestation.backend.review.service.dto.ReviewDto;
 import com.cakestation.backend.review.service.dto.ReviewImageDto;
 import com.cakestation.backend.user.service.UtilService;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,15 @@ public class ReviewController {
         Long reviewId = reviewService.saveReview(createReviewRequest.toServiceDto(storeId, createReviewRequest), userEmail);
         return ResponseEntity.ok().body(
                 new ApiResponse<Long>(HttpStatus.CREATED.value(), "리뷰 등록 성공", reviewId));
+    }
+
+    // 리뷰 단일 조회
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/reviews/{reviewId}")
+    public ResponseEntity<ApiResponse<ReviewResponse>> getReview(@PathVariable Long reviewId){
+        ReviewResponse reviewResponse = ReviewResponse.from(reviewService.findReviewById(reviewId));
+        return ResponseEntity.ok().body(
+                new ApiResponse<>(HttpStatus.OK.value(), "리뷰 조회 성공", reviewResponse));
     }
 
     // 리뷰 조회 by writer id
