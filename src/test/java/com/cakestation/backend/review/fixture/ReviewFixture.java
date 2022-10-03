@@ -3,8 +3,14 @@ package com.cakestation.backend.review.fixture;
 import com.cakestation.backend.review.domain.*;
 import com.cakestation.backend.review.controller.dto.request.CreateReviewRequest;
 import com.cakestation.backend.review.service.dto.CreateReviewDto;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +21,8 @@ public class ReviewFixture {
 
     public static Long REVIEW_ID = 1L;
 
-    public static Distance WALKING_DISTANCE = Distance.FIVE; // 도보 거리 (5, 10, 15, 15이상)
-
-    public static List<MultipartFile> IMAGES = new ArrayList<>();
-    public static List<String> IMAGE_URLS = new ArrayList<>(); // 리뷰 사진 url
+    public static List<MultipartFile> IMAGES = List.of();
+    public static List<String> IMAGE_URLS = List.of("abc","def"); // 리뷰 사진 url
 
     public static int CAKE_NUMBER = 1; // 케이크 호수
 
@@ -34,10 +38,19 @@ public class ReviewFixture {
 
     public static String CONTENT = ""; // 내용
 
-    public static CreateReviewRequest getCreateReviewRequest(){
+    public ReviewFixture() throws IOException {
+    }
+
+
+    public static CreateReviewRequest getCreateReviewRequest() throws IOException {
 
         return CreateReviewRequest.builder()
                 .reviewImages(IMAGES)
+//                .reviewImages(List.of(new MockMultipartFile(
+//                        "test.png",
+//                        "test.png",
+//                        "multipart/form-data",
+//                        new FileInputStream("src/test/resources/image/test.png"))))
                 .cakeNumber(CAKE_NUMBER)
                 .sheetType(SHEET_TYPE)
                 .requestOption(REQUEST_OPTION)
@@ -87,4 +100,5 @@ public class ReviewFixture {
         return review;
 
     }
+
 }

@@ -3,7 +3,7 @@ package com.cakestation.backend.review.controller;
 
 import com.cakestation.backend.review.controller.dto.request.CreateReviewRequest;
 import com.cakestation.backend.review.fixture.ReviewFixture;
-import com.cakestation.backend.review.service.ReviewServiceImpl;
+import com.cakestation.backend.review.service.ReviewService;
 import com.cakestation.backend.review.service.dto.CreateReviewDto;
 import com.cakestation.backend.store.service.StoreService;
 import com.cakestation.backend.user.service.UserService;
@@ -20,6 +20,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
+import javax.transaction.Transactional;
+
 import static com.cakestation.backend.store.fixture.StoreFixture.STORE_ID;
 import static com.cakestation.backend.store.fixture.StoreFixture.getStoreDto;
 import static com.cakestation.backend.user.fixture.UserFixture.USER_ID;
@@ -35,7 +37,7 @@ class ReviewControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    private ReviewServiceImpl reviewServiceImpl;
+    private ReviewService reviewService;
 
     @Autowired
     private StoreService storeService;
@@ -43,8 +45,9 @@ class ReviewControllerTest {
     @Autowired
     private UserService userService;
 
+
     @Test
-    public void 리뷰_등록() throws Exception {
+    public void HTTP_리뷰_등록() throws Exception {
 
         //given
         // 회원 등록
@@ -57,7 +60,7 @@ class ReviewControllerTest {
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
         CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
 
-        reviewServiceImpl.saveReview(createReviewDto,getKakaoUserDto().getEmail());
+        reviewService.saveReview(createReviewDto,getKakaoUserDto().getEmail());
 
         String uri = String.format("/api/stores/%d/reviews",STORE_ID);
 
@@ -71,7 +74,7 @@ class ReviewControllerTest {
     }
 
     @Test
-    public void 리뷰_조회_by_작성자() throws Exception {
+    public void HTTP_리뷰_조회_by_작성자() throws Exception {
 
         //given
         // 회원 등록
@@ -84,7 +87,7 @@ class ReviewControllerTest {
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
         CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
 
-        reviewServiceImpl.saveReview(createReviewDto,getKakaoUserDto().getEmail());
+        reviewService.saveReview(createReviewDto,getKakaoUserDto().getEmail());
 
         String uri = String.format("/api/users/%d/reviews",USER_ID);
 
@@ -98,7 +101,7 @@ class ReviewControllerTest {
     }
 
     @Test
-    public void 리뷰_조회_by_가게() throws Exception {
+    public void HTTP_리뷰_조회_by_가게() throws Exception {
 
         //given
         // 회원 등록
@@ -110,7 +113,7 @@ class ReviewControllerTest {
         // 리뷰 등록
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
         CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
-        reviewServiceImpl.saveReview(createReviewDto,getKakaoUserDto().getEmail());
+        reviewService.saveReview(createReviewDto,getKakaoUserDto().getEmail());
 
         String uri = String.format("/api/stores/%d/reviews",STORE_ID);
 
@@ -122,4 +125,30 @@ class ReviewControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
     }
+
+    @Test
+    public void HTTP_리뷰이미지_조회_by_가게() throws Exception {
+
+        //given
+        // 회원 등록
+        userService.join(getKakaoUserDto());
+
+        // 가게 등록
+        storeService.saveStore(getStoreDto());
+
+        // 리뷰 등록
+        CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
+        CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
+        reviewService.saveReview(createReviewDto,getKakaoUserDto().getEmail());
+
+        String uri = String.format("/api/stores/%d/reviewImages",STORE_ID);
+        MvcResult result = mockMvc.perform(
+                        MockMvcRequestBuilders.get(uri)
+                                .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
 }

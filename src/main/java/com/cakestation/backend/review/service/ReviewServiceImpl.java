@@ -10,7 +10,6 @@ import com.cakestation.backend.store.domain.Store;
 import com.cakestation.backend.store.repository.StoreRepository;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.repository.UserRepository;
-import io.jsonwebtoken.lang.Arrays;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @Transactional(readOnly = true)
@@ -83,6 +81,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
     }
 
+    // 가게별 리뷰 이미지 전체 조회
     @Override
     public List<ReviewImageDto> findReviewImagesByStore(Long storeId, Pageable pageable) {
         List<Review> reviews = reviewRepository.findAllByStore(storeId, pageable);
@@ -90,7 +89,7 @@ public class ReviewServiceImpl implements ReviewService {
         List<List<ReviewImageDto>> allReviewImageDto = getAllReviewImageDto(reviews);
 
         List<ReviewImageDto> reviewImageDtoList = new ArrayList<>();
-        for(List<ReviewImageDto> imageDtoList: allReviewImageDto){
+        for (List<ReviewImageDto> imageDtoList : allReviewImageDto) {
             reviewImageDtoList.addAll(imageDtoList);
         }
         return reviewImageDtoList;
