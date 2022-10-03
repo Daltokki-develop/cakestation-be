@@ -9,10 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.PatternMatchUtils;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -37,18 +34,12 @@ public class LoginFilter implements Filter {
         this.kakaoConfig = kakaoConfig;
     }
 
-    @Override
+//    @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException , ServletException{
 
 
         HttpServletRequest httpreq = (HttpServletRequest) req;
         String reqURI = httpreq.getRequestURI();
-        HttpServletResponse httpres = (HttpServletResponse) res;
-        System.out.println(CheckPath(reqURI));
-        System.out.println(reqURI);
-        ((HttpServletResponse) res).setHeader("Access-Control-Allow-Origin", "*");
-        ((HttpServletResponse) res).setHeader("Access-Control-Allow-Methods", "*");
-        ((HttpServletResponse) res).setHeader("Access-Control-Allow-Headers", "*");
 
         try{
             if(CheckPath(reqURI)){
@@ -57,12 +48,14 @@ public class LoginFilter implements Filter {
                 kakaoService.checkAccessToken(findCookie);
             }
             else {
-                //kakao URL인증을 위해 모든 URL을 열어둬야함
+                log.info("검증은 없음");
+                //kakao URL인증을 위해 모든 URL을 열어둬야함x
                 chain.doFilter(req,res);
             }
 
         }
-        catch (Exception e) {
+        catch (Exception e ) {
+            log.info("에러" ,e );
             throw new IdNotFoundException("접근 권한이 없습니다.");
         }
 

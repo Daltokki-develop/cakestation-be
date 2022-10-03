@@ -241,6 +241,7 @@ public class KakaoService {
 
             // 요청에 필요한 Header에 포함될 내용
             conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+            System.out.println("12123123" + access_Token);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
