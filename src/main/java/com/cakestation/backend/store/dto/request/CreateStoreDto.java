@@ -1,6 +1,5 @@
 package com.cakestation.backend.store.dto.request;
 
-
 import com.cakestation.backend.store.domain.Store;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

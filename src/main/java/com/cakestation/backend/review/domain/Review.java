@@ -55,7 +55,7 @@ public class Review extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ReviewTag> tags = new ArrayList<>();
+    private List<ReviewTag> reviewTags = new ArrayList<>();
 
     private String content; // 하고 싶은 말
 
@@ -75,17 +75,17 @@ public class Review extends BaseEntity {
                 .build();
 
         for (Tag tag: createReviewDto.getTags()){
-            review.addTag(tag);
+            review.addReviewTag(tag);
         }
         return review;
     }
 
     // 연관관계 편의 메서드
-    public void addTag(Tag tag){
+    public void addReviewTag(Tag tag){
         ReviewTag reviewTag = ReviewTag.builder()
                 .tag(tag)
                 .build();
-        tags.add(reviewTag);
+        reviewTags.add(reviewTag);
         reviewTag.setReview(this);
     }
 }
