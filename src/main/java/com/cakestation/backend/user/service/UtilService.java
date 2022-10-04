@@ -14,11 +14,13 @@ import com.cakestation.backend.user.repository.UserRepository;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import com.cakestation.backend.user.service.dto.response.TokenDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.security.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UtilService {
@@ -39,8 +41,12 @@ public class UtilService {
         // ->토큰 만료시간과 동일하게 쿠키만료시간 설정하기
         accessToken.setMaxAge(tokenDto.getAccessExpires());
         accessToken.setPath("/");
+//        accessToken.setPath("/localhost");
+
         refreshToken.setMaxAge(tokenDto.getRefreshExpires());
         refreshToken.setPath("/");
+//        refreshToken.setPath("/localhost");
+
 
         cookieMap.put("access", accessToken);
         cookieMap.put("refresh", refreshToken);
@@ -49,8 +55,8 @@ public class UtilService {
     }
 
     public String cookieAccessToken(HttpServletRequest request,String Target){
-
-        String TokenValue = null;
+        log.info("인증 체크 시작");
+                String TokenValue = null;
         Optional<Cookie[]> cookies = Optional.ofNullable(request.getCookies());
         cookies.orElseThrow(()-> new IdNotFoundException("유저정보를 확인할 수 없습니다."));
 
