@@ -1,5 +1,6 @@
 package com.cakestation.backend.user.service;
 
+import com.cakestation.backend.common.handler.exception.IdNotFoundException;
 import com.cakestation.backend.config.KakaoConfig;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import com.cakestation.backend.user.service.dto.response.CheckDto;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Optional;
 
 import static com.cakestation.backend.config.KakaoConfig.*;
 
@@ -241,10 +243,10 @@ public class KakaoService {
 
             // 요청에 필요한 Header에 포함될 내용
             conn.setRequestProperty("Authorization", "Bearer " + access_Token);
-            System.out.println("12123123" + access_Token);
+
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
+            System.out.println("!!!!!" + br);
             String line = "";
             StringBuilder result = new StringBuilder();
 
@@ -252,10 +254,11 @@ public class KakaoService {
                 result.append(line);
             }
 
-            JsonElement element = JsonParser.parseString(result.toString());
+            Optional<JsonElement> element = Optional.ofNullable(JsonParser.parseString(result.toString()));
+            element.orElseThrow(() -> new IdNotFoundException("사용자 정보를 조회할 수 없습니다."));
 
             System.out.println("Element" + element);
-            JsonObject account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+            JsonObject account = element.get().getAsJsonObject().get("kakao_account").getAsJsonObject();
             String username = account.getAsJsonObject().get("profile").getAsJsonObject().get("nickname").getAsString();
             String email = account.getAsJsonObject().get("email").getAsString();
             

@@ -78,6 +78,7 @@ public class UserController {
         response.addCookie((Cookie) cookies.get("refresh"));
 
 
+
 //        response.setHeader("Set-Cookie", cookie.toString());
         Long userId = userService.join(kakaoUserDto);
 
