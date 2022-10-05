@@ -19,7 +19,7 @@ public class LoginFilter implements Filter {
 
     //사용하는 API 적기
     private static final String[] whiteList = {
-            "stores/**"
+            "test/**"
             };
 
     private final KakaoService kakaoService;

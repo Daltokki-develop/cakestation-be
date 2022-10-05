@@ -3,6 +3,7 @@ package com.cakestation.backend.store.controller;
 import com.cakestation.backend.common.ApiResponse;
 import com.cakestation.backend.store.domain.Store;
 import com.cakestation.backend.store.dto.response.StoreResponse;
+import com.cakestation.backend.store.service.StoreDto;
 import com.cakestation.backend.store.service.StoreService;
 import com.cakestation.backend.store.dto.request.CreateStoreDto;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,26 +37,24 @@ public class StoreController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/stores/{storeId}")
     public ResponseEntity<ApiResponse<StoreResponse>> showStore(@PathVariable Long storeId) {
-        Store store = storeService.findStoreById(storeId);
-        StoreResponse response = StoreResponse.from(store);
-        return ResponseEntity.ok().body(new ApiResponse<>(HttpStatus.OK.value(), "가게 조회 성공", response));
+        StoreResponse storeResponse = StoreResponse.from(storeService.findStoreById(storeId));
+        return ResponseEntity.ok().body(new ApiResponse<>(HttpStatus.OK.value(), "가게 조회 성공", storeResponse));
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/stores/all")
-    public ResponseEntity<ApiResponse<Page<StoreResponse>>> showAllStores(@PageableDefault(size = 10, sort = "uploadDate", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Store> storeList = storeService.findAllStores(pageable);
-        Page<StoreResponse> storeResponseList = storeList.map(StoreResponse::from);
+    public ResponseEntity<ApiResponse<List<StoreResponse>>> showAllStores() {
+        List<StoreDto> storeList = storeService.findAllStore();
+        List<StoreResponse> storeResponseList = storeList.stream().map(StoreResponse::from).collect(Collectors.toList());
         return ResponseEntity.ok().body(
                 new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", storeResponseList));
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/stores/search")
-    ResponseEntity<ApiResponse<Page<StoreResponse>>> searchStoresByKeyword(@RequestParam String keyword, @PageableDefault(size = 10, sort = "uploadDate", direction = Sort.Direction.DESC) Pageable pageable) {
-
-        Page<Store> storeList = storeService.searchStoresByKeyword(keyword, pageable);
-        Page<StoreResponse> storeResponseList = storeList.map(StoreResponse::from);
+    ResponseEntity<ApiResponse<List<StoreResponse>>> searchStoresByKeyword(@RequestParam String keyword, @PageableDefault(size = 10, sort = "createdDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
+        List<StoreResponse> storeResponseList = storeService.searchStoresByKeyword(keyword, pageable)
+                .stream().map(StoreResponse::from).collect(Collectors.toList());
         return ResponseEntity.ok().body(
                 new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", storeResponseList));
     }

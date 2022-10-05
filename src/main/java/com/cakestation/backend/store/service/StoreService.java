@@ -1,7 +1,10 @@
 package com.cakestation.backend.store.service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.cakestation.backend.common.handler.exception.IdNotFoundException;
 import com.cakestation.backend.store.domain.Store;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.store.repository.StoreRepository;
@@ -24,25 +27,23 @@ public class StoreService {
     public Long saveStore(CreateStoreDto createStoreDto) {
         //TODO user id 가져오도록 수정
         Long userId = 1L;
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findById(userId).orElseThrow(()-> new IdNotFoundException("사용자를 찾을 수 없습니다."));
         Store store = Store.createStore(user, createStoreDto);
         return storeRepository.save(store).getId();
     }
 
-    public Store findStoreById(Long storeId) {
-        Optional<Store> storeOptional = storeRepository.findById(storeId);
-        if (storeOptional.isEmpty()) {
-            // error
-            System.out.println("error!");
-        }
-        return storeOptional.get();
+    public StoreDto findStoreById(Long storeId) {
+        Store store = storeRepository.findById(storeId).orElseThrow(()-> new IdNotFoundException("가게를 찾을 수 없습니다."));
+        return StoreDto.from(store);
     }
 
-    public Page<Store> findAllStores(Pageable pageable) {
-        return storeRepository.findAll(pageable);
+    public List<StoreDto> findAllStore() {
+        List<Store> stores = storeRepository.findAll();
+        return stores.stream().map(StoreDto::from).collect(Collectors.toList());
     }
 
-    public Page<Store> searchStoresByKeyword(String keyword, Pageable pageable) {
-        return storeRepository.findStoresByStoreName(pageable, keyword);
+    public List<StoreDto> searchStoresByKeyword(String keyword, Pageable pageable) {
+        List<Store> stores = storeRepository.findAllByNameContains(keyword, pageable);
+        return stores.stream().map(StoreDto::from).collect(Collectors.toList());
     }
 }

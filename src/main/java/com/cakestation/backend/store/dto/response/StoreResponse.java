@@ -1,38 +1,38 @@
 package com.cakestation.backend.store.dto.response;
 
 import com.cakestation.backend.store.domain.Store;
+import com.cakestation.backend.store.service.StoreDto;
 import lombok.*;
+
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Getter
 public class StoreResponse {
+    private Long storeId;
     private String name;
-
     private String address;
-
     private String businessHours;
-
     private String phone;
-
-    private String photoUrl;
-
+    private List<String> imageUrls;
     private String webpageUrl;
-
     private String kakaoMapUrl;
-
     private Double score;
+    private int reviewNum;
 
-    public static StoreResponse from(Store store){
+    public static StoreResponse from(StoreDto storeDto){
         return StoreResponse.builder()
-                .name(store.getName())
-                .address(store.getAddress())
-                .businessHours(store.getBusinessHours())
-                .phone(store.getPhone())
-                .photoUrl(store.getPhotoUrl())
-                .webpageUrl(store.getWebpageUrl())
-                .kakaoMapUrl(store.getKakaoMapUrl())
+                .storeId(storeDto.getStoreId())
+                .name(storeDto.getName())
+                .address(storeDto.getAddress())
+                .businessHours(storeDto.getBusinessHours())
+                .phone(storeDto.getPhone())
+                .imageUrls(storeDto.getImageUrls())
+                .webpageUrl(storeDto.getWebpageUrl())
+                .kakaoMapUrl(storeDto.getKakaoMapUrl())
+                .reviewNum(storeDto.getReviewNum())
                 .build();
     }
 }
