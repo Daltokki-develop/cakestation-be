@@ -12,6 +12,7 @@ import lombok.AccessLevel;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +24,8 @@ import java.util.List;
 @Builder
 public class Store extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_id")
     private Long id;
 
@@ -44,7 +46,12 @@ public class Store extends BaseEntity {
 
     private String phone;
 
-    private String photoUrl;
+    @Builder.Default
+    @ElementCollection
+    @CollectionTable(name = "store_image", joinColumns =
+    @JoinColumn(name = "store_id"))
+    @Column(name = "image_url")
+    private List<String> imageUrls = new ArrayList<>();
 
     private String webpageUrl;
 
@@ -56,23 +63,23 @@ public class Store extends BaseEntity {
 
     private Integer numOfReviews;
 
-    // fetch 전략은 기본이 LAZY이며, 필요에 따라 EAGER로 바꿈
-    @OneToMany(mappedBy = "store") // , fetch = FetchType.EAGER)
-    private List<Review> reviews;
+    @Builder.Default
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
 
-    public static Store createStore(User user, CreateStoreDto createStoreDto){
+    public static Store createStore(User user, CreateStoreDto createStoreDto) {
         return Store.builder()
                 .user(user)
                 .name(createStoreDto.getName())
                 .address(createStoreDto.getAddress())
                 .businessHours(createStoreDto.getBusinessHours())
                 .phone(createStoreDto.getPhone())
-                .photoUrl(createStoreDto.getPhotoUrl())
+                .imageUrls(createStoreDto.getImageUrls())
                 .webpageUrl(createStoreDto.getWebpageUrl())
                 .kakaoMapUrl(createStoreDto.getKakaoMapUrl())
                 .score(0.0)
                 .numOfPhoto(0)
                 .numOfReviews(0)
                 .build();
-        }
+    }
 }

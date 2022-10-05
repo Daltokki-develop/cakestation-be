@@ -1,12 +1,13 @@
 package com.cakestation.backend.store.dto.request;
 
-
 import com.cakestation.backend.store.domain.Store;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.AccessLevel;
+
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -21,7 +22,7 @@ public class CreateStoreDto {
 
     private String phone;
 
-    private String photoUrl;
+    private List<String> imageUrls;
 
     private String webpageUrl;
 
@@ -35,7 +36,7 @@ public class CreateStoreDto {
                 .address(createStoreDto.getAddress())
                 .businessHours(createStoreDto.getBusinessHours())
                 .phone(createStoreDto.getPhone())
-                .photoUrl(createStoreDto.getPhotoUrl())
+                .imageUrls(createStoreDto.getImageUrls())
                 .webpageUrl(createStoreDto.getWebpageUrl())
                 .kakaoMapUrl(createStoreDto.getKakaoMapUrl())
                 .build();

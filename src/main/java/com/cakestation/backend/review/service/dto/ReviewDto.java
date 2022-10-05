@@ -3,10 +3,8 @@ package com.cakestation.backend.review.service.dto;
 import com.cakestation.backend.review.domain.Review;
 import com.cakestation.backend.review.domain.ReviewTag;
 import com.cakestation.backend.review.domain.Tag;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,7 +29,7 @@ public class ReviewDto {
 
     public static ReviewDto from(Review review){
 
-        List<Tag> tagList = review.getTags().stream().map(
+        List<Tag> tagList = review.getReviewTags().stream().map(
                 ReviewTag::getTag
         ).collect(Collectors.toList());
 

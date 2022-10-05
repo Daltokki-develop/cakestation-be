@@ -10,8 +10,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static com.cakestation.backend.review.fixture.ReviewFixture.reviewEntity;
 import static com.cakestation.backend.store.fixture.StoreFixture.STORE_ID;
+import static com.cakestation.backend.store.fixture.StoreFixture.storeEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,15 +34,12 @@ class StoreServiceUnitTest {
     @Test
     public void 가게_조회() {
         // given
-        Store mockedStore = Store.builder()
-                .id(STORE_ID)
-                .build();
-        when(storeRepository.findById(STORE_ID)).thenReturn(Optional.ofNullable(mockedStore));
+        doReturn(Optional.of(storeEntity())).when(storeRepository).findById(any());
 
         // when
-        Store store = storeService.findStoreById(STORE_ID);
+        StoreDto store = storeService.findStoreById(STORE_ID);
 
         // then
-        assertEquals(store, mockedStore);
+        assertEquals(store.getStoreId(),STORE_ID);
     }
 }

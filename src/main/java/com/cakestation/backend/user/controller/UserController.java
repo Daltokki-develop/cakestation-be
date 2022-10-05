@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,20 +63,30 @@ public class UserController {
 
 
     //"login" API에서 redirect된 URL에서 Code parameter를 추출하여 아래 메서드를 실행하여 유저정보를 저장및 토큰을 쿠키로 보내준다.
-    @GetMapping("/api/oauth/kakao")
+    @GetMapping("/api/oauth")
     public ResponseEntity KakaoCallback(@RequestParam String code, HttpServletResponse response) {
         System.out.println("::::::::::::: /oauth/kakao 컨트롤러 동작 확인");
         KakaoUserDto kakaoUserDto = null;
 
         //Token획득 메드 호출
         TokenDto tokenDto = kakaoService.getKaKaoAccessToken(code);
+        System.out.println("token 존재 여부:"+tokenDto.getAccessToken());
+
         //얻은 토큰을 통한 유저정보 조회 및 저장
         kakaoUserDto = kakaoService.getUserInfo(tokenDto.getAccessToken());
 
         HashMap cookies = utilService.makeCookie(tokenDto);
-        response.addCookie((Cookie) cookies.get("access"));
+//        response.addCookie((Cookie) cookies.get("access"));
         response.addCookie((Cookie) cookies.get("refresh"));
 
+
+        ResponseCookie cookie = ResponseCookie.from("Authorization", tokenDto.getAccessToken())
+//                .secure(true)
+                .sameSite("Lax")
+                .secure(false)
+                .path("/")
+                .build();
+        response.setHeader("Set-Cookie", cookie.toString());
         Long userId = userService.join(kakaoUserDto);
 
         return new ResponseEntity<>(new ApiResponse(200, "로그인 성공", userId), HttpStatus.OK);

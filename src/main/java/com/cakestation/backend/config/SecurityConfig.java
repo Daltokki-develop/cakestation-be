@@ -66,9 +66,6 @@ public class SecurityConfig {
 
                 .authorizeRequests()
                 .anyRequest().permitAll()
-
-                .and()
-                .cors()
         ;
 
         return http.build();
@@ -85,7 +82,7 @@ public class SecurityConfig {
 
         configuration.setAllowedOriginPatterns(List.of("*"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","PATCH","OPTIONS","DELETE"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

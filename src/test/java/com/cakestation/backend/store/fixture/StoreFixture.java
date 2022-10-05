@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 public class StoreFixture {
 
@@ -21,7 +22,7 @@ public class StoreFixture {
 
     public static String PHONE = "010-1111-2222";
 
-    public static String PHOTO_URL = "abcd";
+    public static List<String> IMAGE_URLS = List.of("aa","bb");
 
     public static String WEBPAGE_URL = "sflsdkfjlsdf";
 
@@ -44,7 +45,7 @@ public class StoreFixture {
                 .address(ADDRESS)
                 .businessHours(BUSINESS_HOURS)
                 .phone(PHONE)
-                .photoUrl(PHOTO_URL)
+                .imageUrls(IMAGE_URLS)
                 .webpageUrl(WEBPAGE_URL)
                 .kakaoMapUrl(KAKAOMAP_URL)
                 .score(SCORE)
@@ -59,7 +60,7 @@ public class StoreFixture {
                 .address(ADDRESS)
                 .businessHours(BUSINESS_HOURS)
                 .phone(PHONE)
-                .photoUrl(PHOTO_URL)
+                .imageUrls(IMAGE_URLS)
                 .webpageUrl(WEBPAGE_URL)
                 .kakaoMapUrl(KAKAOMAP_URL)
                 .score(SCORE)

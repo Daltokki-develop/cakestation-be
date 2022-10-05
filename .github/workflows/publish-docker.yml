@@ -31,9 +31,7 @@ jobs:
 
       - name: Add application-test.yml file
         run: |
-          cd ./src/test
-          mkdir resources
-          cd ./resources
+          cd ./src/test/resources
           touch ./application-test.yml
           echo "${{secrets.APPLICATION_TEST}}" > ./application-test.yml
         shell: bash
