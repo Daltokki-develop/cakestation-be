@@ -76,12 +76,16 @@ public class UserController {
         kakaoUserDto = kakaoService.getUserInfo(tokenDto.getAccessToken());
 
         HashMap cookies = utilService.makeCookie(tokenDto);
-        response.addCookie((Cookie) cookies.get("access"));
+//        response.addCookie((Cookie) cookies.get("access"));
         response.addCookie((Cookie) cookies.get("refresh"));
 
 
-
-//        response.setHeader("Set-Cookie", cookie.toString());
+        ResponseCookie cookie = ResponseCookie.from("Authorization", tokenDto.getAccessToken())
+                .sameSite("None")
+                .secure(false)
+                .path("/")
+                .build();
+        response.setHeader("Set-Cookie", cookie.toString());
         Long userId = userService.join(kakaoUserDto);
 
         return new ResponseEntity<>(new ApiResponse(200, "로그인 성공", userId), HttpStatus.OK);
