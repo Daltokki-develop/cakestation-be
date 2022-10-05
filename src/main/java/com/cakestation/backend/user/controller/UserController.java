@@ -81,8 +81,8 @@ public class UserController {
 
 
         ResponseCookie cookie = ResponseCookie.from("Authorization", tokenDto.getAccessToken())
-                .secure(true)
-                .sameSite("None")
+//                .secure(true)
+                .sameSite("Lax")
                 .secure(false)
                 .path("/")
                 .build();
