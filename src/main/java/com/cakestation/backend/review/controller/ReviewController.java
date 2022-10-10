@@ -78,6 +78,16 @@ public class ReviewController {
         );
     }
 
+    // 리뷰 별점 평균 조회 by store
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/stores/{storeId}/reviews/avg")
+    public ResponseEntity<ApiResponse<Double>> getReviewsByStore(@PathVariable Long storeId) {
+        Double avg = reviewService.findReviewAvgByStore(storeId);
+        return ResponseEntity.ok().body(
+                new ApiResponse<>(HttpStatus.OK.value(), "리뷰 별점 평균 조회 성공", avg)
+        );
+    }
+
     // 리뷰 삭제
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/reviews/{reviewId}")

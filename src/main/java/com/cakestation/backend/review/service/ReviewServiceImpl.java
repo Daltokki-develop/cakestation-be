@@ -75,6 +75,15 @@ public class ReviewServiceImpl implements ReviewService {
         return reviews.stream().map(ReviewDto::from).collect(Collectors.toList());
     }
 
+    // 리뷰 별점 평균 조회 by store
+    @Override
+    public Double findReviewAvgByStore(Long storeId) {
+        return reviewRepository.findAverageByStore(storeId).orElseThrow(
+                () -> new IdNotFoundException("가게 정보를 찾을 수 없습니다.")
+        );
+    }
+
+
     // 리뷰 삭제
     @Override
     @Transactional
