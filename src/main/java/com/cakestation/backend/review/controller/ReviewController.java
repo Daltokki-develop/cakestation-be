@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,7 +57,7 @@ public class ReviewController {
     @GetMapping("/users/{writerId}/reviews")
     public ResponseEntity<ApiResponse<List<ReviewResponse>>> getReviewsByWriter(
             @PathVariable Long writerId,
-            @PageableDefault(size = 10, sort = "createdDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(size = 30, sort = {"createdDateTime", "score"}, direction = Sort.Direction.DESC) Pageable pageable) {
 
         List<ReviewResponse> reviews = reviewService.findReviewsByWriter(writerId, pageable)
                 .stream().map(ReviewResponse::from).collect(Collectors.toList());

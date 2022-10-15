@@ -17,6 +17,7 @@ public class ReviewResponse {
     private Long reviewId;
     private String username;
     private int cakeNumber;
+    private int score;
     private String sheetType;
     private String requestOption;
     private List<String> reviewImages;
@@ -32,6 +33,7 @@ public class ReviewResponse {
                 .reviewId(reviewDto.getReviewId())
                 .username(reviewDto.getUsername())
                 .cakeNumber(reviewDto.getCakeNumber())
+                .score(reviewDto.getScore())
                 .sheetType(reviewDto.getSheetType())
                 .requestOption(reviewDto.getRequestOption())
                 .reviewImages(reviewDto.getReviewImages())
