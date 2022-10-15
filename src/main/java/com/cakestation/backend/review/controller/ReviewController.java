@@ -71,7 +71,7 @@ public class ReviewController {
     @GetMapping("/stores/{storeId}/reviews")
     public ResponseEntity<ApiResponse<List<ReviewResponse>>> getReviewsByStore(
             @PathVariable Long storeId,
-            @PageableDefault(size = 10, sort = "createdDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(size = 30, sort = {"createdDateTime", "score"}, direction = Sort.Direction.DESC) Pageable pageable) {
         List<ReviewResponse> reviews = reviewService.findReviewsByStore(storeId, pageable)
                 .stream().map(ReviewResponse::from).collect(Collectors.toList());
         return ResponseEntity.ok().body(
