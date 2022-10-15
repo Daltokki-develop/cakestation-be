@@ -1,5 +1,6 @@
 package com.cakestation.backend.config;
 
+//import com.cakestation.backend.common.Filter.Filter;
 import com.cakestation.backend.common.Filter.LoginFilter;
 import com.cakestation.backend.user.service.KakaoService;
 import com.cakestation.backend.user.service.UtilService;
@@ -22,6 +23,7 @@ public class WebConfig {
 
     @Bean
     public FilterRegistrationBean<LoginFilter> logFilter() {
+    
         FilterRegistrationBean<LoginFilter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setFilter(new LoginFilter(kakaoService, utilService, kakaoConfig));
         filterRegistrationBean.setOrder(1);
