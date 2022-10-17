@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import com.cakestation.backend.common.handler.exception.IdNotFoundException;
 import com.cakestation.backend.store.domain.Store;
+import com.cakestation.backend.store.domain.User_Store;
+import com.cakestation.backend.store.repository.User_StoreRepository;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.store.repository.StoreRepository;
 import com.cakestation.backend.user.repository.UserRepository;
@@ -22,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class StoreService {
     private final StoreRepository storeRepository;
     private final UserRepository userRepository;
+
+    private final User_StoreRepository user_storeRepository;
 
     @Transactional
     public Long saveStore(CreateStoreDto createStoreDto) {
@@ -46,4 +50,20 @@ public class StoreService {
         List<Store> stores = storeRepository.findAllByNameContains(keyword, pageable);
         return stores.stream().map(StoreDto::from).collect(Collectors.toList());
     }
+
+//    public Store likeStore(Long storeId, String userEmail){
+//
+//        // 가게 찾기
+//        Optional<Store> likeStore = storeRepository.findById(storeId);
+//        likeStore.orElseThrow(() -> new IdNotFoundException("존재하지 않는 가게입니다."));
+//
+//        // 유저 찾기
+//        Optional<User> targetUser = userRepository.findUserByEmail(userEmail);
+//        targetUser.orElseThrow(() -> new IdNotFoundException("유저 정보가 잘못되었습니다."));
+//
+//        // user_store 조인테이블에 값 입력
+//        user_storeRepository.
+//
+//        return Store;
+//    }
 }

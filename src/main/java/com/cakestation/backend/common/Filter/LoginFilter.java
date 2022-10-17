@@ -39,13 +39,14 @@ public class LoginFilter implements Filter {
 
 
         HttpServletRequest httpreq = (HttpServletRequest) req;
+        String AccessToken = httpreq.getHeader("Authorization");
         String reqURI = httpreq.getRequestURI();
 
         try{
             if(CheckPath(reqURI)){
                 log.info("인증 체크 시작" , reqURI);
-                String findCookie = utilService.cookieAccessToken(httpreq, "Authorization");
-                kakaoService.checkAccessToken(findCookie);
+//                String findToken = utilService.cookieAccessToken(httpreq, "Authorization");
+                kakaoService.checkAccessToken(AccessToken);
             }
             else {
                 log.info("검증은 없음");

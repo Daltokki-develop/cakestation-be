@@ -59,4 +59,13 @@ public class StoreController {
                 new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", storeResponseList));
     }
 
+//    @ResponseStatus(HttpStatus.OK)
+//    @PostMapping("/stores")
+//    public ResponseEntity<ApiResponse<StoreResponse>> likeStore(@RequestParam String storeId){
+//
+//
+//
+//        return ResponseEntity.ok().body(
+//                new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", "좋아요한 가게"));
+//    }
 }

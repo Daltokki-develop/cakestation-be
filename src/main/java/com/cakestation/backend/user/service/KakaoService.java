@@ -58,11 +58,9 @@ public class KakaoService {
             while ((line = br.readLine()) != null) {
                 result.append(line);
             }
-            System.out.println("response body : " + result);
 
             //Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
             JsonElement element = JsonParser.parseString(result.toString());
-            System.out.println(element);
 
             tokenDto = TokenDto.builder()
                     .accessToken(element.getAsJsonObject().get("access_token").getAsString())
@@ -246,7 +244,6 @@ public class KakaoService {
 
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            System.out.println("!!!!!" + br);
             String line = "";
             StringBuilder result = new StringBuilder();
 
@@ -257,7 +254,6 @@ public class KakaoService {
             Optional<JsonElement> element = Optional.ofNullable(JsonParser.parseString(result.toString()));
             element.orElseThrow(() -> new IdNotFoundException("사용자 정보를 조회할 수 없습니다."));
 
-            System.out.println("Element" + element);
             JsonObject account = element.get().getAsJsonObject().get("kakao_account").getAsJsonObject();
             String username = account.getAsJsonObject().get("profile").getAsJsonObject().get("nickname").getAsString();
             String email = account.getAsJsonObject().get("email").getAsString();
