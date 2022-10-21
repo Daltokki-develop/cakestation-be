@@ -5,9 +5,6 @@ import com.cakestation.backend.review.controller.dto.request.CreateReviewRequest
 import com.cakestation.backend.review.controller.dto.response.ReviewImageResponse;
 import com.cakestation.backend.review.controller.dto.response.ReviewResponse;
 import com.cakestation.backend.review.service.ReviewService;
-import com.cakestation.backend.review.service.ReviewServiceImpl;
-import com.cakestation.backend.review.service.dto.ReviewDto;
-import com.cakestation.backend.review.service.dto.ReviewImageDto;
 import com.cakestation.backend.user.service.UtilService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 

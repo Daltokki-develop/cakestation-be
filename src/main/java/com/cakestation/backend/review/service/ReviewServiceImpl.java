@@ -63,7 +63,7 @@ public class ReviewServiceImpl implements ReviewService {
     // 리뷰 조회 by writer
     @Override
     public List<ReviewDto> findReviewsByWriter(Long writerId, Pageable pageable) {
-        List<Review> reviews = reviewRepository.findAllByWriter(writerId, pageable);
+        List<Review> reviews = reviewRepository.findAllByWriterWithPaging(writerId, pageable);
         return reviews.stream().map(ReviewDto::from).collect(Collectors.toList());
     }
 
@@ -71,7 +71,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<ReviewDto> findReviewsByStore(Long storeId, Pageable pageable) {
 
-        List<Review> reviews = reviewRepository.findAllByStore(storeId, pageable);
+        List<Review> reviews = reviewRepository.findAllByStoreWithPaging(storeId, pageable);
         return reviews.stream().map(ReviewDto::from).collect(Collectors.toList());
     }
 
@@ -102,7 +102,7 @@ public class ReviewServiceImpl implements ReviewService {
     // 가게별 리뷰 이미지 전체 조회
     @Override
     public List<ReviewImageDto> findReviewImagesByStore(Long storeId, Pageable pageable) {
-        List<Review> reviews = reviewRepository.findAllByStore(storeId, pageable);
+        List<Review> reviews = reviewRepository.findAllByStoreWithPaging(storeId, pageable);
 
         return collectReviewImageDto(reviews);
     }
@@ -110,7 +110,7 @@ public class ReviewServiceImpl implements ReviewService {
     // 사용자별 리뷰 이미지 전체 조회
     @Override
     public List<ReviewImageDto> findReviewImagesByUser(Long userId, Pageable pageable) {
-        List<Review> reviews = reviewRepository.findAllByWriter(userId, pageable);
+        List<Review> reviews = reviewRepository.findAllByWriterWithPaging(userId, pageable);
 
         return collectReviewImageDto(reviews);
     }
