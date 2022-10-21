@@ -104,6 +104,18 @@ public class ReviewServiceImpl implements ReviewService {
     public List<ReviewImageDto> findReviewImagesByStore(Long storeId, Pageable pageable) {
         List<Review> reviews = reviewRepository.findAllByStore(storeId, pageable);
 
+        return collectReviewImageDto(reviews);
+    }
+
+    // 사용자별 리뷰 이미지 전체 조회
+    @Override
+    public List<ReviewImageDto> findReviewImagesByUser(Long userId, Pageable pageable) {
+        List<Review> reviews = reviewRepository.findAllByWriter(userId, pageable);
+
+        return collectReviewImageDto(reviews);
+    }
+
+    private List<ReviewImageDto> collectReviewImageDto(List<Review> reviews) {
         List<List<ReviewImageDto>> allReviewImageDto = getAllReviewImageDto(reviews);
 
         List<ReviewImageDto> reviewImageDtoList = new ArrayList<>();
