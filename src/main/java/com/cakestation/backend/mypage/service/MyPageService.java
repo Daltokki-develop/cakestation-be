@@ -4,7 +4,6 @@ import com.cakestation.backend.common.handler.exception.IdNotFoundException;
 import com.cakestation.backend.mypage.service.dto.MyPageDto;
 import com.cakestation.backend.review.domain.Review;
 import com.cakestation.backend.review.repository.ReviewRepository;
-import com.cakestation.backend.review.service.ReviewService;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 @Service
