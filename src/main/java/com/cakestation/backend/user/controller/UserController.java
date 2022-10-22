@@ -1,6 +1,7 @@
 package com.cakestation.backend.user.controller;
 
 import com.cakestation.backend.common.ApiResponse;
+import com.cakestation.backend.config.JwtProperties;
 import com.cakestation.backend.config.KakaoConfig;
 import com.cakestation.backend.user.service.KakaoService;
 import com.cakestation.backend.user.service.UserService;
@@ -15,16 +16,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class UserController {
     private final KakaoService kakaoService;
     private final UserService userService;
@@ -34,45 +35,31 @@ public class UserController {
 
     private final KakaoConfig kakaoConfig;
 
-    @GetMapping("/stores/test")
-    public ResponseEntity getEmail(HttpServletRequest request) throws Exception {
+    @GetMapping("/email")
+    public ResponseEntity getEmail(@RequestHeader("Authorization") String token) throws Exception {
 
-        String email = utilService.getCurrentUserEmail(request);
+        String email = utilService.getCurrentUserEmail(token);
 
 //        int test = utilService.makeNickName(request);
         System.out.println(email);
-        return new ResponseEntity<>(new ApiResponse(200, "이메일 획득", email), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse<>(200, "이메일 획득", email), HttpStatus.OK);
     }
 
 
     //"login" API에서 redirect된 URL에서 Code parameter를 추출하여 아래 메서드를 실행하여 유저정보를 저장및 토큰을 쿠키로 보내준다.
-    @GetMapping("/api/oauth")
+    @GetMapping("/oauth")
     public ResponseEntity KakaoCallback(@RequestParam String code) {
-
-        KakaoUserDto kakaoUserDto = null;
 
         //Token획득 메드 호출
         TokenDto tokenDto = kakaoService.getKaKaoAccessToken(code);
 
 
         //얻은 토큰을 통한 유저정보 조회 및 저장
-        kakaoUserDto = kakaoService.getUserInfo(tokenDto.getAccessToken());
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + tokenDto.getAccessToken());
 
-//        HashMap cookies = utilService.makeCookie(tokenDto);
-//        response.addCookie((Cookie) cookies.get("access"));
-//        response.addCookie((Cookie) cookies.get("refresh"));
-//
-//
-//        ResponseCookie cookie = ResponseCookie.from("Authorization", tokenDto.getAccessToken())
-////                .secure(true)
-//                .sameSite("Lax")
-//                .secure(false)
-//                .path("/")
-//                .build();
-//        response.setHeader("Set-Cookie", cookie.toString());
-//        Long userId = userService.join(kakaoUserDto);
-
-        return new ResponseEntity<>(new ApiResponse(200, "로그인 성공", tokenDto.getAccessToken()), HttpStatus.OK);
+        return new ResponseEntity<>(
+                new ApiResponse<>(200, "로그인 성공", tokenDto.getAccessToken()), httpHeaders, HttpStatus.OK);
     }
 
     //로그아웃

@@ -81,19 +81,9 @@ public class UtilService {
         return TokenValue;
     }
 
-    public String getCurrentUserEmail(HttpServletRequest request){
-
-        String accessToken=request.getHeader("Authorization");;
-        System.out.println(accessToken);
-//        Cookie [] cookies = request.getCookies();
-//        if(cookies != null){
-//           accessToken = this.cookieAccessToken(request, "Authorization");
-//        }
-//        else{
-//            throw new IdNotFoundException("사용자를 식별할 수 없습니다.");
-//        }
-
+    public String getCurrentUserEmail(String token){
         try{
+            String accessToken = token.replace("Bearer ", "");
             KakaoUserDto userDto = kakaoService.getUserInfo(accessToken);
             return userDto.getEmail();
         }catch (Exception e){

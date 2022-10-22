@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,11 +28,11 @@ public class ReviewController {
     // 리뷰 등록
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/stores/{storeId}/reviews")
-    public ResponseEntity<ApiResponse<Long>> uploadReview(@PathVariable Long storeId,
-                                                          @ModelAttribute CreateReviewRequest createReviewRequest,
-                                                          HttpServletRequest req) {
+    public ResponseEntity<ApiResponse<Long>> uploadReview(@RequestHeader("Authorization") String token,
+                                                          @PathVariable Long storeId,
+                                                          @ModelAttribute CreateReviewRequest createReviewRequest) {
 
-        String userEmail = utilService.getCurrentUserEmail(req);
+        String userEmail = utilService.getCurrentUserEmail(token);
         Long reviewId = reviewService.saveReview(createReviewRequest.toServiceDto(storeId, createReviewRequest), userEmail);
         return ResponseEntity.ok().body(
                 new ApiResponse<Long>(HttpStatus.CREATED.value(), "리뷰 등록 성공", reviewId));
@@ -42,7 +41,7 @@ public class ReviewController {
     // 리뷰 단일 조회
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/reviews/{reviewId}")
-    public ResponseEntity<ApiResponse<ReviewResponse>> getReview(@PathVariable Long reviewId){
+    public ResponseEntity<ApiResponse<ReviewResponse>> getReview(@PathVariable Long reviewId) {
         ReviewResponse reviewResponse = ReviewResponse.from(reviewService.findReviewById(reviewId));
         return ResponseEntity.ok().body(
                 new ApiResponse<>(HttpStatus.OK.value(), "리뷰 조회 성공", reviewResponse));
@@ -52,10 +51,10 @@ public class ReviewController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/users/{userId}/reviews")
     public ResponseEntity<ApiResponse<List<ReviewResponse>>> getReviewsByWriter(
-            @PathVariable Long writerId,
+            @PathVariable Long userId,
             @PageableDefault(size = 30, sort = {"createdDateTime", "score"}, direction = Sort.Direction.DESC) Pageable pageable) {
 
-        List<ReviewResponse> reviews = reviewService.findReviewsByWriter(writerId, pageable)
+        List<ReviewResponse> reviews = reviewService.findReviewsByWriter(userId, pageable)
                 .stream().map(ReviewResponse::from).collect(Collectors.toList());
         return ResponseEntity.ok().body(
                 new ApiResponse<>(HttpStatus.OK.value(), "리뷰 조회 성공", reviews)
@@ -88,8 +87,8 @@ public class ReviewController {
     // 리뷰 삭제
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/reviews/{reviewId}")
-    public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId, HttpServletRequest req) {
-        String email = utilService.getCurrentUserEmail(req);
+    public ResponseEntity<Void> deleteReview(@RequestHeader("Authorization") String token, @PathVariable Long reviewId) {
+        String email = utilService.getCurrentUserEmail(token);
         reviewService.deleteReview(reviewId, email);
         return ResponseEntity.noContent().build();
     }
@@ -98,7 +97,7 @@ public class ReviewController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/stores/{storeId}/reviews/image")
     public ResponseEntity<ApiResponse<List<ReviewImageResponse>>> getReviewImagesByStore(
-            @PathVariable Long storeId, Pageable pageable){
+            @PathVariable Long storeId, Pageable pageable) {
         List<ReviewImageResponse> reviewImages = reviewService.findReviewImagesByStore(storeId, pageable)
                 .stream().map(ReviewImageResponse::from).collect(Collectors.toList());
 
@@ -111,7 +110,7 @@ public class ReviewController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/users/{userId}/reviews/image")
     public ResponseEntity<ApiResponse<List<ReviewImageResponse>>> getReviewImagesByUser(
-            @PathVariable Long userId, Pageable pageable){
+            @PathVariable Long userId, Pageable pageable) {
         List<ReviewImageResponse> reviewImages = reviewService.findReviewImagesByUser(userId, pageable)
                 .stream().map(ReviewImageResponse::from).collect(Collectors.toList());
 
