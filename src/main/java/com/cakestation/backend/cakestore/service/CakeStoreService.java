@@ -3,7 +3,7 @@ package com.cakestation.backend.cakestore.service;
 import com.cakestation.backend.common.handler.exception.IdNotFoundException;
 import com.cakestation.backend.cakestore.domain.CakeStore;
 import com.cakestation.backend.cakestore.repository.User_StoreRepository;
-import com.cakestation.backend.cakestore.repository.StoreRepository;
+import com.cakestation.backend.cakestore.repository.CakeStoreRepository;
 import com.cakestation.backend.cakestore.service.dto.CakeStoreDto;
 import com.cakestation.backend.cakestore.service.dto.CreateCakeStoreDto;
 import com.cakestation.backend.user.domain.User;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CakeStoreService {
-    private final StoreRepository storeRepository;
+    private final CakeStoreRepository cakeStoreRepository;
     private final UserRepository userRepository;
 
     private final User_StoreRepository user_storeRepository;
@@ -28,31 +28,31 @@ public class CakeStoreService {
     @Transactional
     public Long saveStore(CreateCakeStoreDto createStoreDto) {
         CakeStore store = CakeStore.createCakeStore(createStoreDto);
-        return storeRepository.save(store).getId();
+        return cakeStoreRepository.save(store).getId();
     }
 
     public CakeStoreDto findStoreById(Long storeId) {
-        CakeStore store = storeRepository.findById(storeId).orElseThrow(() -> new IdNotFoundException("가게를 찾을 수 없습니다."));
+        CakeStore store = cakeStoreRepository.findById(storeId).orElseThrow(() -> new IdNotFoundException("가게를 찾을 수 없습니다."));
         return CakeStoreDto.from(store);
     }
 
     public List<CakeStoreDto> findAllStore() {
-        return storeRepository.findAll().stream().map(CakeStoreDto::from).collect(Collectors.toList());
+        return cakeStoreRepository.findAll().stream().map(CakeStoreDto::from).collect(Collectors.toList());
     }
 
     public List<CakeStoreDto> searchStoresByKeyword(String keyword, Pageable pageable) {
-        List<CakeStore> stores = storeRepository.findAllByNameContains(keyword, pageable);
+        List<CakeStore> stores = cakeStoreRepository.findAllByNameContains(keyword, pageable);
         return stores.stream().map(CakeStoreDto::from).collect(Collectors.toList());
     }
 
     public CakeStoreDto likeStore(Long storeId, String userEmail) {
 
         // 가게 찾기
-        CakeStore likeStore = storeRepository.findById(storeId)
+        CakeStore likeStore = cakeStoreRepository.findById(storeId)
                 .orElseThrow(() -> new IdNotFoundException("존재하지 않는 가게입니다."));;
 
         // 유저 찾기
-       User targetUser = userRepository.findUserByEmail(userEmail)
+        User targetUser = userRepository.findUserByEmail(userEmail)
                 .orElseThrow(() -> new IdNotFoundException("유저 정보가 잘못되었습니다."));
 
         // user_store 조인테이블에 값 입력

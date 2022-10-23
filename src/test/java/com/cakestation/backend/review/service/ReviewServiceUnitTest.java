@@ -3,7 +3,7 @@ package com.cakestation.backend.review.service;
 import com.cakestation.backend.review.repository.ReviewRepository;
 import com.cakestation.backend.review.service.dto.ReviewDto;
 import com.cakestation.backend.review.service.dto.ReviewImageDto;
-import com.cakestation.backend.cakestore.repository.StoreRepository;
+import com.cakestation.backend.cakestore.repository.CakeStoreRepository;
 import com.cakestation.backend.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +28,7 @@ class ReviewServiceUnitTest {
     @Mock
     UserRepository userRepository;
     @Mock
-    StoreRepository storeRepository;
+    CakeStoreRepository cakeStoreRepository;
     @Mock
     ReviewRepository reviewRepository;
     @Mock
@@ -40,7 +40,7 @@ class ReviewServiceUnitTest {
     void 리뷰_등록() {
         // given
         doReturn(Optional.of(getUserEntity())).when(userRepository).findUserByEmail(any());
-        doReturn(Optional.of(getCakeStoreEntity())).when(storeRepository).findById(any());
+        doReturn(Optional.of(getCakeStoreEntity())).when(cakeStoreRepository).findById(any());
         doReturn(getReviewEntity()).when(reviewRepository).save(any());
         doReturn(new ArrayList<String>()).when(imageUploadService).uploadFiles(IMAGES);
 

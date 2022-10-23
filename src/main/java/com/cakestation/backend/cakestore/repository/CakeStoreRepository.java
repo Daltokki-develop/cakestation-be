@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface StoreRepository extends JpaRepository<CakeStore,Long> {
+public interface CakeStoreRepository extends JpaRepository<CakeStore,Long> {
 
     List<CakeStore> findAllByNameContains(@Param("storeName") String StoreName, Pageable pageable);
 
