@@ -1,16 +1,10 @@
 package com.cakestation.backend.store.controller;
 
-import com.cakestation.backend.store.domain.Store;
-import com.cakestation.backend.store.dto.request.CreateStoreDto;
-import com.cakestation.backend.store.fixture.StoreFixture;
 import com.cakestation.backend.store.service.StoreService;
 import com.cakestation.backend.user.service.UserService;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -20,10 +14,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import static com.cakestation.backend.store.fixture.StoreFixture.getStoreDto;
 import static com.cakestation.backend.user.fixture.UserFixture.getKakaoUserDto;
 
 @Testcontainers
@@ -48,7 +40,7 @@ public class StoreControllerTest {
         userService.join(getKakaoUserDto());
 
         // 가게 등록
-        storeService.saveStore(getStoreDto());
+//        storeService.saveStore(getStoreDto());
 
         String uri = "/api/stores/1";
         MvcResult result = mockMvc.perform(

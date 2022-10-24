@@ -19,10 +19,10 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findAllByWriterWithPaging(@Param("writerId") Long writerId, Pageable pageable);
 
     @EntityGraph(attributePaths = {"writer"})
-    @Query("select r from Review r where r.store.id =:storeId")
+    @Query("select r from Review r where r.cakeStore.id =:storeId")
     List<Review> findAllByStoreWithPaging(@Param("storeId") Long storeId, Pageable pageable);
 
-    @Query("select avg (r.score) from Review r where r.store.id =:storeId")
+    @Query("select avg (r.score) from Review r where r.cakeStore.id =:storeId")
     Optional<Double> findAverageByStore(@Param("storeId") Long storeId);
 
     @EntityGraph(attributePaths = {"writer"})

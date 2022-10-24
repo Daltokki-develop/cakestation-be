@@ -1,6 +1,5 @@
 package com.cakestation.backend.store.service;
 
-import com.cakestation.backend.store.domain.Store;
 import lombok.*;
 
 import java.util.List;
@@ -21,18 +20,18 @@ public class StoreDto {
     private Double score;
     private int reviewNum;
 
-    public static StoreDto from(Store store) {
-
-        return StoreDto.builder()
-                .storeId(store.getId())
-                .name(store.getName())
-                .address(store.getAddress())
-                .businessHours(store.getBusinessHours())
-                .phone(store.getPhone())
-                .imageUrls(store.getImageUrls())
-                .webpageUrl(store.getWebpageUrl())
-                .kakaoMapUrl(store.getKakaoMapUrl())
-                .reviewNum(store.getReviews().size())
-                .build();
-    }
+//    public static StoreDto from(Store store) {
+//
+//        return StoreDto.builder()
+//                .storeId(store.getId())
+//                .name(store.getName())
+//                .address(store.getAddress())
+//                .businessHours(store.getBusinessHours())
+//                .phone(store.getPhone())
+//                .imageUrls(store.getImageUrls())
+//                .webpageUrl(store.getWebpageUrl())
+//                .kakaoMapUrl(store.getKakaoMapUrl())
+//                .reviewNum(store.getReviews().size())
+//                .build();
+//    }
 }

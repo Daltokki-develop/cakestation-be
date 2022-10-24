@@ -19,9 +19,9 @@ public class User_Store {
     @Column(name = "store_id")
     private Long id;
 
-    @ManyToOne(targetEntity = Store.class)
+    @ManyToOne(targetEntity = CakeStore.class)
     @JoinColumn(name = "STUDY_ID")
-    private Store stores;
+    private CakeStore stores;
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")
@@ -31,10 +31,10 @@ public class User_Store {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
-    public static User_Store createLikeStroe(User user, Store store){
+    public static User_Store createLikeStroe(User user, CakeStore cakeStore){
         return User_Store.builder()
                 .users(user)
-                .stores(store)
+                .stores(cakeStore)
                 .build();
     }
 }

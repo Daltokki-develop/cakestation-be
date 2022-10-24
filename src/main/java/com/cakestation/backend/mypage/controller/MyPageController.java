@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -21,10 +19,8 @@ public class MyPageController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/mypage")
-    public ResponseEntity<ApiResponse<MyPageDto>> getMyPage(HttpServletRequest req){
-//        String email = utilService.getCurrentUserEmail(req);
-
-        MyPageDto myPageInfo = myPageService.getMyPageInfo("ksl2950@naver.com");
+    public ResponseEntity<ApiResponse<MyPageDto>> getMyPage(@RequestHeader("Authorization") String token){
+        MyPageDto myPageInfo = myPageService.getMyPageInfo(utilService.getCurrentUserEmail(token));
         return ResponseEntity.ok().body(
                 new ApiResponse<>(HttpStatus.OK.value(), "마이 페이지 조회 성공",myPageInfo));
     }

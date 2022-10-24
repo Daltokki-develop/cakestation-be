@@ -1,6 +1,5 @@
 package com.cakestation.backend.store.dto.response;
 
-import com.cakestation.backend.store.domain.Store;
 import com.cakestation.backend.store.service.StoreDto;
 import lombok.*;
 

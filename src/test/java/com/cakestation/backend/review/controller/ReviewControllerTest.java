@@ -22,7 +22,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import static com.cakestation.backend.review.fixture.ReviewFixture.REVIEW_ID;
 import static com.cakestation.backend.store.fixture.StoreFixture.STORE_ID;
-import static com.cakestation.backend.store.fixture.StoreFixture.getStoreDto;
 import static com.cakestation.backend.user.fixture.UserFixture.USER_ID;
 import static com.cakestation.backend.user.fixture.UserFixture.getKakaoUserDto;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -53,7 +52,7 @@ class ReviewControllerTest {
         userService.join(getKakaoUserDto());
 
         // 가게 등록
-        storeService.saveStore(getStoreDto());
+//        storeService.saveStore(getStoreDto());
 
 
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
@@ -80,7 +79,7 @@ class ReviewControllerTest {
         userService.join(getKakaoUserDto());
 
         // 가게 등록
-        storeService.saveStore(getStoreDto());
+//        storeService.saveStore(getStoreDto());
 
         // 리뷰 등록
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
@@ -107,7 +106,7 @@ class ReviewControllerTest {
         userService.join(getKakaoUserDto());
 
         // 가게 등록
-        storeService.saveStore(getStoreDto());
+//        storeService.saveStore(getStoreDto());
 
         // 리뷰 등록
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
@@ -134,7 +133,7 @@ class ReviewControllerTest {
         userService.join(getKakaoUserDto());
 
         // 가게 등록
-        storeService.saveStore(getStoreDto());
+//        storeService.saveStore(getStoreDto());
 
         // 리뷰 등록
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
@@ -160,7 +159,7 @@ class ReviewControllerTest {
         userService.join(getKakaoUserDto());
 
         // 가게 등록
-        storeService.saveStore(getStoreDto());
+//        storeService.saveStore(getStoreDto());
 
         // 리뷰 등록
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
@@ -185,7 +184,7 @@ class ReviewControllerTest {
         userService.join(getKakaoUserDto());
 
         // 가게 등록
-        storeService.saveStore(getStoreDto());
+//        storeService.saveStore(getStoreDto());
 
         // 리뷰 등록
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
