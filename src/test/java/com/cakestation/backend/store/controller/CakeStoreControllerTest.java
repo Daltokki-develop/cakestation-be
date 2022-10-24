@@ -1,6 +1,6 @@
 package com.cakestation.backend.store.controller;
 
-import com.cakestation.backend.store.service.StoreService;
+import com.cakestation.backend.store.service.CakeStoreService;
 import com.cakestation.backend.user.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,18 +16,19 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import static com.cakestation.backend.store.fixture.StoreFixture.getCreateCakeStoreDto;
 import static com.cakestation.backend.user.fixture.UserFixture.getKakaoUserDto;
 
 @Testcontainers
 @AutoConfigureMockMvc
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-public class StoreControllerTest {
+public class CakeStoreControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    private StoreService storeService;
+    private CakeStoreService cakeStoreService;
 
     @Autowired
     private UserService userService;
@@ -40,7 +41,7 @@ public class StoreControllerTest {
         userService.join(getKakaoUserDto());
 
         // 가게 등록
-//        storeService.saveStore(getStoreDto());
+        cakeStoreService.saveStore(getCreateCakeStoreDto());
 
         String uri = "/api/stores/1";
         MvcResult result = mockMvc.perform(

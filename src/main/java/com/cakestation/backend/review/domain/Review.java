@@ -31,7 +31,7 @@ public class Review extends BaseEntity {
     private User writer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
+    @JoinColumn(name = "cake_store_id")
     private CakeStore cakeStore;
 
     @Builder.Default

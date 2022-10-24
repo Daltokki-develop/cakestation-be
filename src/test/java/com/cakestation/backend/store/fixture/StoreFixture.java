@@ -1,10 +1,7 @@
 package com.cakestation.backend.store.fixture;
 
 import com.cakestation.backend.store.domain.CakeStore;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
-import java.util.Date;
+import com.cakestation.backend.store.service.dto.CreateCakeStoreDto;
 
 public class StoreFixture {
 
@@ -30,11 +27,11 @@ public class StoreFixture {
 
     public static Integer NUM_OF_REVIEWS = 0;
 
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    public static Date UPLOAD_DATE = new Date();
+    public static String NEARBY_STATION
+            = "[['홍대입구역', ['2호선', '경의중앙선', '공항철도'], '3번 출구', '도보 12분'], ['가좌역', ['경의중앙선'], '1번 출구', '도보 16분']]";
 
-    public static CakeStore storeEntity(){
+
+    public static CakeStore getCakeStoreEntity(){
         return CakeStore.builder()
                 .id(STORE_ID)
                 .name(NAME)
@@ -44,18 +41,20 @@ public class StoreFixture {
                 .thumbnail(THUMNAIL)
                 .webpageUrl(WEBPAGE_URL)
                 .mapUrl(KAKAOMAP_URL)
+                .nearByStation(NEARBY_STATION)
                 .build();
     }
 
-//    public static CreateStoreDto getStoreDto(){
-//        return CreateStoreDto.builder()
-//                .name(NAME)
-//                .address(ADDRESS)
-//                .businessHours(BUSINESS_HOURS)
-//                .phoneNumber(PHONE)
-//                .thumbnail(THUMNAIL)
-//                .webpageUrl(WEBPAGE_URL)
-//                .mapUrl(KAKAOMAP_URL)
-//                .build();
-//    }
+    public static CreateCakeStoreDto getCreateCakeStoreDto(){
+        return CreateCakeStoreDto.builder()
+                .name(NAME)
+                .address(ADDRESS)
+                .businessHours(BUSINESS_HOURS)
+                .phoneNumber(PHONE)
+                .thumbnail(THUMNAIL)
+                .webpageUrl(WEBPAGE_URL)
+                .mapUrl(KAKAOMAP_URL)
+                .nearByStation(NEARBY_STATION)
+                .build();
+    }
 }

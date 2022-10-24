@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-import static com.cakestation.backend.store.fixture.StoreFixture.storeEntity;
+import static com.cakestation.backend.store.fixture.StoreFixture.getCakeStoreEntity;
 import static com.cakestation.backend.user.fixture.UserFixture.getUserEntity;
 
 public class ReviewFixture {
@@ -86,7 +86,7 @@ public class ReviewFixture {
                 .content(CONTENT)
                 .reviewTags(List.of(reviewTag))
                 .writer(getUserEntity())
-                .cakeStore(storeEntity())
+                .cakeStore(getCakeStoreEntity())
                 .build();
 
         reviewTag.setReview(review);

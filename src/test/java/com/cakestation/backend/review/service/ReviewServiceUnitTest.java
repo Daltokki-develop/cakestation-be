@@ -16,7 +16,7 @@ import java.util.*;
 
 import static com.cakestation.backend.review.fixture.ReviewFixture.*;
 import static com.cakestation.backend.store.fixture.StoreFixture.STORE_ID;
-import static com.cakestation.backend.store.fixture.StoreFixture.storeEntity;
+import static com.cakestation.backend.store.fixture.StoreFixture.getCakeStoreEntity;
 import static com.cakestation.backend.user.fixture.UserFixture.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -40,7 +40,7 @@ class ReviewServiceUnitTest {
     void 리뷰_등록() {
         // given
         doReturn(Optional.of(getUserEntity())).when(userRepository).findUserByEmail(any());
-        doReturn(Optional.of(storeEntity())).when(storeRepository).findById(any());
+        doReturn(Optional.of(getCakeStoreEntity())).when(storeRepository).findById(any());
         doReturn(reviewEntity()).when(reviewRepository).save(any());
         doReturn(new ArrayList<String>()).when(imageUploadService).uploadFiles(IMAGES);
 
