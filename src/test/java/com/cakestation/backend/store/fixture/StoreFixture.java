@@ -1,14 +1,7 @@
 package com.cakestation.backend.store.fixture;
 
-import com.cakestation.backend.store.domain.Menu;
-import com.cakestation.backend.store.domain.Store;
-import com.cakestation.backend.store.dto.request.CreateStoreDto;
-import com.cakestation.backend.user.domain.User;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
+import com.cakestation.backend.store.domain.CakeStore;
+import com.cakestation.backend.store.service.dto.CreateCakeStoreDto;
 
 public class StoreFixture {
 
@@ -22,7 +15,7 @@ public class StoreFixture {
 
     public static String PHONE = "010-1111-2222";
 
-    public static List<String> IMAGE_URLS = List.of("aa","bb");
+    public static String THUMNAIL = "aa";
 
     public static String WEBPAGE_URL = "sflsdkfjlsdf";
 
@@ -34,36 +27,34 @@ public class StoreFixture {
 
     public static Integer NUM_OF_REVIEWS = 0;
 
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    public static Date UPLOAD_DATE = new Date();
+    public static String NEARBY_STATION
+            = "[['홍대입구역', ['2호선', '경의중앙선', '공항철도'], '3번 출구', '도보 12분'], ['가좌역', ['경의중앙선'], '1번 출구', '도보 16분']]";
 
-    public static Store storeEntity(){
-        return Store.builder()
+
+    public static CakeStore getCakeStoreEntity(){
+        return CakeStore.builder()
                 .id(STORE_ID)
                 .name(NAME)
                 .address(ADDRESS)
                 .businessHours(BUSINESS_HOURS)
-                .phone(PHONE)
-                .imageUrls(IMAGE_URLS)
+                .phoneNumber(PHONE)
+                .thumbnail(THUMNAIL)
                 .webpageUrl(WEBPAGE_URL)
-                .kakaoMapUrl(KAKAOMAP_URL)
-                .score(SCORE)
-                .numOfPhoto(NUM_OF_PHOTO)
-                .numOfReviews(NUM_OF_REVIEWS)
+                .mapUrl(KAKAOMAP_URL)
+                .nearByStation(NEARBY_STATION)
                 .build();
     }
 
-    public static CreateStoreDto getStoreDto(){
-        return CreateStoreDto.builder()
+    public static CreateCakeStoreDto getCreateCakeStoreDto(){
+        return CreateCakeStoreDto.builder()
                 .name(NAME)
                 .address(ADDRESS)
                 .businessHours(BUSINESS_HOURS)
-                .phone(PHONE)
-                .imageUrls(IMAGE_URLS)
+                .phoneNumber(PHONE)
+                .thumbnail(THUMNAIL)
                 .webpageUrl(WEBPAGE_URL)
-                .kakaoMapUrl(KAKAOMAP_URL)
-                .score(SCORE)
+                .mapUrl(KAKAOMAP_URL)
+                .nearByStation(NEARBY_STATION)
                 .build();
     }
 }

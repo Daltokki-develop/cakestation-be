@@ -3,18 +3,12 @@ package com.cakestation.backend.review.fixture;
 import com.cakestation.backend.review.domain.*;
 import com.cakestation.backend.review.controller.dto.request.CreateReviewRequest;
 import com.cakestation.backend.review.service.dto.CreateReviewDto;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
-import static com.cakestation.backend.store.fixture.StoreFixture.storeEntity;
+import static com.cakestation.backend.store.fixture.StoreFixture.getCakeStoreEntity;
 import static com.cakestation.backend.user.fixture.UserFixture.getUserEntity;
 
 public class ReviewFixture {
@@ -92,7 +86,7 @@ public class ReviewFixture {
                 .content(CONTENT)
                 .reviewTags(List.of(reviewTag))
                 .writer(getUserEntity())
-                .store(storeEntity())
+                .cakeStore(getCakeStoreEntity())
                 .build();
 
         reviewTag.setReview(review);

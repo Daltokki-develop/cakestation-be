@@ -1,6 +1,6 @@
-package com.cakestation.backend.store.dto.response;
+package com.cakestation.backend.store.controller.dto.response;
 
-import com.cakestation.backend.store.domain.Store;
+import com.cakestation.backend.store.domain.CakeStore;
 import com.cakestation.backend.user.domain.User;
 import lombok.*;
 
@@ -8,18 +8,18 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Getter
-public class LikestoreResponseDto {
+public class LikeStoreResponse {
 
     private Long storeId;
     private Long userId;
     private String userEmail;
     private String storeName;
 
-    public static LikestoreResponseDto createLikeStoreDto(User user , Store store){
-        return LikestoreResponseDto.builder()
-                .storeId(store.getId())
+    public static LikeStoreResponse createLikeStoreDto(User user , CakeStore cakeStore){
+        return LikeStoreResponse.builder()
+                .storeId(cakeStore.getId())
                 .userId(user.getId())
-                .storeName(store.getName())
+                .storeName(cakeStore.getName())
                 .userEmail(user.getEmail())
                 .build();
     }

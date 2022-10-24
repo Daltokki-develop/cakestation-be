@@ -6,7 +6,7 @@ import com.cakestation.backend.review.repository.ReviewRepository;
 import com.cakestation.backend.review.service.dto.CreateReviewDto;
 import com.cakestation.backend.review.service.dto.ReviewDto;
 import com.cakestation.backend.review.service.dto.ReviewImageDto;
-import com.cakestation.backend.store.domain.Store;
+import com.cakestation.backend.store.domain.CakeStore;
 import com.cakestation.backend.store.repository.StoreRepository;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.repository.UserRepository;
@@ -40,13 +40,13 @@ public class ReviewServiceImpl implements ReviewService {
         User user = userRepository.findUserByEmail(currentEmail).orElseThrow(
                 () -> new IdNotFoundException("사용자를 찾을 수 없습니다."));
 
-        Store store = storeRepository.findById(createReviewDto.getStoreId())
+        CakeStore cakeStore = storeRepository.findById(createReviewDto.getStoreId())
                 .orElseThrow(() -> new IdNotFoundException("가게 정보를 찾을 수 없습니다."));
 
         // 리뷰 생성
         List<String> imageUrls = imageUploadService.uploadFiles(createReviewDto.getReviewImages());
         createReviewDto.setImageUrls(imageUrls);
-        Review review = reviewRepository.save(Review.createReview(user, store, createReviewDto));
+        Review review = reviewRepository.save(Review.createReview(user, cakeStore, createReviewDto));
 
         return review.getId();
     }
