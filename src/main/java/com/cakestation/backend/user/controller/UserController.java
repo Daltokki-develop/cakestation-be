@@ -52,14 +52,14 @@ public class UserController {
 
         //Token획득 메드 호출
         TokenDto tokenDto = kakaoService.getKaKaoAccessToken(code);
-
+        Long userId = userService.join(kakaoService.getUserInfo(tokenDto.getAccessToken()));
 
         //얻은 토큰을 통한 유저정보 조회 및 저장
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + tokenDto.getAccessToken());
 
         return new ResponseEntity<>(
-                new ApiResponse<>(200, "로그인 성공", tokenDto.getAccessToken()), httpHeaders, HttpStatus.OK);
+                new ApiResponse<>(200, "로그인 성공", userId), httpHeaders, HttpStatus.OK);
     }
 
     //로그아웃
