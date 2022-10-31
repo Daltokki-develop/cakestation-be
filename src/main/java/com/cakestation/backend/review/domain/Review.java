@@ -3,7 +3,7 @@ package com.cakestation.backend.review.domain;
 
 import com.cakestation.backend.common.BaseEntity;
 import com.cakestation.backend.review.service.dto.CreateReviewDto;
-import com.cakestation.backend.store.domain.Store;
+import com.cakestation.backend.store.domain.CakeStore;
 import com.cakestation.backend.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,8 +31,8 @@ public class Review extends BaseEntity {
     private User writer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
-    private Store store;
+    @JoinColumn(name = "cake_store_id")
+    private CakeStore cakeStore;
 
     @Builder.Default
     @ElementCollection
@@ -60,11 +60,11 @@ public class Review extends BaseEntity {
     private String content; // 하고 싶은 말
 
     // 리뷰 생성 메서드
-    public static Review createReview(User user, Store store, CreateReviewDto createReviewDto){
+    public static Review createReview(User user, CakeStore cakeStore, CreateReviewDto createReviewDto){
 
         Review review = Review.builder()
                 .writer(user)
-                .store(store)
+                .cakeStore(cakeStore)
                 .imageUrls(createReviewDto.getImageUrls())
                 .cakeNumber(createReviewDto.getCakeNumber())
                 .sheetType(createReviewDto.getSheetType())

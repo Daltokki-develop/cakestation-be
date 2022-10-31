@@ -1,7 +1,5 @@
 package com.cakestation.backend.badge.service.dto.request;
 
-import com.cakestation.backend.badge.domain.Badge;
-import com.cakestation.backend.store.domain.Store;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

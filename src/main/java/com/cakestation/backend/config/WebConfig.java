@@ -22,7 +22,8 @@ public class WebConfig {
     }
 
     @Bean
-    public FilterRegistrationBean logFilter() {
+    public FilterRegistrationBean<LoginFilter> logFilter() {
+    
         FilterRegistrationBean<LoginFilter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setFilter(new LoginFilter(kakaoService, utilService, kakaoConfig));
         filterRegistrationBean.setOrder(1);

@@ -1,6 +1,8 @@
 package com.cakestation.backend.user.service;
 
+import java.net.http.HttpHeaders;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
@@ -19,6 +21,7 @@ import org.apache.catalina.security.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @Slf4j
 @Service
@@ -54,33 +57,33 @@ public class UtilService {
         return cookieMap;
     }
 
-    public String cookieAccessToken(HttpServletRequest request,String Target){
-        log.info("인증 체크 시작");
-                String TokenValue = null;
-        Optional<Cookie[]> cookies = Optional.ofNullable(request.getCookies());
-        cookies.orElseThrow(()-> new IdNotFoundException("유저정보를 확인할 수 없습니다."));
+//    public String cookieAccessToken(HttpServletRequest request,String Target){
+//        log.info("인증 체크 시작");
+//        String TokenValue = null;
+//        Optional<Cookie[]> cookies = Optional.ofNullable(request.getCookies());
+//        cookies.orElseThrow(()-> new IdNotFoundException("유저정보를 확인할 수 없습니다."));
+//
+//        for(Cookie ele: cookies.get()){
+//            if(Target.equals(ele.getName())){
+//                TokenValue = ele.getValue();
+//            }
+//        }
+//
+//        return TokenValue;
+//    }
 
-        for(Cookie ele: cookies.get()){
-            if(Target.equals(ele.getName())){
-                TokenValue = ele.getValue();
-            }
-        }
+    public Optional<String> headerAccessToken(HttpServletRequest request, String Target){
+
+        Optional<String> TokenValue = Optional.ofNullable(request.getHeader(Target));
+        TokenValue.orElseThrow(()-> new IdNotFoundException("유저정보를 확인할 수 없습니다."));
+
 
         return TokenValue;
     }
 
-    public String getCurrentUserEmail(HttpServletRequest request){
-
-        String accessToken=null;
-        Cookie [] cookies = request.getCookies();
-        if(cookies != null){
-           accessToken = this.cookieAccessToken(request, "Authorization");
-        }
-        else{
-            throw new IdNotFoundException("사용자를 식별할 수 없습니다.");
-        }
-
+    public String getCurrentUserEmail(String token){
         try{
+            String accessToken = token.replace("Bearer ", "");
             KakaoUserDto userDto = kakaoService.getUserInfo(accessToken);
             return userDto.getEmail();
         }catch (Exception e){
@@ -113,7 +116,7 @@ public class UtilService {
         }
 
         //쿠키를 통한 사용자 로직 조회
-        String accessToken = this.cookieAccessToken(request, "Authorization");
+        String accessToken = String.valueOf(this.headerAccessToken(request, "Authorization"));
         KakaoUserDto targetUser = kakaoService.getUserInfo(accessToken);
 
         //유저 닉네임 저장

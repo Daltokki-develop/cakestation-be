@@ -16,12 +16,11 @@ import java.util.*;
 
 import static com.cakestation.backend.review.fixture.ReviewFixture.*;
 import static com.cakestation.backend.store.fixture.StoreFixture.STORE_ID;
-import static com.cakestation.backend.store.fixture.StoreFixture.storeEntity;
+import static com.cakestation.backend.store.fixture.StoreFixture.getCakeStoreEntity;
 import static com.cakestation.backend.user.fixture.UserFixture.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ReviewServiceUnitTest {
@@ -41,7 +40,7 @@ class ReviewServiceUnitTest {
     void 리뷰_등록() {
         // given
         doReturn(Optional.of(getUserEntity())).when(userRepository).findUserByEmail(any());
-        doReturn(Optional.of(storeEntity())).when(storeRepository).findById(any());
+        doReturn(Optional.of(getCakeStoreEntity())).when(storeRepository).findById(any());
         doReturn(reviewEntity()).when(reviewRepository).save(any());
         doReturn(new ArrayList<String>()).when(imageUploadService).uploadFiles(IMAGES);
 
@@ -66,7 +65,7 @@ class ReviewServiceUnitTest {
     @Test
     void 리뷰_조회_BY_작성자() {
         // given
-        doReturn(Collections.singletonList(reviewEntity())).when(reviewRepository).findAllByWriter(any(), any());
+        doReturn(Collections.singletonList(reviewEntity())).when(reviewRepository).findAllByWriterWithPaging(any(), any());
 
         // when
         PageRequest pageRequest = PageRequest.of(0, 1);
@@ -79,7 +78,7 @@ class ReviewServiceUnitTest {
     @Test
     void 리뷰_조회_BY_가게() {
         // given
-        doReturn(Collections.singletonList(reviewEntity())).when(reviewRepository).findAllByStore(any(), any());
+        doReturn(Collections.singletonList(reviewEntity())).when(reviewRepository).findAllByStoreWithPaging(any(), any());
 
         // when
         PageRequest pageRequest = PageRequest.of(0, 1);
@@ -92,7 +91,7 @@ class ReviewServiceUnitTest {
     @Test
     void 리뷰_이미지_조회_BY_가게() {
         // given
-        doReturn(Collections.singletonList(reviewEntity())).when(reviewRepository).findAllByStore(any(), any());
+        doReturn(Collections.singletonList(reviewEntity())).when(reviewRepository).findAllByStoreWithPaging(any(), any());
 
         // when
         PageRequest pageRequest = PageRequest.of(0, 1);

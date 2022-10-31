@@ -6,7 +6,7 @@ import com.cakestation.backend.review.repository.ReviewRepository;
 import com.cakestation.backend.review.service.dto.CreateReviewDto;
 import com.cakestation.backend.review.service.dto.ReviewDto;
 import com.cakestation.backend.review.service.dto.ReviewImageDto;
-import com.cakestation.backend.store.domain.Store;
+import com.cakestation.backend.store.domain.CakeStore;
 import com.cakestation.backend.store.repository.StoreRepository;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.repository.UserRepository;
@@ -40,13 +40,13 @@ public class ReviewServiceImpl implements ReviewService {
         User user = userRepository.findUserByEmail(currentEmail).orElseThrow(
                 () -> new IdNotFoundException("사용자를 찾을 수 없습니다."));
 
-        Store store = storeRepository.findById(createReviewDto.getStoreId())
+        CakeStore cakeStore = storeRepository.findById(createReviewDto.getStoreId())
                 .orElseThrow(() -> new IdNotFoundException("가게 정보를 찾을 수 없습니다."));
 
         // 리뷰 생성
         List<String> imageUrls = imageUploadService.uploadFiles(createReviewDto.getReviewImages());
         createReviewDto.setImageUrls(imageUrls);
-        Review review = reviewRepository.save(Review.createReview(user, store, createReviewDto));
+        Review review = reviewRepository.save(Review.createReview(user, cakeStore, createReviewDto));
 
         return review.getId();
     }
@@ -63,7 +63,7 @@ public class ReviewServiceImpl implements ReviewService {
     // 리뷰 조회 by writer
     @Override
     public List<ReviewDto> findReviewsByWriter(Long writerId, Pageable pageable) {
-        List<Review> reviews = reviewRepository.findAllByWriter(writerId, pageable);
+        List<Review> reviews = reviewRepository.findAllByWriterWithPaging(writerId, pageable);
         return reviews.stream().map(ReviewDto::from).collect(Collectors.toList());
     }
 
@@ -71,9 +71,18 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<ReviewDto> findReviewsByStore(Long storeId, Pageable pageable) {
 
-        List<Review> reviews = reviewRepository.findAllByStore(storeId, pageable);
+        List<Review> reviews = reviewRepository.findAllByStoreWithPaging(storeId, pageable);
         return reviews.stream().map(ReviewDto::from).collect(Collectors.toList());
     }
+
+    // 리뷰 별점 평균 조회 by store
+    @Override
+    public Double findReviewAvgByStore(Long storeId) {
+        return reviewRepository.findAverageByStore(storeId).orElseThrow(
+                () -> new IdNotFoundException("가게 정보를 찾을 수 없습니다.")
+        );
+    }
+
 
     // 리뷰 삭제
     @Override
@@ -93,8 +102,20 @@ public class ReviewServiceImpl implements ReviewService {
     // 가게별 리뷰 이미지 전체 조회
     @Override
     public List<ReviewImageDto> findReviewImagesByStore(Long storeId, Pageable pageable) {
-        List<Review> reviews = reviewRepository.findAllByStore(storeId, pageable);
+        List<Review> reviews = reviewRepository.findAllByStoreWithPaging(storeId, pageable);
 
+        return collectReviewImageDto(reviews);
+    }
+
+    // 사용자별 리뷰 이미지 전체 조회
+    @Override
+    public List<ReviewImageDto> findReviewImagesByUser(Long userId, Pageable pageable) {
+        List<Review> reviews = reviewRepository.findAllByWriterWithPaging(userId, pageable);
+
+        return collectReviewImageDto(reviews);
+    }
+
+    private List<ReviewImageDto> collectReviewImageDto(List<Review> reviews) {
         List<List<ReviewImageDto>> allReviewImageDto = getAllReviewImageDto(reviews);
 
         List<ReviewImageDto> reviewImageDtoList = new ArrayList<>();

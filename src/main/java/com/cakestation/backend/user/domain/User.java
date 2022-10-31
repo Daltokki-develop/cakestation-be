@@ -1,5 +1,6 @@
 package com.cakestation.backend.user.domain;
 
+import com.cakestation.backend.common.BaseEntity;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

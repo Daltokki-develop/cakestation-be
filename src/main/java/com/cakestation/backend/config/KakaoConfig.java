@@ -28,12 +28,14 @@ public class KakaoConfig implements ApplicationListener<ApplicationStartedEvent>
 
     @Override
     public void onApplicationEvent(ApplicationStartedEvent event) {
+//        REDIRECT_URI = "http://127.0.0.1:8080/api/oauth";
+//        REDIRECT_URI = "http://localhost:3000/login/oauth/";
 //        REDIRECT_URI = "http://127.0.0.1:3000/api/oauth/kakao";
         REDIRECT_URI = "http://localhost:3000/login/oauth/";
 
         GET_TOKEN_URL = "https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id="+
-                key +
-                "&redirect_uri="+REDIRECT_URI;
+                key;
+//                "&redirect_uri="+REDIRECT_URI;
 
         REDIRECT_LOGINPAGE = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id="+
                 key +
