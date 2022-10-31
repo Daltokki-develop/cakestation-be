@@ -41,7 +41,7 @@ class ReviewServiceUnitTest {
         // given
         doReturn(Optional.of(getUserEntity())).when(userRepository).findUserByEmail(any());
         doReturn(Optional.of(getCakeStoreEntity())).when(storeRepository).findById(any());
-        doReturn(reviewEntity()).when(reviewRepository).save(any());
+        doReturn(getReviewEntity()).when(reviewRepository).save(any());
         doReturn(new ArrayList<String>()).when(imageUploadService).uploadFiles(IMAGES);
 
         // when
@@ -54,7 +54,7 @@ class ReviewServiceUnitTest {
     @Test
     void 리뷰_단일_조회() {
         // given
-        doReturn(Optional.of(reviewEntity())).when(reviewRepository).findById(any());
+        doReturn(Optional.of(getReviewEntity())).when(reviewRepository).findById(any());
         // when
         ReviewDto reviewDto = reviewService.findReviewById(REVIEW_ID);
         // then
@@ -65,7 +65,7 @@ class ReviewServiceUnitTest {
     @Test
     void 리뷰_조회_BY_작성자() {
         // given
-        doReturn(Collections.singletonList(reviewEntity())).when(reviewRepository).findAllByWriterWithPaging(any(), any());
+        doReturn(Collections.singletonList(getReviewEntity())).when(reviewRepository).findAllByWriterWithPaging(any(), any());
 
         // when
         PageRequest pageRequest = PageRequest.of(0, 1);
@@ -78,7 +78,7 @@ class ReviewServiceUnitTest {
     @Test
     void 리뷰_조회_BY_가게() {
         // given
-        doReturn(Collections.singletonList(reviewEntity())).when(reviewRepository).findAllByStoreWithPaging(any(), any());
+        doReturn(Collections.singletonList(getReviewEntity())).when(reviewRepository).findAllByStoreWithPaging(any(), any());
 
         // when
         PageRequest pageRequest = PageRequest.of(0, 1);
@@ -91,7 +91,7 @@ class ReviewServiceUnitTest {
     @Test
     void 리뷰_이미지_조회_BY_가게() {
         // given
-        doReturn(Collections.singletonList(reviewEntity())).when(reviewRepository).findAllByStoreWithPaging(any(), any());
+        doReturn(Collections.singletonList(getReviewEntity())).when(reviewRepository).findAllByStoreWithPaging(any(), any());
 
         // when
         PageRequest pageRequest = PageRequest.of(0, 1);
