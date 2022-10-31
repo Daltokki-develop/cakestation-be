@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Random;
 
 
 @Service
@@ -27,7 +28,13 @@ public class MyPageService {
         List<Review> reviews = reviewRepository.findAllByWriter(user.getId());
         int reviewImageCount = reviews.stream().mapToInt(review -> review.getImageUrls().size()).sum();
 
+        int randomNumber = getRandomNumber();
+
         //TODO(좋아요 기능 구현시 연결 필요)
-        return new MyPageDto(user.getNickname(), reviews.size(), reviewImageCount, 0);
+        return new MyPageDto(user.getNickname(), reviews.size(), reviewImageCount, 0, randomNumber);
+    }
+
+    private int getRandomNumber() {
+        return (int) (Math.random() * 4) + 1;
     }
 }
