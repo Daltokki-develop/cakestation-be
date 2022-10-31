@@ -15,5 +15,6 @@ public class MyPageDto {
     private int reviewCount;
     private int reviewImageCount;
     private int likeCount;
+    private int randomNumber;
 
 }

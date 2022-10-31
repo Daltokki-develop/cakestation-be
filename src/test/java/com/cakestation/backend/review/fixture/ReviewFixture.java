@@ -69,7 +69,7 @@ public class ReviewFixture {
                 .build();
     }
 
-    public static Review reviewEntity(){
+    public static Review getReviewEntity(){
 
         ReviewTag reviewTag = ReviewTag.builder()
                 .tag(Tag.CHEAP)

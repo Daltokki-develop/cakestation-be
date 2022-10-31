@@ -6,6 +6,9 @@ import com.cakestation.backend.store.service.CakeStoreService;
 import com.cakestation.backend.store.service.dto.CakeStoreDto;
 import com.cakestation.backend.store.service.dto.CreateCakeStoreDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -44,15 +47,15 @@ public class CakeStoreController {
         return ResponseEntity.ok().body(
                 new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", storeResponseList));
     }
-//
-//    @ResponseStatus(HttpStatus.OK)
-//    @GetMapping("/stores/search")
-//    ResponseEntity<ApiResponse<List<StoreResponse>>> searchStoresByKeyword(@RequestParam String keyword, @PageableDefault(size = 10, sort = "createdDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
-//        List<StoreResponse> storeResponseList = storeService.searchStoresByKeyword(keyword, pageable)
-//                .stream().map(StoreResponse::from).collect(Collectors.toList());
-//        return ResponseEntity.ok().body(
-//                new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", storeResponseList));
-//    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/stores/search")
+    ResponseEntity<ApiResponse<List<CakeStoreResponse>>> searchStoresByKeyword(@RequestParam String keyword, @PageableDefault(size = 10, sort = "createdDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
+        List<CakeStoreResponse> storeResponseList = cakeStoreService.searchStoresByKeyword(keyword, pageable)
+                .stream().map(CakeStoreResponse::from).collect(Collectors.toList());
+        return ResponseEntity.ok().body(
+                new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", storeResponseList));
+    }
 
 //    @ResponseStatus(HttpStatus.OK)
 //    @PostMapping("/stores")
