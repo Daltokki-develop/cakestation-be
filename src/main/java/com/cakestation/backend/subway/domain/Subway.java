@@ -17,7 +17,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Subway extends BaseEntity {
+public class Subway {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "subway_id")
