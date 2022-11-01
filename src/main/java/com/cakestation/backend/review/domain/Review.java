@@ -3,7 +3,7 @@ package com.cakestation.backend.review.domain;
 
 import com.cakestation.backend.common.BaseEntity;
 import com.cakestation.backend.review.service.dto.CreateReviewDto;
-import com.cakestation.backend.store.domain.CakeStore;
+import com.cakestation.backend.cakestore.domain.CakeStore;
 import com.cakestation.backend.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

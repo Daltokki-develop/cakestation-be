@@ -1,11 +1,11 @@
-package com.cakestation.backend.store.service;
+package com.cakestation.backend.cakestore.service;
 
 import com.cakestation.backend.common.handler.exception.IdNotFoundException;
-import com.cakestation.backend.store.domain.CakeStore;
-import com.cakestation.backend.store.repository.User_StoreRepository;
-import com.cakestation.backend.store.repository.StoreRepository;
-import com.cakestation.backend.store.service.dto.CakeStoreDto;
-import com.cakestation.backend.store.service.dto.CreateCakeStoreDto;
+import com.cakestation.backend.cakestore.domain.CakeStore;
+import com.cakestation.backend.cakestore.repository.User_StoreRepository;
+import com.cakestation.backend.cakestore.repository.StoreRepository;
+import com.cakestation.backend.cakestore.service.dto.CakeStoreDto;
+import com.cakestation.backend.cakestore.service.dto.CreateCakeStoreDto;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

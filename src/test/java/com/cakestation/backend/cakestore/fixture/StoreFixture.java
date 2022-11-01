@@ -1,7 +1,7 @@
-package com.cakestation.backend.store.fixture;
+package com.cakestation.backend.cakestore.fixture;
 
-import com.cakestation.backend.store.domain.CakeStore;
-import com.cakestation.backend.store.service.dto.CreateCakeStoreDto;
+import com.cakestation.backend.cakestore.domain.CakeStore;
+import com.cakestation.backend.cakestore.service.dto.CreateCakeStoreDto;
 
 public class StoreFixture {
 

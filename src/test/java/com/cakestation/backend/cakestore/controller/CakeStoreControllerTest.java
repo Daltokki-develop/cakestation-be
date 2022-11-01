@@ -1,6 +1,6 @@
-package com.cakestation.backend.store.controller;
+package com.cakestation.backend.cakestore.controller;
 
-import com.cakestation.backend.store.service.CakeStoreService;
+import com.cakestation.backend.cakestore.service.CakeStoreService;
 import com.cakestation.backend.user.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import static com.cakestation.backend.store.fixture.StoreFixture.getCreateCakeStoreDto;
+import static com.cakestation.backend.cakestore.fixture.StoreFixture.getCreateCakeStoreDto;
 import static com.cakestation.backend.user.fixture.UserFixture.getKakaoUserDto;
 
 @Testcontainers

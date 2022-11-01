@@ -1,6 +1,6 @@
-package com.cakestation.backend.store.repository;
+package com.cakestation.backend.cakestore.repository;
 
-import com.cakestation.backend.store.domain.User_Store;
+import com.cakestation.backend.cakestore.domain.User_Store;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

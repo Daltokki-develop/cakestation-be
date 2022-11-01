@@ -1,7 +1,6 @@
-package com.cakestation.backend.store.controller.dto.response;
+package com.cakestation.backend.cakestore.controller.dto.response;
 
-import com.cakestation.backend.store.service.dto.CakeStoreDto;
-import com.cakestation.backend.store.service.dto.CreateCakeStoreDto;
+import com.cakestation.backend.cakestore.service.dto.CakeStoreDto;
 import lombok.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

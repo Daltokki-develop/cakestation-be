@@ -1,4 +1,4 @@
-package com.cakestation.backend.store.domain;
+package com.cakestation.backend.cakestore.domain;
 
 import com.cakestation.backend.user.domain.User;
 import lombok.*;

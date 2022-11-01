@@ -1,13 +1,13 @@
-package com.cakestation.backend.store.service.dto;
+package com.cakestation.backend.cakestore.service.dto;
 
-import com.cakestation.backend.store.domain.CakeStore;
+import com.cakestation.backend.cakestore.domain.CakeStore;
 import lombok.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Getter
-public class CakeStoreDto {
+public class CreateCakeStoreDto {
     private Long storeId;
     private String name;
     private String address;
@@ -18,9 +18,9 @@ public class CakeStoreDto {
     private String mapUrl;
     private String nearByStation;
 
-    public static CakeStoreDto from(CakeStore store) {
+    public static CreateCakeStoreDto from(CakeStore store) {
 
-        return CakeStoreDto.builder()
+        return CreateCakeStoreDto.builder()
                 .storeId(store.getId())
                 .name(store.getName())
                 .address(store.getAddress())
