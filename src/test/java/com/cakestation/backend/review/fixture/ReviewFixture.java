@@ -40,11 +40,6 @@ public class ReviewFixture {
 
         return CreateReviewRequest.builder()
                 .reviewImages(IMAGES)
-//                .reviewImages(List.of(new MockMultipartFile(
-//                        "test.png",
-//                        "test.png",
-//                        "multipart/form-data",
-//                        new FileInputStream("src/test/resources/image/test.png"))))
                 .cakeNumber(CAKE_NUMBER)
                 .sheetType(SHEET_TYPE)
                 .requestOption(REQUEST_OPTION)

@@ -40,7 +40,7 @@ public class LoginFilter implements Filter {
 
 
         HttpServletRequest httpreq = (HttpServletRequest) req;
-        String AccessToken = httpreq.getHeader(JwtProperties.HEADER_STRING).replace(JwtProperties.TOKEN_PREFIX,"");
+        String AccessToken = httpreq.getHeader(JwtProperties.HEADER_STRING);
         String reqURI = httpreq.getRequestURI();
 
         try{
