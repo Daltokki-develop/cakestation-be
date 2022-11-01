@@ -1,6 +1,7 @@
 package com.cakestation.backend.user.service;
 
 import com.cakestation.backend.common.handler.exception.IdNotFoundException;
+import com.cakestation.backend.config.JwtProperties;
 import com.cakestation.backend.config.KakaoConfig;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import com.cakestation.backend.user.service.dto.response.CheckDto;
@@ -78,7 +79,7 @@ public class KakaoService {
         return tokenDto;
     }
 
-    //토큰 유효성 검사르 위한 클래스
+    //토큰 유효성 검사를 위한 클래스
     public CheckDto checkAccessToken(String access_Token){
         CheckDto tokenUser = null;
         try {
@@ -87,7 +88,7 @@ public class KakaoService {
             conn.setRequestMethod("POST");
 
             // 요청에 필요한 Header에 포함될 내용
-            conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+            conn.setRequestProperty(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + access_Token);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
