@@ -40,7 +40,7 @@ class MyPageServiceTest {
         MyPageDto myPageInfo = myPageService.getMyPageInfo(EMAIL);
         // then
 
-        assertThat(myPageInfo.getRandomNumber(), is(greaterThanOrEqualTo(1)));
+        assertThat(myPageInfo.getRandomNumber(), is(greaterThanOrEqualTo(0)));
         assertThat(myPageInfo.getRandomNumber(), is(lessThanOrEqualTo(4)));
         assertThat(myPageInfo.getReviewCount(),is(equalTo(1)));
         assertThat(myPageInfo.getReviewCount(),is(equalTo(1)));
