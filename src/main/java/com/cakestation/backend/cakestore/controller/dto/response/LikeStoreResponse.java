@@ -1,6 +1,6 @@
-package com.cakestation.backend.store.controller.dto.response;
+package com.cakestation.backend.cakestore.controller.dto.response;
 
-import com.cakestation.backend.store.domain.CakeStore;
+import com.cakestation.backend.cakestore.domain.CakeStore;
 import com.cakestation.backend.user.domain.User;
 import lombok.*;
 

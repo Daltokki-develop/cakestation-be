@@ -1,20 +1,19 @@
-package com.cakestation.backend.store.service;
+package com.cakestation.backend.cakestore.service;
 
 import java.util.Optional;
 
-import com.cakestation.backend.store.repository.StoreRepository;
-import com.cakestation.backend.store.service.dto.CakeStoreDto;
+import com.cakestation.backend.cakestore.repository.StoreRepository;
+import com.cakestation.backend.cakestore.service.dto.CakeStoreDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.cakestation.backend.store.fixture.StoreFixture.*;
+import static com.cakestation.backend.cakestore.fixture.StoreFixture.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class StoreServiceUnitTest {

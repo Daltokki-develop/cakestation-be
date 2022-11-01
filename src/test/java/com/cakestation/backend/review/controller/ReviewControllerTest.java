@@ -5,7 +5,7 @@ import com.cakestation.backend.review.controller.dto.request.CreateReviewRequest
 import com.cakestation.backend.review.fixture.ReviewFixture;
 import com.cakestation.backend.review.service.ReviewService;
 import com.cakestation.backend.review.service.dto.CreateReviewDto;
-import com.cakestation.backend.store.service.CakeStoreService;
+import com.cakestation.backend.cakestore.service.CakeStoreService;
 import com.cakestation.backend.user.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,8 +21,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import static com.cakestation.backend.review.fixture.ReviewFixture.REVIEW_ID;
-import static com.cakestation.backend.store.fixture.StoreFixture.STORE_ID;
-import static com.cakestation.backend.store.fixture.StoreFixture.getCreateCakeStoreDto;
+import static com.cakestation.backend.cakestore.fixture.StoreFixture.STORE_ID;
+import static com.cakestation.backend.cakestore.fixture.StoreFixture.getCreateCakeStoreDto;
 import static com.cakestation.backend.user.fixture.UserFixture.USER_ID;
 import static com.cakestation.backend.user.fixture.UserFixture.getKakaoUserDto;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

@@ -2,6 +2,7 @@ package com.cakestation.backend.common.Filter;
 
 
 import com.cakestation.backend.common.handler.exception.IdNotFoundException;
+import com.cakestation.backend.config.JwtProperties;
 import com.cakestation.backend.config.KakaoConfig;
 import com.cakestation.backend.user.service.KakaoService;
 import com.cakestation.backend.user.service.UtilService;
@@ -39,7 +40,7 @@ public class LoginFilter implements Filter {
 
 
         HttpServletRequest httpreq = (HttpServletRequest) req;
-        String AccessToken = httpreq.getHeader("Authorization");
+        String AccessToken = httpreq.getHeader(JwtProperties.HEADER_STRING);
         String reqURI = httpreq.getRequestURI();
 
         try{

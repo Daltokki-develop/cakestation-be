@@ -1,10 +1,10 @@
-package com.cakestation.backend.store.controller;
+package com.cakestation.backend.cakestore.controller;
 
 import com.cakestation.backend.common.ApiResponse;
-import com.cakestation.backend.store.controller.dto.response.CakeStoreResponse;
-import com.cakestation.backend.store.service.CakeStoreService;
-import com.cakestation.backend.store.service.dto.CakeStoreDto;
-import com.cakestation.backend.store.service.dto.CreateCakeStoreDto;
+import com.cakestation.backend.cakestore.controller.dto.response.CakeStoreResponse;
+import com.cakestation.backend.cakestore.service.CakeStoreService;
+import com.cakestation.backend.cakestore.service.dto.CakeStoreDto;
+import com.cakestation.backend.cakestore.service.dto.CreateCakeStoreDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

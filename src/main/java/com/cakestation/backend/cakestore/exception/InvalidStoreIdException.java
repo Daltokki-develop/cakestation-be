@@ -1,8 +1,6 @@
-package com.cakestation.backend.store.exception;
+package com.cakestation.backend.cakestore.exception;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 

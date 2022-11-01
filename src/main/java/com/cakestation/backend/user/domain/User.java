@@ -26,6 +26,8 @@ public class User extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
+    private int randomNumber;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER;
@@ -35,6 +37,12 @@ public class User extends BaseEntity {
                 .username(kakaoUserDto.getUsername())
                 .email(kakaoUserDto.getEmail())
                 .role(Role.ROLE_USER)
+                .randomNumber(createRandomNumber())
                 .build();
     }
+
+    private static int createRandomNumber() {
+        return (int) (Math.random() * 4) ;
+    }
+
 }
