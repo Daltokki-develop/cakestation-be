@@ -1,10 +1,7 @@
 package com.cakestation.backend.store.repository;
 
-import com.cakestation.backend.store.domain.Store;
 import com.cakestation.backend.store.domain.User_Store;
-import com.cakestation.backend.store.dto.response.LikestoreResponseDto;
 import com.cakestation.backend.store.dto.response.LikestoreResponseInterface;
-import com.cakestation.backend.store.dto.response.StoreResponse;
 import com.cakestation.backend.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface User_StoreRepository extends JpaRepository<User_Store,Long> {
