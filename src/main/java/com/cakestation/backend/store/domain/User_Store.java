@@ -18,21 +18,21 @@ public class User_Store extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "store_id")
+    @Column(name = "LIKED_ID")
     private Long id;
 
-    @ManyToOne(targetEntity = Store.class)
-    @JoinColumn(name = "STUDY_ID")
-    private Store stores;
+    @ManyToOne
+    @JoinColumn(name = "STORE_ID")
+    private Store store;
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")
-    private User users;
+    private User user;
 
     public static User_Store createLikeStroe(User user, Store store){
         return User_Store.builder()
-                .users(user)
-                .stores(store)
+                .user(user)
+                .store(store)
                 .build();
     }
 }

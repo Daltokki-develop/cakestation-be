@@ -50,7 +50,7 @@ public class UserController {
     @GetMapping("/oauth")
     public ResponseEntity KakaoCallback(@RequestParam String code) {
 
-        //Token 획득 메드 호출
+        //Token 획득
         TokenDto tokenDto = kakaoService.getKaKaoAccessToken(code);
         KakaoUserDto userInfo = kakaoService.getUserInfo(tokenDto.getAccessToken());
         Long userId = userService.join(userInfo);

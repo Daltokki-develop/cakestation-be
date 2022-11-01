@@ -2,6 +2,8 @@ package com.cakestation.backend.store.controller;
 
 import com.cakestation.backend.common.ApiResponse;
 import com.cakestation.backend.store.domain.Store;
+import com.cakestation.backend.store.dto.response.LikestoreResponseDto;
+import com.cakestation.backend.store.dto.response.LikestoreResponseInterface;
 import com.cakestation.backend.store.dto.response.StoreResponse;
 import com.cakestation.backend.store.service.StoreDto;
 import com.cakestation.backend.store.service.StoreService;
@@ -58,14 +60,35 @@ public class StoreController {
         return ResponseEntity.ok().body(
                 new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", storeResponseList));
     }
+    // 가게 좋아요 하기 기능
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/stores/like/{storeId}")
+    public ResponseEntity<ApiResponse<List<LikestoreResponseInterface>>> likeStore(HttpServletRequest request, @PathVariable Long storeId){
 
-//    @ResponseStatus(HttpStatus.OK)
-//    @PostMapping("/stores")
-//    public ResponseEntity<ApiResponse<StoreResponse>> likeStore(@RequestParam String storeId){
-//
-//
-//
-//        return ResponseEntity.ok().body(
-//                new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", "좋아요한 가게"));
-//    }
+        // 유저 정보 조회
+        Optional<String> userEmail = Optional.ofNullable(utilService.getCurrentUserEmail(utilService.headerAccessToken(request, JwtProperties.HEADER_STRING).get()));
+
+        // 헤더의 토큰 유효성
+        userEmail.orElseThrow( () -> new IdNotFoundException("유저정보를 확인해주세요"));
+
+        // 유저정보와 storeId를 통한 좋아요한 가게 저장
+        List<LikestoreResponseInterface> likedStoreResult = storeService.likeStore( storeId , userEmail.get());
+
+        return ResponseEntity.ok().body(new ApiResponse<>(HttpStatus.OK.value(), "좋아요 성공", likedStoreResult));
+    }
+
+    @GetMapping("/stores/like/all")
+//    public ResponseEntity<ApiResponse<List<LikestoreResponseDto>>> likeStoreList(HttpServletRequest request){
+        public ResponseEntity<ApiResponse<List<LikestoreResponseInterface>>> likeStoreList(HttpServletRequest request){
+        // 유저 정보 조회
+        Optional<String> userEmail = Optional.ofNullable(utilService.getCurrentUserEmail(utilService.headerAccessToken(request, JwtProperties.HEADER_STRING).get()));
+
+        // 헤더의 토큰 유효성
+        userEmail.orElseThrow( () -> new IdNotFoundException("유저정보를 확인해주세요"));
+
+        // 유저가 좋아요한 가게 List
+        List<LikestoreResponseInterface> resultList= storeService.findAllLikedStore(userEmail.get());
+
+        return ResponseEntity.ok().body(new ApiResponse<>(HttpStatus.OK.value(), "테스트 성공" , resultList));
+    }
 }
