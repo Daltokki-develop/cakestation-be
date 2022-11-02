@@ -239,7 +239,7 @@ public class KakaoService {
             URL url = new URL(GET_USER_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-
+            System.out.println(access_Token);
             // 요청에 필요한 Header에 포함될 내용
             conn.setRequestProperty("Authorization", "Bearer " + access_Token);
 

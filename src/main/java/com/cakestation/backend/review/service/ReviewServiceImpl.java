@@ -7,7 +7,7 @@ import com.cakestation.backend.review.service.dto.CreateReviewDto;
 import com.cakestation.backend.review.service.dto.ReviewDto;
 import com.cakestation.backend.review.service.dto.ReviewImageDto;
 import com.cakestation.backend.cakestore.domain.CakeStore;
-import com.cakestation.backend.cakestore.repository.StoreRepository;
+import com.cakestation.backend.cakestore.repository.CakeStoreRepository;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final ImageUploadService imageUploadService;
     private final UserRepository userRepository;
-    private final StoreRepository storeRepository;
+    private final CakeStoreRepository cakeStoreRepository;
     private final ReviewRepository reviewRepository;
 
 
@@ -40,7 +40,7 @@ public class ReviewServiceImpl implements ReviewService {
         User user = userRepository.findUserByEmail(currentEmail).orElseThrow(
                 () -> new IdNotFoundException("사용자를 찾을 수 없습니다."));
 
-        CakeStore cakeStore = storeRepository.findById(createReviewDto.getStoreId())
+        CakeStore cakeStore = cakeStoreRepository.findById(createReviewDto.getStoreId())
                 .orElseThrow(() -> new IdNotFoundException("가게 정보를 찾을 수 없습니다."));
 
         // 리뷰 생성

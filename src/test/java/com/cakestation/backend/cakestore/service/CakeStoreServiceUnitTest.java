@@ -2,7 +2,7 @@ package com.cakestation.backend.cakestore.service;
 
 import java.util.Optional;
 
-import com.cakestation.backend.cakestore.repository.StoreRepository;
+import com.cakestation.backend.cakestore.repository.CakeStoreRepository;
 import com.cakestation.backend.cakestore.service.dto.CakeStoreDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,10 +16,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(MockitoExtension.class)
-class StoreServiceUnitTest {
+class CakeStoreServiceUnitTest {
 
     @Mock
-    StoreRepository storeRepository;
+    CakeStoreRepository cakeStoreRepository;
 
     @InjectMocks
     CakeStoreService cakeStoreService;
@@ -31,7 +31,7 @@ class StoreServiceUnitTest {
     @Test
     public void 가게_조회() {
         // given
-        doReturn(Optional.of(getCakeStoreEntity())).when(storeRepository).findById(any());
+        doReturn(Optional.of(getCakeStoreEntity())).when(cakeStoreRepository).findById(any());
 
         // when
         CakeStoreDto store = cakeStoreService.findStoreById(STORE_ID);

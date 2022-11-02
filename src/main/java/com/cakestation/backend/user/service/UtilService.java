@@ -77,7 +77,6 @@ public class UtilService {
         Optional<String> TokenValue = Optional.ofNullable(request.getHeader(Target));
         TokenValue.orElseThrow(()-> new IdNotFoundException("유저정보를 확인할 수 없습니다."));
 
-
         return TokenValue;
     }
 
@@ -97,9 +96,9 @@ public class UtilService {
         Optional<User> checkNickname = null;
 
         String [] MBTI = {"ISTJ" , "ISTP" , "ISFJ" , "ISFP" , "INTJ" , "INTP" , "INFJ" , "INFP"
-        , "ESTJ" , "ESTP" , "ESFJ" , "ESEP" ,"ENTJ" , "ENTP" , "ENFJ" , "ENFP"};
+                , "ESTJ" , "ESTP" , "ESFJ" , "ESEP" ,"ENTJ" , "ENTP" , "ENFJ" , "ENFP"};
         String [] actions = {"포효하는 " , "울음많은 " , "화가많은 " , "고민많은 " , "소심한 " , "웃음많은 " , "어지러운 " ,
-        "말이많은 " , "걱정많은 " , "친구많은 " , "친구없는 " , "차가운 " , "냉정한 " , "계획적인 "};
+                "말이많은 " , "걱정많은 " , "친구많은 " , "친구없는 " , "차가운 " , "냉정한 " , "계획적인 "};
 
         Random random = new Random();
 
@@ -120,9 +119,8 @@ public class UtilService {
         KakaoUserDto targetUser = kakaoService.getUserInfo(accessToken);
 
         //유저 닉네임 저장
-        User saveUser = userRepository.findUserByEmail(targetUser.getEmail()).get();
-        int result= userRepository.updateNickname(saveUser,resultname);
-
+        Optional<User> saveUser = userRepository.findUserByEmail(targetUser.getEmail());
+        int result= userRepository.updateNickname(saveUser.get(),resultname);
 
         return result;
     }

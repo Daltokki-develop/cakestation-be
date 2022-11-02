@@ -21,9 +21,8 @@ public class UserService {
     public Long join(KakaoUserDto kakaoUserDto) {
 
         // 유저정보를 찾고 만약 Null값이면 유저정보를 DB에 저장
-        Optional<User> findUser = Optional
-                .of(userRepository.findUserByEmail(kakaoUserDto.getEmail())
-                        .orElseGet(() -> userRepository.save(User.createUser(kakaoUserDto))));
+        Optional<User> findUser = Optional.of(userRepository.findUserByEmail(kakaoUserDto.getEmail())
+                .orElseGet(() -> userRepository.save(User.createUser(kakaoUserDto))));
 
         return findUser.get().getId();
 
