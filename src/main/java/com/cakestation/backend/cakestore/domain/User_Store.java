@@ -25,7 +25,7 @@ public class User_Store extends BaseEntity {
     private CakeStore cakeStore;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "USER_ID")
     private User user;
 
     public static User_Store createLikeStore(User user, CakeStore store){
