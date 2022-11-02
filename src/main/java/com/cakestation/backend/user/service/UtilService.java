@@ -120,6 +120,7 @@ public class UtilService {
 
         //유저 닉네임 저장
         Optional<User> saveUser = userRepository.findUserByEmail(targetUser.getEmail());
+        saveUser.orElseThrow(() -> new IdNotFoundException("찾을수 없는 유저입니다."));
         int result= userRepository.updateNickname(saveUser.get(),resultname);
 
         return result;

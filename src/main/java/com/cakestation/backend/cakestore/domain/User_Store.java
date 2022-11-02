@@ -17,7 +17,7 @@ public class User_Store extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "LIKE_ID")
+    @Column(name = "like_id")
     private Long id;
 
     @ManyToOne
@@ -25,7 +25,7 @@ public class User_Store extends BaseEntity {
     private CakeStore cakeStore;
 
     @ManyToOne
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "user_id")
     private User user;
 
     public static User_Store createLikeStore(User user, CakeStore store){
