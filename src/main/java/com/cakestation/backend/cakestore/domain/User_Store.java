@@ -20,7 +20,7 @@ public class User_Store extends BaseEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "store_id")
+    @JoinColumn(name = "cake_store_id")
     private CakeStore cakeStore;
 
     @ManyToOne
