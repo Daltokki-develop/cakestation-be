@@ -12,12 +12,12 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@Table(name = "LIKE")
-public class User_Store extends BaseEntity {
+@Table(name = "like_store")
+public class LikeStore extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "like_id")
+    @Column(name = "like_store_id")
     private Long id;
 
     @ManyToOne
@@ -28,8 +28,8 @@ public class User_Store extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public static User_Store createLikeStore(User user, CakeStore store){
-        return User_Store.builder()
+    public static LikeStore createLikeStore(User user, CakeStore store) {
+        return LikeStore.builder()
                 .user(user)
                 .cakeStore(store)
                 .build();
