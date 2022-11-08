@@ -54,8 +54,8 @@ public class CakeStoreController {
     ResponseEntity<ApiResponse<List<CakeStoreResponse>>> searchStoresByKeyword(@RequestParam String storeName) {
         List<CakeStoreResponse> storeResponseList = cakeStoreService.searchStoresByKeyword(storeName)
                 .stream().map(CakeStoreResponse::from).collect(Collectors.toList());
-        return ResponseEntity.ok().body(
-                new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", storeResponseList));
+        return ResponseEntity.ok()
+                .body(new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", storeResponseList));
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -63,8 +63,8 @@ public class CakeStoreController {
     ResponseEntity<ApiResponse<List<CakeStoreResponse>>> searchStoresByStation(@RequestParam String stationName) {
         List<CakeStoreResponse> storeResponseList = cakeStoreService.searchStoresByStation(stationName)
                 .stream().map(CakeStoreResponse::from).collect(Collectors.toList());
-        return ResponseEntity.ok().body(
-                new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", storeResponseList));
+        return ResponseEntity.ok()
+                .body(new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", storeResponseList));
     }
 
 
@@ -82,7 +82,8 @@ public class CakeStoreController {
         // 유저정보와 storeId를 통한 좋아요한 가게 저장
         Long likeStoreId = cakeStoreService.likeStore(storeId, userEmail);
 
-        return ResponseEntity.ok().body(new ApiResponse<>(HttpStatus.OK.value(), "좋아요 성공", likeStoreId));
+        return ResponseEntity.ok()
+                .body(new ApiResponse<>(HttpStatus.OK.value(), "좋아요 성공", likeStoreId));
     }
 
     @GetMapping("/stores/like/all")

@@ -60,7 +60,6 @@ public class CakeStoreService {
 
     @Transactional
     public Long likeStore(Long storeId, String userEmail) {
-
         CakeStore cakeStore = cakeStoreRepository.findById(storeId)
                 .orElseThrow(() -> new IdNotFoundException("존재하지 않는 가게입니다."));
         User targetUser = userRepository.findUserByEmail(userEmail)
@@ -75,10 +74,8 @@ public class CakeStoreService {
     }
 
     public List<CakeStoreDto> findAllLikeStore(String userEmail) {
-
         User targetUser = userRepository.findUserByEmail(userEmail)
                 .orElseThrow(() -> new IdNotFoundException("유저 정보가 잘못되었습니다."));
-
         List<CakeStore> cakeStores = likeStoreRepository.findLikeStoresByUser(targetUser)
                 .stream()
                 .map(LikeStore::getCakeStore)
