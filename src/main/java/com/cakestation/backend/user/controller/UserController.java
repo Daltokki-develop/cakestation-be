@@ -3,6 +3,7 @@ package com.cakestation.backend.user.controller;
 import com.cakestation.backend.common.ApiResponse;
 import com.cakestation.backend.config.JwtProperties;
 import com.cakestation.backend.config.KakaoConfig;
+import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.service.KakaoService;
 import com.cakestation.backend.user.service.UserService;
 import com.cakestation.backend.user.service.UtilService;
@@ -21,6 +22,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 
 @RestController
@@ -59,8 +62,11 @@ public class UserController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + tokenDto.getAccessToken());
 
-        return new ResponseEntity<>(
-                new ApiResponse<>(200, "로그인 성공", userId), httpHeaders, HttpStatus.OK);
+        //닉네임 설정
+        utilService.makeNickName(userInfo.getEmail(), false);
+
+       return new ResponseEntity<>(
+                new ApiResponse<>(200, "로그인 성공", tokenDto.getAccessToken()), httpHeaders, HttpStatus.OK);
     }
 
     //로그아웃
@@ -82,19 +88,15 @@ public class UserController {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        //로그아웃 후 웹 쿠키에 남아있는 Token을 삭제
-//        accesscookie = new Cookie("Authorization", null); // 삭제할 쿠키에 대한 값을 null로 지정
-//        accesscookie.setPath("/"); // 전체 주소에 적용된 쿠키를 삭제
-//        accesscookie.setMaxAge(0); // 유효시간을 0으로 설정해서 바로 만료시킨다.
-//
-//        refreshcookie = new Cookie("refresh", null);
-//        refreshcookie.setPath("/");
-//        refreshcookie.setMaxAge(0);
-
-
-//        response.addCookie(accesscookie); // 응답에 추가해서 없어지도록 함
-//        response.addCookie(refreshcookie);
         return new ResponseEntity<>(new ApiResponse(200, "로그아웃 성공", result), HttpStatus.OK);
+    }
+
+    @GetMapping("/nickname")
+    public void makenickname(@RequestHeader("Authorization") String token){
+        String email = utilService.getCurrentUserEmail(token);
+
+        utilService.makeNickName(email , true);
+
     }
 
 }
