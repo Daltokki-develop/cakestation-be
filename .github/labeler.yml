@@ -11,3 +11,5 @@ labels:
     - '\bfix\b'
   'release':
     - '\brelease\b'
+  'work in progress':
+    - '\bwip\b'
