@@ -1,18 +1,13 @@
 package com.cakestation.backend.cakestore.controller;
 
-import com.cakestation.backend.cakestore.controller.dto.response.LikeStoreResponseInterface;
 import com.cakestation.backend.common.ApiResponse;
 import com.cakestation.backend.cakestore.controller.dto.response.CakeStoreResponse;
 import com.cakestation.backend.cakestore.service.CakeStoreService;
 import com.cakestation.backend.cakestore.service.dto.CakeStoreDto;
 import com.cakestation.backend.cakestore.service.dto.CreateCakeStoreDto;
-import com.cakestation.backend.common.handler.exception.IdNotFoundException;
 import com.cakestation.backend.config.JwtProperties;
 import com.cakestation.backend.user.service.UtilService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -56,43 +50,54 @@ public class CakeStoreController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/stores/search")
-    ResponseEntity<ApiResponse<List<CakeStoreResponse>>> searchStoresByKeyword(@RequestParam String keyword, @PageableDefault(size = 10, sort = "createdDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
-        List<CakeStoreResponse> storeResponseList = cakeStoreService.searchStoresByKeyword(keyword, pageable)
+    @GetMapping("/stores/search/name")
+    ResponseEntity<ApiResponse<List<CakeStoreResponse>>> searchStoresByKeyword(@RequestParam String storeName) {
+        List<CakeStoreResponse> storeResponseList = cakeStoreService.searchStoresByKeyword(storeName)
                 .stream().map(CakeStoreResponse::from).collect(Collectors.toList());
-        return ResponseEntity.ok().body(
-                new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", storeResponseList));
+        return ResponseEntity.ok()
+                .body(new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", storeResponseList));
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/stores/search/station")
+    ResponseEntity<ApiResponse<List<CakeStoreResponse>>> searchStoresByStation(@RequestParam String stationName) {
+        List<CakeStoreResponse> storeResponseList = cakeStoreService.searchStoresByStation(stationName)
+                .stream().map(CakeStoreResponse::from).collect(Collectors.toList());
+        return ResponseEntity.ok()
+                .body(new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", storeResponseList));
     }
 
 
     // 가게 좋아요 하기 기능
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/stores/like/{storeId}")
-    public ResponseEntity<ApiResponse<List<LikeStoreResponseInterface>>> likeStore(HttpServletRequest request, @PathVariable Long storeId){
+    public ResponseEntity<ApiResponse<Long>> likeStore(HttpServletRequest request, @PathVariable Long storeId) {
 
         // 유저 정보 조회
-        Optional<String> userEmail = Optional.ofNullable(utilService.getCurrentUserEmail(utilService.headerAccessToken(request, JwtProperties.HEADER_STRING).get()));
+        String userEmail = utilService.getCurrentUserEmail(request.getHeader(JwtProperties.HEADER_STRING));
 
         // 헤더의 토큰 유효성
-        userEmail.orElseThrow( () -> new IdNotFoundException("유저정보를 확인해주세요"));
+//        userEmail.orElseThrow(() -> new IdNotFoundException("유저정보를 확인해주세요"));
 
         // 유저정보와 storeId를 통한 좋아요한 가게 저장
-        List<LikeStoreResponseInterface> likedStoreResult = cakeStoreService.likeStore( storeId , userEmail.get());
+        Long likeStoreId = cakeStoreService.likeStore(storeId, userEmail);
 
-        return ResponseEntity.ok().body(new ApiResponse<>(HttpStatus.OK.value(), "좋아요 성공", likedStoreResult));
+        return ResponseEntity.ok()
+                .body(new ApiResponse<>(HttpStatus.OK.value(), "좋아요 성공", likeStoreId));
     }
 
     @GetMapping("/stores/like/all")
-    public ResponseEntity<ApiResponse<List<LikeStoreResponseInterface>>> likeStoreList(HttpServletRequest request){
+    public ResponseEntity<ApiResponse<List<CakeStoreDto>>> likeStoreList(HttpServletRequest request) {
         // 유저 정보 조회
-        Optional<String> userEmail = Optional.ofNullable(utilService.getCurrentUserEmail(utilService.headerAccessToken(request, JwtProperties.HEADER_STRING).get()));
+        String userEmail = utilService.getCurrentUserEmail(request.getHeader(JwtProperties.HEADER_STRING));
 
         // 헤더의 토큰 유효성
-        userEmail.orElseThrow( () -> new IdNotFoundException("유저정보를 확인해주세요"));
+//        userEmail.orElseThrow(() -> new IdNotFoundException("유저정보를 확인해주세요"));
 
         // 유저가 좋아요한 가게 List
-        List<LikeStoreResponseInterface> resultList= cakeStoreService.findAllLikedStore(userEmail.get());
+        List<CakeStoreDto> cakeStoreDtoList = cakeStoreService.findAllLikeStore(userEmail);
 
-        return ResponseEntity.ok().body(new ApiResponse<>(HttpStatus.OK.value(), "테스트 성공" , resultList));
+        return ResponseEntity.ok()
+                .body(new ApiResponse<>(HttpStatus.OK.value(), "좋아요 리스트 조회 성공", cakeStoreDtoList));
     }
 }
