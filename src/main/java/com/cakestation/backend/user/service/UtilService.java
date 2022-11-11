@@ -1,8 +1,6 @@
 package com.cakestation.backend.user.service;
 
-import java.net.http.HttpHeaders;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
@@ -21,7 +19,6 @@ import org.apache.catalina.security.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 @Slf4j
 @Service
@@ -90,39 +87,47 @@ public class UtilService {
         }
     }
 
-    public int makeNickName(HttpServletRequest request){
+    public Optional<User> getUserinfo(String email){
+
+        Optional<User> user = userRepository.findUserByEmail(email);
+
+        user.orElseThrow(() -> new IdNotFoundException("유저정보를 확인할 수 없습니다."));
+
+        return user;
+    }
+
+    public void makeNickName(String userEmail , boolean reNickname) {
 
         String resultname = null;
         Optional<User> checkNickname = null;
 
-        String [] MBTI = {"ISTJ" , "ISTP" , "ISFJ" , "ISFP" , "INTJ" , "INTP" , "INFJ" , "INFP"
-                , "ESTJ" , "ESTP" , "ESFJ" , "ESEP" ,"ENTJ" , "ENTP" , "ENFJ" , "ENFP"};
-        String [] actions = {"포효하는 " , "울음많은 " , "화가많은 " , "고민많은 " , "소심한 " , "웃음많은 " , "어지러운 " ,
-                "말이많은 " , "걱정많은 " , "친구많은 " , "친구없는 " , "차가운 " , "냉정한 " , "계획적인 "};
+        Optional<User> user = userRepository.findUserByEmail(userEmail);
+        user.orElseThrow(() -> new IdNotFoundException("찾을수 없는 유저입니다."));
 
-        Random random = new Random();
+        if (user.get().getNickname() == null || reNickname) {
+            String[] MBTI = {"체리", "망고", "복숭아", "오렌지", "사과", "바나나", "두리안", "메론"
+                    , "수박", "딸기", "망고스틴", "키위", "올리브", "참외", "블루베리", "파인애플", "딸기"
+                    , "라즈베리", "두리안", "청사과"};
+            String[] actions = {"포효하는 ", "울음많은 ", "화가많은 ", "고민많은 ", "소심한 ", "웃음많은 ", "어지러운 ",
+                    "말이많은 ", "걱정많은 ", "친구많은 ", "친구없는 ", "차가운 ", "냉정한 ", "계획적인 "};
 
-        resultname = actions[random.nextInt(actions.length)] + MBTI[random.nextInt(MBTI.length)];
+            Random random = new Random();
 
-        //닉네임 중복여부 확인하여 입력
-        checkNickname = userRepository.findByNickname(resultname);
-
-
-        //DB안에 같은 데이터가 있으면 계속 새로운 닉네임을 만들기
-        while (checkNickname.isPresent()){
             resultname = actions[random.nextInt(actions.length)] + MBTI[random.nextInt(MBTI.length)];
+
+            //닉네임 중복여부 확인하여 입력
             checkNickname = userRepository.findByNickname(resultname);
+
+            //DB안에 같은 데이터가 있으면 계속 새로운 닉네임을 만들기
+            while (checkNickname.isPresent()) {
+                resultname = actions[random.nextInt(actions.length)] + MBTI[random.nextInt(MBTI.length)];
+                checkNickname = userRepository.findByNickname(resultname);
+            }
+
+            //유저 닉네임 저장
+            int result = userRepository.updateNickname(user.get(), resultname);
+
         }
 
-        //쿠키를 통한 사용자 로직 조회
-        String accessToken = String.valueOf(this.headerAccessToken(request, "Authorization"));
-        KakaoUserDto targetUser = kakaoService.getUserInfo(accessToken);
-
-        //유저 닉네임 저장
-        Optional<User> saveUser = userRepository.findUserByEmail(targetUser.getEmail());
-        saveUser.orElseThrow(() -> new IdNotFoundException("찾을수 없는 유저입니다."));
-        int result= userRepository.updateNickname(saveUser.get(),resultname);
-
-        return result;
     }
 }
