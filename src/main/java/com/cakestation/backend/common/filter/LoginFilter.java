@@ -1,4 +1,4 @@
-package com.cakestation.backend.common.Filter;
+package com.cakestation.backend.common.filter;
 
 
 import com.cakestation.backend.common.handler.exception.IdNotFoundException;
@@ -8,11 +8,9 @@ import com.cakestation.backend.user.service.KakaoService;
 import com.cakestation.backend.user.service.UtilService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.PatternMatchUtils;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j

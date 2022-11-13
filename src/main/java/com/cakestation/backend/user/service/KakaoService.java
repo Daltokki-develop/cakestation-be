@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,16 +25,16 @@ import static com.cakestation.backend.config.KakaoConfig.*;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class KakaoService {
 
     private final KakaoConfig kakaoConfig;
 
-    //URL을 통해 토큰을 얻을때 
     public TokenDto getKaKaoAccessToken(String code) {
         TokenDto tokenDto = null;
 
         try {
-            String getTokenURL = kakaoConfig.GET_TOKEN_URL + "&code=" +code;
+            String getTokenURL = kakaoConfig.GET_TOKEN_URL + "&code=" + code;
             URL url = new URL(getTokenURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
@@ -72,7 +73,7 @@ public class KakaoService {
 
             br.close();
             bw.close();
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,7 +81,7 @@ public class KakaoService {
     }
 
     //토큰 유효성 검사를 위한 클래스
-    public CheckDto checkAccessToken(String access_Token){
+    public CheckDto checkAccessToken(String access_Token) {
         CheckDto tokenUser = null;
         try {
             URL url = new URL(CHECK_TOKEN);
@@ -103,8 +104,8 @@ public class KakaoService {
 
             int userId = element.getAsJsonObject().get("id").getAsInt();
             tokenUser = CheckDto.builder()
-                            .userUid(userId)
-                            .build();
+                    .userUid(userId)
+                    .build();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -112,59 +113,58 @@ public class KakaoService {
         return tokenUser;
     }
 
-    //refresh를 통한 토큰 최신화
-    public TokenDto refreshAccessToken(String refreshToken){
+    // refresh를 통한 토큰 최신화
+    public TokenDto refreshAccessToken(String refreshToken) {
         String refreshURL = kakaoConfig.REFRESH_ACCESS + refreshToken;
-        TokenDto tokenDto = null;    
+        TokenDto tokenDto = null;
 
-            try {
-                URL url = new URL(refreshURL);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-    
-                //POST 요청을 위해 기본값이 false인 setDoOutput을 true로
-                conn.setRequestMethod("POST");
-                conn.setDoOutput(true);
-    
-                //POST 요청에 필요로 요구하는 파라미터 스트림을 통해 전송
-                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-                StringBuilder sb = new StringBuilder();
-                bw.write(sb.toString());
-                bw.flush();
-    
-                //결과 코드가 200이라면 성공
-                int responseCode = conn.getResponseCode();
-    
-                //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
-                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                String line = "";
-                String result = "";
-    
-                while ((line = br.readLine()) != null) {
-                    result += line;
-                }
-    
-                //Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
-                JsonElement element = JsonParser.parseString(result);
-                
-                tokenDto = TokenDto.builder()
-                .accessToken(element.getAsJsonObject().get("access_token").getAsString())
-                .refreshToken(element.getAsJsonObject().get("refresh_token").getAsString())
-                .accessExpires(element.getAsJsonObject().get("expires_in").getAsInt())
-                .refreshExpires(element.getAsJsonObject().get("refresh_token_expires_in").getAsInt())
-                .build();
+        try {
+            URL url = new URL(refreshURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-                br.close();
-                bw.close();
-    
-            } catch (IOException e) {
-                e.printStackTrace();
+            //POST 요청을 위해 기본값이 false인 setDoOutput을 true로
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+
+            //POST 요청에 필요로 요구하는 파라미터 스트림을 통해 전송
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+            bw.write("");
+            bw.flush();
+
+            //결과 코드가 200이라면 성공
+            int responseCode = conn.getResponseCode();
+
+            //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line = "";
+            String result = "";
+
+            while ((line = br.readLine()) != null) {
+                result += line;
             }
-            return tokenDto;
+
+            //Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
+            JsonElement element = JsonParser.parseString(result);
+
+            tokenDto = TokenDto.builder()
+                    .accessToken(element.getAsJsonObject().get("access_token").getAsString())
+                    .refreshToken(element.getAsJsonObject().get("refresh_token").getAsString())
+                    .accessExpires(element.getAsJsonObject().get("expires_in").getAsInt())
+                    .refreshExpires(element.getAsJsonObject().get("refresh_token_expires_in").getAsInt())
+                    .build();
+
+            br.close();
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return tokenDto;
     }
 
     //로그아웃을 통한 발행된 토큰 무효화 작업(로그아웃)
-    public CheckDto LogoutToken(String access_Token){
-        CheckDto logoutDto = null; 
+    public CheckDto LogoutToken(String access_Token) {
+        CheckDto logoutDto = null;
         try {
             URL url = new URL(LOGOUT_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -187,8 +187,8 @@ public class KakaoService {
             System.out.println("Element" + element);
             int userId = element.getAsJsonObject().get("id").getAsInt();
             logoutDto = CheckDto.builder()
-                            .userUid(userId)
-                            .build();
+                    .userUid(userId)
+                    .build();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -197,15 +197,13 @@ public class KakaoService {
     }
 
     //회원탈퇴작업을 통해 나의 카카오에 등록된 유저에서 삭제
-    public CheckDto deleteUser(String accessToken){
+    public CheckDto deleteUser(String accessToken) {
         CheckDto withdrawal = null;
         try {
             URL url = new URL(CHECK_TOKEN);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
-
-            // 요청에 필요한 Header에 포함될 내용
-            conn.setRequestProperty("Authorization", "Bearer " + accessToken);
+            conn.setRequestProperty(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + accessToken);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
@@ -221,8 +219,8 @@ public class KakaoService {
             System.out.println("Element" + element);
             int userId = element.getAsJsonObject().get("id").getAsInt();
             withdrawal = CheckDto.builder()
-                            .userUid(userId)
-                            .build();
+                    .userUid(userId)
+                    .build();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -230,7 +228,6 @@ public class KakaoService {
         return withdrawal;
     }
 
-    //User정보를 확인하기 위한 메서드
     public KakaoUserDto getUserInfo(String access_Token) {
 
         KakaoUserDto kakaoUserDto = null;
@@ -241,7 +238,7 @@ public class KakaoService {
             conn.setRequestMethod("GET");
             System.out.println(access_Token);
             // 요청에 필요한 Header에 포함될 내용
-            conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+            conn.setRequestProperty(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + access_Token);
 
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -251,14 +248,13 @@ public class KakaoService {
             while ((line = br.readLine()) != null) {
                 result.append(line);
             }
-
             Optional<JsonElement> element = Optional.ofNullable(JsonParser.parseString(result.toString()));
             element.orElseThrow(() -> new IdNotFoundException("사용자 정보를 조회할 수 없습니다."));
 
             JsonObject account = element.get().getAsJsonObject().get("kakao_account").getAsJsonObject();
             String username = account.getAsJsonObject().get("profile").getAsJsonObject().get("nickname").getAsString();
             String email = account.getAsJsonObject().get("email").getAsString();
-            
+
             kakaoUserDto = KakaoUserDto.builder()
                     .username(username)
                     .email(email)

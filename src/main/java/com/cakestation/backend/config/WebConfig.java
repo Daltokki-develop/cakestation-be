@@ -1,7 +1,7 @@
 package com.cakestation.backend.config;
 
 //import com.cakestation.backend.common.Filter.Filter;
-import com.cakestation.backend.common.Filter.LoginFilter;
+import com.cakestation.backend.common.filter.LoginFilter;
 import com.cakestation.backend.user.service.KakaoService;
 import com.cakestation.backend.user.service.UtilService;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
