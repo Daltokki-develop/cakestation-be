@@ -11,17 +11,8 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findUserByEmail(@Param("email") String email);
 
     Optional<User> findByNickname(@Param("nickname") String nickname);
-
-    @Modifying
-    @Transactional
-    @Query("update User u set u.nickname = :#{#newNickname} "
-            + "where u.email = :#{#User.email}")
-    public int updateNickname(
-             @Param("User") User user,
-             @Param("newNickname") String nickname
-    );
 }
