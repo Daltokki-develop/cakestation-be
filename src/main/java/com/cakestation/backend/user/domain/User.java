@@ -32,16 +32,17 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER;
 
-    public static User createUser(KakaoUserDto kakaoUserDto) {
+    public static User createUser(KakaoUserDto kakaoUserDto, String nickname) {
         return User.builder()
                 .username(kakaoUserDto.getUsername())
                 .email(kakaoUserDto.getEmail())
                 .role(Role.ROLE_USER)
+                .nickname(nickname)
                 .randomNumber(createRandomNumber())
                 .build();
     }
 
-    public void updateNickname(String nickname) {
+    public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 

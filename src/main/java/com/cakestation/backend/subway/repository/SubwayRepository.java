@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SubwayRepository extends JpaRepository<Subway,Long> {
+public interface SubwayRepository extends JpaRepository<Subway, Long> {
 }

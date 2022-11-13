@@ -35,7 +35,7 @@ public class ReviewController {
         String userEmail = utilService.getCurrentUserEmail(token);
         Long reviewId = reviewService.saveReview(createReviewRequest.toServiceDto(storeId, createReviewRequest), userEmail);
         return ResponseEntity.ok().body(
-                new ApiResponse<Long>(HttpStatus.CREATED.value(), "리뷰 등록 성공", reviewId));
+                new ApiResponse<>(HttpStatus.CREATED.value(), "리뷰 등록 성공", reviewId));
     }
 
     // 리뷰 단일 조회
@@ -53,7 +53,6 @@ public class ReviewController {
     public ResponseEntity<ApiResponse<List<ReviewResponse>>> getReviewsByWriter(
             @PathVariable Long userId,
             @PageableDefault(size = 30, sort = {"createdDateTime", "score"}, direction = Sort.Direction.DESC) Pageable pageable) {
-
         List<ReviewResponse> reviews = reviewService.findReviewsByWriter(userId, pageable)
                 .stream().map(ReviewResponse::from).collect(Collectors.toList());
         return ResponseEntity.ok().body(
@@ -79,9 +78,8 @@ public class ReviewController {
     @GetMapping("/stores/{storeId}/reviews/avg")
     public ResponseEntity<ApiResponse<Double>> getReviewAverageByStore(@PathVariable Long storeId) {
         Double avg = reviewService.findReviewAvgByStore(storeId);
-        return ResponseEntity.ok().body(
-                new ApiResponse<>(HttpStatus.OK.value(), "리뷰 별점 평균 조회 성공", avg)
-        );
+        return ResponseEntity.ok()
+                .body(new ApiResponse<>(HttpStatus.OK.value(), "리뷰 별점 평균 조회 성공", avg));
     }
 
     // 리뷰 삭제
@@ -99,7 +97,9 @@ public class ReviewController {
     public ResponseEntity<ApiResponse<List<ReviewImageResponse>>> getReviewImagesByStore(
             @PathVariable Long storeId, Pageable pageable) {
         List<ReviewImageResponse> reviewImages = reviewService.findReviewImagesByStore(storeId, pageable)
-                .stream().map(ReviewImageResponse::from).collect(Collectors.toList());
+                .stream()
+                .map(ReviewImageResponse::from)
+                .collect(Collectors.toList());
 
         return ResponseEntity.ok().body(
                 new ApiResponse<>(HttpStatus.OK.value(), "리뷰 이미지 조회 성공", reviewImages));
@@ -112,7 +112,9 @@ public class ReviewController {
     public ResponseEntity<ApiResponse<List<ReviewImageResponse>>> getReviewImagesByUser(
             @PathVariable Long userId, Pageable pageable) {
         List<ReviewImageResponse> reviewImages = reviewService.findReviewImagesByUser(userId, pageable)
-                .stream().map(ReviewImageResponse::from).collect(Collectors.toList());
+                .stream()
+                .map(ReviewImageResponse::from)
+                .collect(Collectors.toList());
 
         return ResponseEntity.ok().body(
                 new ApiResponse<>(HttpStatus.OK.value(), "리뷰 이미지 조회 성공", reviewImages));

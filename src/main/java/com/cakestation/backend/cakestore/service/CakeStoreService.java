@@ -59,32 +59,31 @@ public class CakeStoreService {
                 .collect(Collectors.toList());
     }
 
-
     @Transactional
-    public Long likeStore(Long storeId, String userEmail) {
+    public void likeStore(Long storeId, String userEmail) {
         CakeStore cakeStore = cakeStoreRepository.findById(storeId)
                 .orElseThrow(() -> new InvalidStoreException(ErrorType.NOT_FOUND_STORE));
         User targetUser = userRepository.findUserByEmail(userEmail)
                 .orElseThrow(() -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
 
         likeStoreRepository.findByUserAndCakeStore(targetUser, cakeStore)
-                .ifPresent(likeStore -> {
-                    throw new IllegalArgumentException("이미 좋아요가 등록된 가게입니다.");
-                });
-
-        return likeStoreRepository.save(LikeStore.createLikeStore(targetUser, cakeStore)).getId();
+                .ifPresentOrElse(likeStoreRepository::delete,
+                        () -> likeStoreRepository.save(LikeStore.createLikeStore(targetUser, cakeStore)));
     }
 
     public List<CakeStoreDto> findAllLikeStore(String userEmail) {
         User targetUser = userRepository.findUserByEmail(userEmail)
-                .orElseThrow(() ->new InvalidUserException(ErrorType.NOT_FOUND_USER));
+                .orElseThrow(() -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
 
         List<CakeStore> cakeStores = likeStoreRepository.findLikeStoresByUser(targetUser)
                 .stream()
                 .map(LikeStore::getCakeStore)
                 .collect(Collectors.toList());
 
-        List<Long> cakeStoreIds = cakeStores.stream().map(CakeStore::getId).collect(Collectors.toList());
+        List<Long> cakeStoreIds = cakeStores
+                .stream()
+                .map(CakeStore::getId)
+                .collect(Collectors.toList());
 
         return cakeStoreRepository.findAllById(cakeStoreIds)
                 .stream()

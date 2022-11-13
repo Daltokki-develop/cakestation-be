@@ -25,24 +25,20 @@ public class UserService {
     @Transactional
     public Long join(KakaoUserDto kakaoUserDto) {
 
-        Optional<User> findUser = Optional.of(userRepository.findUserByEmail(kakaoUserDto.getEmail())
-                .orElseGet(() -> userRepository.save(User.createUser(kakaoUserDto))));
-
-        return findUser.get().getId();
+        User user = userRepository.findUserByEmail(kakaoUserDto.getEmail())
+                .orElseGet(() -> userRepository.save(
+                        User.createUser(kakaoUserDto, makeNickname())));
+        return user.getId();
     }
 
     @Transactional
-    public String getNickname(String userEmail, boolean reNickname) {
+    public String updateNickname(String userEmail) {
         User user = userRepository.findUserByEmail(userEmail)
                 .orElseThrow(() -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
 
-        String nickname;
-        if (user.getNickname().isEmpty() || reNickname) {
-            nickname = makeNickname();
-            user.updateNickname(nickname);
-        } else {
-            nickname = user.getNickname();
-        }
+        String nickname = makeNickname();
+        user.setNickname(nickname);
+
         return nickname;
     }
 
@@ -63,7 +59,6 @@ public class UserService {
             resultName = actions.get(random.nextInt(actions.size())) + fruits.get(random.nextInt(fruits.size()));
             checkNickName = userRepository.findByNickname(resultName);
         }
-        //유저 닉네임 저장
         return resultName;
     }
 }
