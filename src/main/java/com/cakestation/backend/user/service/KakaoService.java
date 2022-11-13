@@ -1,8 +1,9 @@
 package com.cakestation.backend.user.service;
 
-import com.cakestation.backend.common.handler.exception.IdNotFoundException;
+import com.cakestation.backend.common.exception.ErrorType;
 import com.cakestation.backend.config.JwtProperties;
 import com.cakestation.backend.config.KakaoConfig;
+import com.cakestation.backend.user.exception.InvalidUserException;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import com.cakestation.backend.user.service.dto.response.CheckDto;
 import com.cakestation.backend.user.service.dto.response.TokenDto;
@@ -249,7 +250,7 @@ public class KakaoService {
                 result.append(line);
             }
             Optional<JsonElement> element = Optional.ofNullable(JsonParser.parseString(result.toString()));
-            element.orElseThrow(() -> new IdNotFoundException("사용자 정보를 조회할 수 없습니다."));
+            element.orElseThrow(() -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
 
             JsonObject account = element.get().getAsJsonObject().get("kakao_account").getAsJsonObject();
             String username = account.getAsJsonObject().get("profile").getAsJsonObject().get("nickname").getAsString();

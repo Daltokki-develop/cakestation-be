@@ -30,19 +30,16 @@ public class UserController {
     private final UtilService utilService;
 
     @GetMapping("/email")
-    public ResponseEntity getEmail(@RequestHeader("Authorization") String token) throws Exception {
+    public ResponseEntity<ApiResponse<String>> getEmail(@RequestHeader("Authorization") String token) {
 
         String email = utilService.getCurrentUserEmail(token);
-
-//        int test = utilService.makeNickName(request);
-        System.out.println(email);
         return new ResponseEntity<>(new ApiResponse<>(200, "이메일 획득", email), HttpStatus.OK);
     }
 
 
     //"login" API에서 redirect된 URL에서 Code parameter를 추출하여 아래 메서드를 실행하여 유저정보를 저장및 토큰을 쿠키로 보내준다.
     @GetMapping("/oauth")
-    public ResponseEntity KakaoCallback(@RequestParam String code) {
+    public ResponseEntity<ApiResponse<String>> KakaoCallback(@RequestParam String code) {
 
         //Token 획득
         TokenDto tokenDto = kakaoService.getKaKaoAccessToken(code);
@@ -57,33 +54,28 @@ public class UserController {
         userService.getNickname(userInfo.getEmail(), false);
 
         return new ResponseEntity<>(
-                new ApiResponse<>(200, "로그인 성공", tokenDto.getAccessToken()), httpHeaders, HttpStatus.OK);
+                new ApiResponse<>(200, "로그인 성공", tokenDto.getAccessToken()),
+                httpHeaders, HttpStatus.OK);
     }
 
     //로그아웃
     @GetMapping("/logout/kakao")
-    public ResponseEntity KakaoLogout(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<ApiResponse<CheckDto>> KakaoLogout(HttpServletRequest request, HttpServletResponse response) {
         CheckDto result = null;
-        Cookie accesscookie = null;
-        Cookie refreshcookie = null;
-
-
         try {
             //토큰을 찾는 메서드 
             String findCookie = String.valueOf(utilService.headerAccessToken(request, "Authorization"));
-
             //찾은 토큰을 통한 로그아웃 메서드
             result = kakaoService.LogoutToken(findCookie);
-
 
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>(new ApiResponse(200, "로그아웃 성공", result), HttpStatus.OK);
+        return ResponseEntity.ok(new ApiResponse<>(200, "로그아웃 성공", result));
     }
 
     @GetMapping("/nickname")
-    public ResponseEntity makeNickname(@RequestHeader(JwtProperties.HEADER_STRING) String token) {
+    public ResponseEntity<String> makeNickname(@RequestHeader(JwtProperties.HEADER_STRING) String token) {
         String email = utilService.getCurrentUserEmail(token);
         String nickname = userService.getNickname(email, true);
         return ResponseEntity.ok(nickname);

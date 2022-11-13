@@ -1,8 +1,9 @@
 package com.cakestation.backend.user.service;
 
-import com.cakestation.backend.common.handler.exception.IdNotFoundException;
-import com.cakestation.backend.user.domain.Nickname.NicknameType;
+import com.cakestation.backend.common.exception.ErrorType;
+import com.cakestation.backend.user.domain.NicknameType;
 import com.cakestation.backend.user.domain.User;
+import com.cakestation.backend.user.exception.InvalidUserException;
 import com.cakestation.backend.user.repository.UserRepository;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import lombok.RequiredArgsConstructor;
@@ -28,13 +29,12 @@ public class UserService {
                 .orElseGet(() -> userRepository.save(User.createUser(kakaoUserDto))));
 
         return findUser.get().getId();
-
     }
 
     @Transactional
     public String getNickname(String userEmail, boolean reNickname) {
         User user = userRepository.findUserByEmail(userEmail)
-                .orElseThrow(() -> new IdNotFoundException("찾을수 없는 유저입니다."));
+                .orElseThrow(() -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
 
         String nickname;
         if (user.getNickname().isEmpty() || reNickname) {

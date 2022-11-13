@@ -2,16 +2,14 @@ package com.cakestation.backend.user.service;
 
 import java.util.HashMap;
 import java.util.Optional;
-import java.util.Random;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
 
-import com.cakestation.backend.common.handler.exception.EmailNotFoundException;
-import com.cakestation.backend.common.handler.exception.IdNotFoundException;
+import com.cakestation.backend.auth.exception.InvalidTokenException;
+import com.cakestation.backend.common.exception.ErrorType;
 import com.cakestation.backend.config.JwtProperties;
-import com.cakestation.backend.user.domain.User;
+import com.cakestation.backend.user.exception.InvalidUserException;
 import com.cakestation.backend.user.repository.UserRepository;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import com.cakestation.backend.user.service.dto.response.TokenDto;
@@ -60,7 +58,7 @@ public class UtilService {
     public Optional<String> headerAccessToken(HttpServletRequest request, String Target) {
 
         Optional<String> TokenValue = Optional.ofNullable(request.getHeader(Target));
-        TokenValue.orElseThrow(() -> new IdNotFoundException("유저정보를 확인할 수 없습니다."));
+        TokenValue.orElseThrow(() -> new InvalidTokenException(ErrorType.INVALID_TOKEN));
 
         return TokenValue;
     }
@@ -71,7 +69,7 @@ public class UtilService {
             KakaoUserDto userDto = kakaoService.getUserInfo(accessToken);
             return userDto.getEmail();
         } catch (Exception e) {
-            throw new EmailNotFoundException("로그인이 필요한 서비스입니다.");
+            throw new InvalidTokenException(ErrorType.INVALID_TOKEN);
         }
     }
 }

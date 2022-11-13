@@ -1,4 +1,4 @@
-package com.cakestation.backend.user.domain.Nickname;
+package com.cakestation.backend.user.domain;
 
 import lombok.Getter;
 
