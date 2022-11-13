@@ -2,7 +2,6 @@ package com.cakestation.backend.user.controller;
 
 import com.cakestation.backend.common.ApiResponse;
 import com.cakestation.backend.config.JwtProperties;
-import com.cakestation.backend.config.KakaoConfig;
 import com.cakestation.backend.user.service.KakaoService;
 import com.cakestation.backend.user.service.UserService;
 import com.cakestation.backend.user.service.UtilService;
@@ -19,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -30,10 +28,6 @@ public class UserController {
     private final KakaoService kakaoService;
     private final UserService userService;
     private final UtilService utilService;
-
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
-    private final KakaoConfig kakaoConfig;
 
     @GetMapping("/email")
     public ResponseEntity getEmail(@RequestHeader("Authorization") String token) throws Exception {
@@ -60,9 +54,9 @@ public class UserController {
         httpHeaders.add(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + tokenDto.getAccessToken());
 
         //닉네임 설정
-        utilService.makeNickname(userInfo.getEmail(), false);
+        userService.getNickname(userInfo.getEmail(), false);
 
-       return new ResponseEntity<>(
+        return new ResponseEntity<>(
                 new ApiResponse<>(200, "로그인 성공", tokenDto.getAccessToken()), httpHeaders, HttpStatus.OK);
     }
 
@@ -89,11 +83,9 @@ public class UserController {
     }
 
     @GetMapping("/nickname")
-    public void makenickname(@RequestHeader("Authorization") String token){
+    public ResponseEntity makeNickname(@RequestHeader(JwtProperties.HEADER_STRING) String token) {
         String email = utilService.getCurrentUserEmail(token);
-
-        utilService.makeNickname(email , true);
-
+        String nickname = userService.getNickname(email, true);
+        return ResponseEntity.ok(nickname);
     }
-
 }
