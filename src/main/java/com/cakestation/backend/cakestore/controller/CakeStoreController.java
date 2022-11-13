@@ -78,13 +78,12 @@ public class CakeStoreController {
     // 가게 좋아요 하기 기능
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/stores/like/{storeId}")
-    public ResponseEntity<ApiResponse<Long>> likeStore(HttpServletRequest request, @PathVariable Long storeId) {
+    public ResponseEntity likeStore(HttpServletRequest request, @PathVariable Long storeId) {
 
         String userEmail = utilService.getCurrentUserEmail(request.getHeader(JwtProperties.HEADER_STRING));
-        Long likeStoreId = cakeStoreService.likeStore(storeId, userEmail);
+        cakeStoreService.likeStore(storeId, userEmail);
 
-        return ResponseEntity.ok()
-                .body(new ApiResponse<>(HttpStatus.OK.value(), "좋아요 성공", likeStoreId));
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/stores/like/all")

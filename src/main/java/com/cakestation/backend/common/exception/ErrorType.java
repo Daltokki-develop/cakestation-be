@@ -10,6 +10,7 @@ public enum ErrorType {
     FORBIDDEN(1004, "권한이 없습니다."),
     NOT_FOUND_USER(2001, "존재하지 않는 회원입니다."),
     NOT_FOUND_STORE(3001, "존재하지 않는 가게입니다."),
+    CAN_NOT_PRESS_LIKE(3002, "이미 좋아요가 등록된 가게입니다."),
     NOT_FOUND_REVIEW(4001, "존재하지 않는 리뷰입니다."),
     CAN_NOT_UPLOAD_IMAGE(4002, "리뷰 이미지를 업로드할 수 없습니다.");
 
