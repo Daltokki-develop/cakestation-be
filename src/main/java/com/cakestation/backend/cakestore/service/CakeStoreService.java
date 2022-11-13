@@ -59,7 +59,6 @@ public class CakeStoreService {
                 .collect(Collectors.toList());
     }
 
-
     @Transactional
     public Long likeStore(Long storeId, String userEmail) {
         CakeStore cakeStore = cakeStoreRepository.findById(storeId)
