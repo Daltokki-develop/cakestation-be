@@ -2,6 +2,7 @@ package com.cakestation.backend.user.controller;
 
 import com.cakestation.backend.common.ApiResponse;
 import com.cakestation.backend.config.JwtProperties;
+import com.cakestation.backend.user.controller.dto.NicknameResponse;
 import com.cakestation.backend.user.service.KakaoService;
 import com.cakestation.backend.user.service.UserService;
 import com.cakestation.backend.user.service.UtilService;
@@ -9,7 +10,6 @@ import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import com.cakestation.backend.user.service.dto.response.CheckDto;
 import com.cakestation.backend.user.service.dto.response.TokenDto;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -50,9 +50,6 @@ public class UserController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + tokenDto.getAccessToken());
 
-        //닉네임 설정
-        userService.getNickname(userInfo.getEmail(), false);
-
         return new ResponseEntity<>(
                 new ApiResponse<>(200, "로그인 성공", tokenDto.getAccessToken()),
                 httpHeaders, HttpStatus.OK);
@@ -74,10 +71,10 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>(200, "로그아웃 성공", result));
     }
 
-    @GetMapping("/nickname")
-    public ResponseEntity<String> makeNickname(@RequestHeader(JwtProperties.HEADER_STRING) String token) {
+    @PatchMapping("/nickname")
+    public ResponseEntity<NicknameResponse> updateNickname(@RequestHeader(JwtProperties.HEADER_STRING) String token) {
         String email = utilService.getCurrentUserEmail(token);
-        String nickname = userService.getNickname(email, true);
-        return ResponseEntity.ok(nickname);
+        return ResponseEntity.ok(
+                new NicknameResponse(userService.updateNickname(email)));
     }
 }
