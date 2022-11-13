@@ -41,8 +41,12 @@ public class User extends BaseEntity {
                 .build();
     }
 
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     private static int createRandomNumber() {
-        return (int) (Math.random() * 4) ;
+        return (int) (Math.random() * 4);
     }
 
 }

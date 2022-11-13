@@ -4,7 +4,8 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.cakestation.backend.review.exception.FileUploadFailedException;
+import com.cakestation.backend.common.exception.ErrorType;
+import com.cakestation.backend.review.exception.InvalidReviewImageException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,6 @@ public class ImageUploadService {
     private String bucketName;
     private static final String FILE_EXTENSION_SEPARATOR = ".";
 
-    // 파일(리스트) S3 bucket 업로드
     public List<String> uploadFiles(List<MultipartFile> multipartFiles) {
         List<String> fileUrls = new ArrayList<>();
 
@@ -39,15 +39,13 @@ public class ImageUploadService {
                 amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, inputStream, objectMetadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead));
             } catch (IOException e) {
-                throw new FileUploadFailedException();
+                throw new InvalidReviewImageException(ErrorType.CAN_NOT_UPLOAD_IMAGE);
             }
             fileUrls.add(amazonS3Client.getUrl(bucketName, fileName).toString());
         }
         return fileUrls;
-
     }
 
-    // 파일 이름 생성
     public String buildFileName(String category, String originalFileName) {
         int fileExtensionIndex = originalFileName.lastIndexOf(FILE_EXTENSION_SEPARATOR);
         String fileExtension = originalFileName.substring(fileExtensionIndex);

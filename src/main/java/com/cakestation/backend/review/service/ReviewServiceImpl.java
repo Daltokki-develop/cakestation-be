@@ -1,7 +1,9 @@
 package com.cakestation.backend.review.service;
 
-import com.cakestation.backend.common.handler.exception.IdNotFoundException;
+import com.cakestation.backend.cakestore.exception.InvalidStoreException;
+import com.cakestation.backend.common.exception.ErrorType;
 import com.cakestation.backend.review.domain.Review;
+import com.cakestation.backend.review.exception.InvalidReviewException;
 import com.cakestation.backend.review.repository.ReviewRepository;
 import com.cakestation.backend.review.service.dto.CreateReviewDto;
 import com.cakestation.backend.review.service.dto.ReviewDto;
@@ -9,6 +11,7 @@ import com.cakestation.backend.review.service.dto.ReviewImageDto;
 import com.cakestation.backend.cakestore.domain.CakeStore;
 import com.cakestation.backend.cakestore.repository.CakeStoreRepository;
 import com.cakestation.backend.user.domain.User;
+import com.cakestation.backend.user.exception.InvalidUserException;
 import com.cakestation.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -30,23 +33,21 @@ public class ReviewServiceImpl implements ReviewService {
     private final CakeStoreRepository cakeStoreRepository;
     private final ReviewRepository reviewRepository;
 
-
-    // 리뷰 등록
     @Override
     @Transactional
     public Long saveReview(CreateReviewDto createReviewDto, String currentEmail) {
 
-        // 검증
         User user = userRepository.findUserByEmail(currentEmail).orElseThrow(
-                () -> new IdNotFoundException("사용자를 찾을 수 없습니다."));
+                () -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
 
         CakeStore cakeStore = cakeStoreRepository.findById(createReviewDto.getStoreId())
-                .orElseThrow(() -> new IdNotFoundException("가게 정보를 찾을 수 없습니다."));
+                .orElseThrow(() -> new InvalidStoreException(ErrorType.NOT_FOUND_STORE));
 
-        // 리뷰 생성
         List<String> imageUrls = imageUploadService.uploadFiles(createReviewDto.getReviewImages());
         createReviewDto.setImageUrls(imageUrls);
-        Review review = reviewRepository.save(Review.createReview(user, cakeStore, createReviewDto));
+
+        Review review = reviewRepository.save(
+                Review.createReview(user, cakeStore, createReviewDto));
 
         return review.getId();
     }
@@ -54,20 +55,17 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public ReviewDto findReviewById(Long reviewId) {
         Review review =
-                reviewRepository.findById(reviewId).orElseThrow(() -> new IdNotFoundException("리뷰 정보를 찾을 수 없습니다"));
-
+                reviewRepository.findById(reviewId).orElseThrow(
+                        () -> new InvalidReviewException(ErrorType.NOT_FOUND_REVIEW));
         return ReviewDto.from(review);
-
     }
 
-    // 리뷰 조회 by writer
     @Override
     public List<ReviewDto> findReviewsByWriter(Long writerId, Pageable pageable) {
         List<Review> reviews = reviewRepository.findAllByWriterWithPaging(writerId, pageable);
         return reviews.stream().map(ReviewDto::from).collect(Collectors.toList());
     }
 
-    // 리뷰 조회 by store
     @Override
     public List<ReviewDto> findReviewsByStore(Long storeId, Pageable pageable) {
 
@@ -75,31 +73,26 @@ public class ReviewServiceImpl implements ReviewService {
         return reviews.stream().map(ReviewDto::from).collect(Collectors.toList());
     }
 
-    // 리뷰 별점 평균 조회 by store
     @Override
     public Double findReviewAvgByStore(Long storeId) {
         return reviewRepository.findAverageByStore(storeId).orElseThrow(
-                () -> new IdNotFoundException("가게 정보를 찾을 수 없습니다.")
+                () -> new InvalidStoreException(ErrorType.NOT_FOUND_STORE)
         );
     }
 
-
-    // 리뷰 삭제
     @Override
     @Transactional
     public void deleteReview(Long reviewId, String currentEmail) {
-        // 리뷰 조회
-        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new IdNotFoundException("리뷰가 존재하지 않습니다."));
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new InvalidReviewException(ErrorType.NOT_FOUND_REVIEW));
 
-        // 권한 조회
         if (review.getWriter().getEmail().equals(currentEmail)) {
             reviewRepository.deleteById(reviewId);
         } else {
-            throw new IdNotFoundException("권한이 없습니다.");
+            throw new InvalidUserException(ErrorType.FORBIDDEN);
         }
     }
 
-    // 가게별 리뷰 이미지 전체 조회
     @Override
     public List<ReviewImageDto> findReviewImagesByStore(Long storeId, Pageable pageable) {
         List<Review> reviews = reviewRepository.findAllByStoreWithPaging(storeId, pageable);
@@ -107,7 +100,6 @@ public class ReviewServiceImpl implements ReviewService {
         return collectReviewImageDto(reviews);
     }
 
-    // 사용자별 리뷰 이미지 전체 조회
     @Override
     public List<ReviewImageDto> findReviewImagesByUser(Long userId, Pageable pageable) {
         List<Review> reviews = reviewRepository.findAllByWriterWithPaging(userId, pageable);
@@ -126,9 +118,11 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     private List<List<ReviewImageDto>> getAllReviewImageDto(List<Review> reviews) {
-        return reviews.stream().map(
-                review -> review.getImageUrls().stream().map(
-                        url -> new ReviewImageDto(review.getId(), url)
-                ).collect(Collectors.toList())).collect(Collectors.toList());
+        return reviews.stream()
+                .map(review -> review.getImageUrls()
+                        .stream()
+                        .map(url -> new ReviewImageDto(review.getId(), url))
+                        .collect(Collectors.toList()))
+                .collect(Collectors.toList());
     }
 }

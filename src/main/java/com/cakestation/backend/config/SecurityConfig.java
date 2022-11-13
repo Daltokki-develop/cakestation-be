@@ -21,9 +21,7 @@ import java.util.List;
 @Configuration
 @AllArgsConstructor
 public class SecurityConfig {
-    /*
-     * WebSecurity
-     * */
+
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
 
@@ -31,8 +29,8 @@ public class SecurityConfig {
                 .ignoring()
                 .antMatchers(
                         "/favicon.ico"
-                        ,"/error"
-                        ,"/v2/api-docs",
+                        , "/error"
+                        , "/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",
                         "/configuration/security",
@@ -53,9 +51,6 @@ public class SecurityConfig {
                 .and()
                 .httpBasic().disable()
                 .cors().configurationSource(corsConfigurationSource())
-//                .headers()
-//                .frameOptions()
-//                .sameOrigin()
 
                 .and()
                 .sessionManagement()
@@ -81,7 +76,7 @@ public class SecurityConfig {
 
         configuration.setAllowedOriginPatterns(List.of("*"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","PATCH","OPTIONS","DELETE"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "OPTIONS", "DELETE"));
         configuration.setAllowCredentials(true);
         configuration.setExposedHeaders(List.of("Authorization"));
 

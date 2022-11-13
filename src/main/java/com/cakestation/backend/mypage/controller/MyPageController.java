@@ -19,9 +19,9 @@ public class MyPageController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/mypage")
-    public ResponseEntity<ApiResponse<MyPageDto>> getMyPage(@RequestHeader("Authorization") String token){
+    public ResponseEntity<ApiResponse<MyPageDto>> getMyPage(@RequestHeader("Authorization") String token) {
         MyPageDto myPageInfo = myPageService.getMyPageInfo(utilService.getCurrentUserEmail(token));
         return ResponseEntity.ok().body(
-                new ApiResponse<>(HttpStatus.OK.value(), "마이 페이지 조회 성공",myPageInfo));
+                new ApiResponse<>(HttpStatus.OK.value(), "마이 페이지 조회 성공", myPageInfo));
     }
 }

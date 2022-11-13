@@ -43,13 +43,13 @@ public class SwaggerConfig {
     }
 
     // 인증 방식 설정
-    private SecurityContext securityContext(){
+    private SecurityContext securityContext() {
         return SecurityContext.builder()
                 .securityReferences(defaultAuth())
                 .build();
     }
 
-    private List<SecurityReference> defaultAuth(){
+    private List<SecurityReference> defaultAuth() {
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
@@ -57,7 +57,7 @@ public class SwaggerConfig {
     }
 
     // 버튼 클릭 시 입력 값 설정
-    private ApiKey apiKey(){
+    private ApiKey apiKey() {
         return new ApiKey("Authorization", "Bearer", "header");
     }
 }
