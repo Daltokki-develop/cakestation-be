@@ -49,7 +49,7 @@ public class CakeStoreController {
                 .map(CakeStoreResponse::from)
                 .collect(Collectors.toList());
         return ResponseEntity.ok().body(
-                new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", storeResponseList));
+                new ApiResponse<>(HttpStatus.OK.value(), "가게 리스트 조회 성공", storeResponseList));
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -60,7 +60,7 @@ public class CakeStoreController {
                 .map(CakeStoreResponse::from)
                 .collect(Collectors.toList());
         return ResponseEntity.ok()
-                .body(new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", storeResponseList));
+                .body(new ApiResponse<>(HttpStatus.OK.value(), "가게 리스트 조회 성공", storeResponseList));
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -71,14 +71,14 @@ public class CakeStoreController {
                 .map(CakeStoreResponse::from)
                 .collect(Collectors.toList());
         return ResponseEntity.ok()
-                .body(new ApiResponse<>(HttpStatus.OK.value(), "가게들 조회 성공", storeResponseList));
+                .body(new ApiResponse<>(HttpStatus.OK.value(), "가게 리스트 조회 성공", storeResponseList));
     }
 
 
     // 가게 좋아요 하기 기능
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/stores/like/{storeId}")
-    public ResponseEntity likeStore(HttpServletRequest request, @PathVariable Long storeId) {
+    @PostMapping("/stores/{storeId}/like")
+    public ResponseEntity<Void> likeStore(HttpServletRequest request, @PathVariable Long storeId) {
 
         String userEmail = utilService.getCurrentUserEmail(request.getHeader(JwtProperties.HEADER_STRING));
         cakeStoreService.likeStore(storeId, userEmail);
@@ -86,7 +86,7 @@ public class CakeStoreController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/stores/like/all")
+    @GetMapping("/users/like/all")
     public ResponseEntity<ApiResponse<List<CakeStoreDto>>> likeStoreList(HttpServletRequest request) {
 
         String userEmail = utilService.getCurrentUserEmail(request.getHeader(JwtProperties.HEADER_STRING));
