@@ -65,7 +65,7 @@ class ReviewServiceUnitTest {
     @Test
     void 리뷰_조회_BY_작성자() {
         // given
-        doReturn(Collections.singletonList(getReviewEntity())).when(reviewRepository).findAllByWriterWithPaging(any(), any());
+        doReturn(Collections.singletonList(getReviewEntity())).when(reviewRepository).findAllByWriterId(any(), any());
 
         // when
         PageRequest pageRequest = PageRequest.of(0, 1);
@@ -78,7 +78,7 @@ class ReviewServiceUnitTest {
     @Test
     void 리뷰_조회_BY_가게() {
         // given
-        doReturn(Collections.singletonList(getReviewEntity())).when(reviewRepository).findAllByStoreWithPaging(any(), any());
+        doReturn(Collections.singletonList(getReviewEntity())).when(reviewRepository).findAllByCakeStoreId(any(), any());
 
         // when
         PageRequest pageRequest = PageRequest.of(0, 1);
@@ -91,7 +91,7 @@ class ReviewServiceUnitTest {
     @Test
     void 리뷰_이미지_조회_BY_가게() {
         // given
-        doReturn(Collections.singletonList(getReviewEntity())).when(reviewRepository).findAllByStoreWithPaging(any(), any());
+        doReturn(Collections.singletonList(getReviewEntity())).when(reviewRepository).findAllByCakeStoreId(any(), any());
 
         // when
         PageRequest pageRequest = PageRequest.of(0, 1);
