@@ -16,7 +16,7 @@ public class ReviewFixture {
     public static Long REVIEW_ID = 1L;
 
     public static List<MultipartFile> IMAGES = List.of();
-    public static List<String> IMAGE_URLS = List.of("abc","def"); // 리뷰 사진 url
+    public static List<String> IMAGE_URLS = List.of("abc", "def"); // 리뷰 사진 url
 
     public static int CAKE_NUMBER = 1; // 케이크 호수
 
@@ -50,7 +50,7 @@ public class ReviewFixture {
                 .build();
     }
 
-    public static CreateReviewDto getCreateReviewDto(){
+    public static CreateReviewDto getCreateReviewDto() {
         return CreateReviewDto.builder()
                 .reviewImages(IMAGES)
                 .imageUrls(IMAGE_URLS)
@@ -64,11 +64,9 @@ public class ReviewFixture {
                 .build();
     }
 
-    public static Review getReviewEntity(){
+    public static Review getReviewEntity() {
 
-        ReviewTag reviewTag = ReviewTag.builder()
-                .tag(Tag.CHEAP)
-                .build();
+        ReviewTag reviewTag = new ReviewTag(null, null, Tag.CHEAP);
 
         Review review = Review.builder()
                 .id(REVIEW_ID)
@@ -89,5 +87,4 @@ public class ReviewFixture {
         return review;
 
     }
-
 }
