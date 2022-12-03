@@ -1,6 +1,7 @@
 package com.cakestation.backend.review.repository;
 
 import com.cakestation.backend.review.domain.Review;
+import com.cakestation.backend.user.domain.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,12 +16,10 @@ import java.util.Optional;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @EntityGraph(attributePaths = {"writer"})
-    @Query("select r from Review r where r.writer.id =:writerId")
-    List<Review> findAllByWriterWithPaging(@Param("writerId") Long writerId, Pageable pageable);
+    List<Review> findAllByWriterId(Long writerId, Pageable pageable);
 
     @EntityGraph(attributePaths = {"writer"})
-    @Query("select r from Review r where r.cakeStore.id =:storeId")
-    List<Review> findAllByStoreWithPaging(@Param("storeId") Long storeId, Pageable pageable);
+    List<Review> findAllByCakeStoreId(Long storeId, Pageable pageable);
 
     @Query("select avg (r.score) from Review r where r.cakeStore.id =:storeId")
     Optional<Double> findAverageByStore(@Param("storeId") Long storeId);

@@ -3,6 +3,12 @@ package com.cakestation.backend.cakestore.service.dto;
 import com.cakestation.backend.cakestore.domain.CakeStore;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
@@ -17,8 +23,15 @@ public class CakeStoreDto {
     private String webpageUrl;
     private String mapUrl;
     private String nearByStation;
+    private List<String> storeImages;
 
-    public static CakeStoreDto from(CakeStore store) {
+    public static CakeStoreDto from(CakeStore store, List<String> reviewImageUrls) {
+
+        List<String> storeImages = new ArrayList<>();
+        if (store.getThumbnail() != null) {
+            storeImages.add(store.getThumbnail());
+        }
+        storeImages.addAll(reviewImageUrls);
 
         return CakeStoreDto.builder()
                 .storeId(store.getId())
@@ -30,6 +43,7 @@ public class CakeStoreDto {
                 .webpageUrl(store.getWebpageUrl())
                 .mapUrl(store.getMapUrl())
                 .nearByStation(store.getNearByStation())
+                .storeImages(storeImages)
                 .build();
     }
 }

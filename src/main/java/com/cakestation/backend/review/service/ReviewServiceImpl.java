@@ -62,14 +62,14 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<ReviewDto> findReviewsByWriter(Long writerId, Pageable pageable) {
-        List<Review> reviews = reviewRepository.findAllByWriterWithPaging(writerId, pageable);
+        List<Review> reviews = reviewRepository.findAllByWriterId(writerId, pageable);
         return reviews.stream().map(ReviewDto::from).collect(Collectors.toList());
     }
 
     @Override
-    public List<ReviewDto> findReviewsByStore(Long storeId, Pageable pageable) {
+    public List<ReviewDto> findReviewsByStore(Long cakeStoreId, Pageable pageable) {
 
-        List<Review> reviews = reviewRepository.findAllByStoreWithPaging(storeId, pageable);
+        List<Review> reviews = reviewRepository.findAllByCakeStoreId(cakeStoreId, pageable);
         return reviews.stream().map(ReviewDto::from).collect(Collectors.toList());
     }
 
@@ -95,14 +95,14 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<ReviewImageDto> findReviewImagesByStore(Long storeId, Pageable pageable) {
-        List<Review> reviews = reviewRepository.findAllByStoreWithPaging(storeId, pageable);
+        List<Review> reviews = reviewRepository.findAllByCakeStoreId(storeId, pageable);
 
         return collectReviewImageDto(reviews);
     }
 
     @Override
     public List<ReviewImageDto> findReviewImagesByUser(Long userId, Pageable pageable) {
-        List<Review> reviews = reviewRepository.findAllByWriterWithPaging(userId, pageable);
+        List<Review> reviews = reviewRepository.findAllByWriterId(userId, pageable);
 
         return collectReviewImageDto(reviews);
     }

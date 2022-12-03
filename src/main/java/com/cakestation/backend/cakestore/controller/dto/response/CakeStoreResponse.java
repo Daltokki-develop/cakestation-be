@@ -3,6 +3,8 @@ package com.cakestation.backend.cakestore.controller.dto.response;
 import com.cakestation.backend.cakestore.service.dto.CakeStoreDto;
 import lombok.*;
 
+import java.util.List;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
@@ -17,6 +19,7 @@ public class CakeStoreResponse {
     private String webpageUrl;
     private String mapUrl;
     private String nearByStation;
+    private List<String> storeImages;
 
     public static CakeStoreResponse from(CakeStoreDto storeDto){
         return CakeStoreResponse.builder()
@@ -29,6 +32,7 @@ public class CakeStoreResponse {
                 .webpageUrl(storeDto.getWebpageUrl())
                 .mapUrl(storeDto.getMapUrl())
                 .nearByStation(storeDto.getNearByStation())
+                .storeImages(storeDto.getStoreImages())
                 .build();
     }
 }

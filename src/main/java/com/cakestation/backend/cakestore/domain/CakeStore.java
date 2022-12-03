@@ -2,6 +2,7 @@ package com.cakestation.backend.cakestore.domain;
 
 
 import com.cakestation.backend.cakestore.service.dto.CreateCakeStoreDto;
+import com.cakestation.backend.review.domain.Review;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.AccessLevel;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -39,7 +42,11 @@ public class CakeStore {
 
     private String nearByStation;
 
-    public static CakeStore createCakeStore(CreateCakeStoreDto createCakeStoreDto){
+    @Builder.Default
+    @OneToMany(mappedBy = "cakeStore")
+    private List<Review> reviews = new ArrayList<>();
+
+    public static CakeStore createCakeStore(CreateCakeStoreDto createCakeStoreDto) {
         return CakeStore.builder()
                 .name(createCakeStoreDto.getName())
                 .address(createCakeStoreDto.getAddress())
