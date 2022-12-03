@@ -22,7 +22,8 @@ import java.util.List;
 @Builder
 public class Review extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id")
     private Long id;
 
@@ -60,7 +61,7 @@ public class Review extends BaseEntity {
     private String content; // 하고 싶은 말
 
     // 리뷰 생성 메서드
-    public static Review createReview(User user, CakeStore cakeStore, CreateReviewDto createReviewDto){
+    public static Review createReview(User user, CakeStore cakeStore, CreateReviewDto createReviewDto) {
 
         Review review = Review.builder()
                 .writer(user)
@@ -74,17 +75,16 @@ public class Review extends BaseEntity {
                 .content(createReviewDto.getContent())
                 .build();
 
-        for (Tag tag: createReviewDto.getTags()){
+        for (Tag tag : createReviewDto.getTags()) {
             review.addReviewTag(tag);
         }
+        cakeStore.getReviews().add(review);
         return review;
     }
 
     // 연관관계 편의 메서드
-    public void addReviewTag(Tag tag){
-        ReviewTag reviewTag = ReviewTag.builder()
-                .tag(tag)
-                .build();
+    public void addReviewTag(Tag tag) {
+        ReviewTag reviewTag = new ReviewTag(null, this, tag);
         reviewTags.add(reviewTag);
         reviewTag.setReview(this);
     }
