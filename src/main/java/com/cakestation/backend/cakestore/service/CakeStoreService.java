@@ -9,6 +9,7 @@ import com.cakestation.backend.cakestore.service.dto.CakeStoreDto;
 import com.cakestation.backend.cakestore.service.dto.CreateCakeStoreDto;
 import com.cakestation.backend.common.exception.ErrorType;
 import com.cakestation.backend.review.domain.Review;
+import com.cakestation.backend.review.domain.ReviewImage;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.exception.InvalidUserException;
 import com.cakestation.backend.user.repository.UserRepository;
@@ -96,9 +97,17 @@ public class CakeStoreService {
     }
 
     private List<String> getReviewImageUrls(CakeStore store) {
+
+        return getReviewImages(store)
+                .stream()
+                .map(ReviewImage::getUrl)
+                .collect(Collectors.toList());
+    }
+
+    private List<ReviewImage> getReviewImages(CakeStore store) {
         return store.getReviews()
                 .stream()
-                .map(Review::getImageUrls)
+                .map(Review::getReviewImages)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
     }
