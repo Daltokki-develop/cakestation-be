@@ -16,7 +16,8 @@ public class ReviewFixture {
     public static Long REVIEW_ID = 1L;
 
     public static List<MultipartFile> IMAGES = List.of();
-    public static List<String> IMAGE_URLS = List.of("abc", "def"); // 리뷰 사진 url
+    public static List<ReviewImage> REVIEW_IMAGES = List.of(); // 리뷰 사진 url
+    public static List<String> IMAGE_URLS = List.of(); // 리뷰 사진 url
 
     public static int CAKE_NUMBER = 1; // 케이크 호수
 
@@ -70,7 +71,7 @@ public class ReviewFixture {
 
         Review review = Review.builder()
                 .id(REVIEW_ID)
-                .imageUrls(IMAGE_URLS)
+                .reviewImages(REVIEW_IMAGES)
                 .cakeNumber(CAKE_NUMBER)
                 .sheetType(SHEET_TYPE)
                 .requestOption(REQUEST_OPTION)

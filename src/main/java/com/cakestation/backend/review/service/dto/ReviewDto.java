@@ -1,6 +1,7 @@
 package com.cakestation.backend.review.service.dto;
 
 import com.cakestation.backend.review.domain.Review;
+import com.cakestation.backend.review.domain.ReviewImage;
 import com.cakestation.backend.review.domain.ReviewTag;
 import com.cakestation.backend.review.domain.Tag;
 import lombok.*;
@@ -28,11 +29,17 @@ public class ReviewDto {
     private LocalDateTime createdDateTime;
     private LocalDateTime lastModifiedDateTime;
 
-    public static ReviewDto from(Review review){
+    public static ReviewDto from(Review review) {
 
-        List<Tag> tagList = review.getReviewTags().stream().map(
-                ReviewTag::getTag
-        ).collect(Collectors.toList());
+        List<Tag> tags = review.getReviewTags()
+                .stream()
+                .map(ReviewTag::getTag)
+                .collect(Collectors.toList());
+
+        List<String> imageUrls = review.getReviewImages()
+                .stream()
+                .map(ReviewImage::getUrl)
+                .collect(Collectors.toList());
 
         return ReviewDto.builder()
                 .reviewId(review.getId())
@@ -41,9 +48,9 @@ public class ReviewDto {
                 .score(review.getScore())
                 .sheetType(review.getSheetType())
                 .requestOption(review.getRequestOption())
-                .reviewImages(review.getImageUrls())
                 .content(review.getContent())
-                .tags(tagList)
+                .reviewImages(imageUrls)
+                .tags(tags)
                 .createdDateTime(review.getCreatedDateTime())
                 .lastModifiedDateTime(review.getLastModifiedDateTime())
                 .build();

@@ -36,6 +36,6 @@ public class MyPageService {
     }
 
     private int getReviewImageCount(List<Review> reviews) {
-        return reviews.stream().mapToInt(review -> review.getImageUrls().size()).sum();
+        return reviews.stream().mapToInt(review -> review.getReviewImages().size()).sum();
     }
 }

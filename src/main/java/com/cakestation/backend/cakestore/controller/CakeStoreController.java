@@ -8,6 +8,9 @@ import com.cakestation.backend.cakestore.service.dto.CreateCakeStoreDto;
 import com.cakestation.backend.config.JwtProperties;
 import com.cakestation.backend.user.service.UtilService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -53,9 +56,12 @@ public class CakeStoreController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/stores/search/name")
-    ResponseEntity<ApiResponse<List<CakeStoreResponse>>> searchStoresByKeyword(@RequestParam String storeName) {
-        List<CakeStoreResponse> storeResponseList = cakeStoreService.searchStoresByKeyword(storeName)
+    @GetMapping("/stores/search/store")
+    ResponseEntity<ApiResponse<List<CakeStoreResponse>>> searchStoresByKeyword(
+            @RequestParam String name,
+            @PageableDefault(size = 30, sort = {"reviewCount"}, direction = Sort.Direction.DESC) Pageable pageable) {
+
+        List<CakeStoreResponse> storeResponseList = cakeStoreService.searchStoresByKeyword(name, pageable)
                 .stream()
                 .map(CakeStoreResponse::from)
                 .collect(Collectors.toList());
@@ -65,8 +71,11 @@ public class CakeStoreController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/stores/search/station")
-    ResponseEntity<ApiResponse<List<CakeStoreResponse>>> searchStoresByStation(@RequestParam String stationName) {
-        List<CakeStoreResponse> storeResponseList = cakeStoreService.searchStoresByStation(stationName)
+    ResponseEntity<ApiResponse<List<CakeStoreResponse>>> searchStoresByStation(
+            @RequestParam String name,
+            @PageableDefault(size = 30, sort = {"reviewCount"}, direction = Sort.Direction.DESC) Pageable pageable) {
+
+        List<CakeStoreResponse> storeResponseList = cakeStoreService.searchStoresByStation(name, pageable)
                 .stream()
                 .map(CakeStoreResponse::from)
                 .collect(Collectors.toList());

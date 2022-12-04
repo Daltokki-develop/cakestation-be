@@ -20,8 +20,9 @@ public class CakeStoreResponse {
     private String mapUrl;
     private String nearByStation;
     private List<String> storeImages;
+    private int reviewCount;
 
-    public static CakeStoreResponse from(CakeStoreDto storeDto){
+    public static CakeStoreResponse from(CakeStoreDto storeDto) {
         return CakeStoreResponse.builder()
                 .storeId(storeDto.getStoreId())
                 .name(storeDto.getName())
@@ -33,6 +34,7 @@ public class CakeStoreResponse {
                 .mapUrl(storeDto.getMapUrl())
                 .nearByStation(storeDto.getNearByStation())
                 .storeImages(storeDto.getStoreImages())
+                .reviewCount(storeDto.getReviewCount())
                 .build();
     }
 }

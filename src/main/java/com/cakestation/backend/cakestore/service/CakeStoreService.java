@@ -9,10 +9,12 @@ import com.cakestation.backend.cakestore.service.dto.CakeStoreDto;
 import com.cakestation.backend.cakestore.service.dto.CreateCakeStoreDto;
 import com.cakestation.backend.common.exception.ErrorType;
 import com.cakestation.backend.review.domain.Review;
+import com.cakestation.backend.review.domain.ReviewImage;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.exception.InvalidUserException;
 import com.cakestation.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,15 +51,15 @@ public class CakeStoreService {
                 .collect(Collectors.toList());
     }
 
-    public List<CakeStoreDto> searchStoresByKeyword(String storeName) {
-        List<CakeStore> stores = cakeStoreRepository.findAllByNameContains(storeName);
+    public List<CakeStoreDto> searchStoresByKeyword(String storeName, Pageable pageable) {
+        List<CakeStore> stores = cakeStoreRepository.findAllByNameContains(storeName, pageable);
         return stores.stream()
                 .map(store -> CakeStoreDto.from(store, getReviewImageUrls(store)))
                 .collect(Collectors.toList());
     }
 
-    public List<CakeStoreDto> searchStoresByStation(String stationName) {
-        List<CakeStore> stores = cakeStoreRepository.findAllByNearByStationContains(stationName);
+    public List<CakeStoreDto> searchStoresByStation(String stationName, Pageable pageable) {
+        List<CakeStore> stores = cakeStoreRepository.findAllByNearByStationContains(stationName, pageable);
         return stores.stream()
                 .map(store -> CakeStoreDto.from(store, getReviewImageUrls(store)))
                 .collect(Collectors.toList());
@@ -96,9 +98,17 @@ public class CakeStoreService {
     }
 
     private List<String> getReviewImageUrls(CakeStore store) {
+
+        return getReviewImages(store)
+                .stream()
+                .map(ReviewImage::getUrl)
+                .collect(Collectors.toList());
+    }
+
+    private List<ReviewImage> getReviewImages(CakeStore store) {
         return store.getReviews()
                 .stream()
-                .map(Review::getImageUrls)
+                .map(Review::getReviewImages)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
     }

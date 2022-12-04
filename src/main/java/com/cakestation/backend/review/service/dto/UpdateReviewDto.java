@@ -1,7 +1,6 @@
 package com.cakestation.backend.review.service.dto;
 
 import com.cakestation.backend.review.domain.DesignSatisfaction;
-import com.cakestation.backend.review.domain.Distance;
 import com.cakestation.backend.review.domain.Review;
 import com.cakestation.backend.review.domain.Tag;
 import lombok.*;
@@ -15,10 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateReviewDto {
+public class UpdateReviewDto {
 
     private Long storeId;
-    private List<MultipartFile> reviewImages;
+    private List<MultipartFile> reviewImages = new ArrayList<>();
     @Builder.Default
     private List<String> imageUrls = new ArrayList<>();
     private int cakeNumber;
@@ -29,3 +28,4 @@ public class CreateReviewDto {
     private List<Tag> tags;
     private String content;
 }
+
