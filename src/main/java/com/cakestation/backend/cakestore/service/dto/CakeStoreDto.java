@@ -24,6 +24,8 @@ public class CakeStoreDto {
     private String mapUrl;
     private String nearByStation;
     private List<String> storeImages;
+    private int reviewCount;
+
 
     public static CakeStoreDto from(CakeStore store, List<String> reviewImageUrls) {
 
@@ -44,6 +46,7 @@ public class CakeStoreDto {
                 .mapUrl(store.getMapUrl())
                 .nearByStation(store.getNearByStation())
                 .storeImages(storeImages)
+                .reviewCount(store.getReviewCount())
                 .build();
     }
 }

@@ -96,6 +96,7 @@ public class Review extends BaseEntity {
             review.addReviewTag(tag);
         }
 
+        cakeStore.plusReviewCount();
         cakeStore.getReviews().add(review);
 
         return review;
