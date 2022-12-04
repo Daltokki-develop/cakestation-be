@@ -1,6 +1,8 @@
 package com.cakestation.backend.review.service;
 
+import com.cakestation.backend.cakestore.domain.CakeStore;
 import com.cakestation.backend.cakestore.exception.InvalidStoreException;
+import com.cakestation.backend.cakestore.repository.CakeStoreRepository;
 import com.cakestation.backend.common.exception.ErrorType;
 import com.cakestation.backend.review.domain.Review;
 import com.cakestation.backend.review.exception.InvalidReviewException;
@@ -8,8 +10,7 @@ import com.cakestation.backend.review.repository.ReviewRepository;
 import com.cakestation.backend.review.service.dto.CreateReviewDto;
 import com.cakestation.backend.review.service.dto.ReviewDto;
 import com.cakestation.backend.review.service.dto.ReviewImageDto;
-import com.cakestation.backend.cakestore.domain.CakeStore;
-import com.cakestation.backend.cakestore.repository.CakeStoreRepository;
+import com.cakestation.backend.review.service.dto.UpdateReviewDto;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.exception.InvalidUserException;
 import com.cakestation.backend.user.repository.UserRepository;
@@ -17,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +50,22 @@ public class ReviewServiceImpl implements ReviewService {
                 Review.createReview(user, cakeStore, createReviewDto));
 
         return review.getId();
+    }
+
+    @Override
+    @Transactional
+    public ReviewDto updateReview(UpdateReviewDto updateReviewDto, Long reviewId) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new InvalidReviewException(ErrorType.NOT_FOUND_REVIEW));
+
+        reviewRepository.deleteReviewTagById(reviewId);
+        reviewRepository.deleteReviewImageById(reviewId);
+
+        List<String> imageUrls = imageUploadService.uploadFiles(updateReviewDto.getReviewImages());
+        updateReviewDto.setImageUrls(imageUrls);
+
+        review.update(updateReviewDto);
+        return ReviewDto.from(review);
     }
 
     @Override
@@ -119,9 +135,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     private List<List<ReviewImageDto>> getAllReviewImageDto(List<Review> reviews) {
         return reviews.stream()
-                .map(review -> review.getImageUrls()
+                .map(review -> review.getReviewImages()
                         .stream()
-                        .map(url -> new ReviewImageDto(review.getId(), url))
+                        .map(reviewImage -> new ReviewImageDto(review.getId(), reviewImage.getUrl()))
                         .collect(Collectors.toList()))
                 .collect(Collectors.toList());
     }

@@ -2,6 +2,7 @@ package com.cakestation.backend.review.service.dto;
 
 import com.cakestation.backend.review.domain.DesignSatisfaction;
 import com.cakestation.backend.review.domain.Distance;
+import com.cakestation.backend.review.domain.Review;
 import com.cakestation.backend.review.domain.Tag;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateReviewDto{
+public class CreateReviewDto {
 
     private Long storeId;
     private List<MultipartFile> reviewImages;
@@ -27,5 +28,4 @@ public class CreateReviewDto{
     private int score;
     private List<Tag> tags;
     private String content;
-
 }
