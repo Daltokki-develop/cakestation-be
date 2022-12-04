@@ -5,6 +5,7 @@ import com.cakestation.backend.user.domain.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -28,4 +29,11 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("select r from Review r where r.writer.id =:writerId")
     List<Review> findAllByWriter(@Param("writerId") Long writerId);
 
+    @Modifying
+    @Query("delete from ReviewImage ri where ri.review.id =:reviewId")
+    void deleteReviewImageById(@Param("reviewId") Long reviewId);
+
+    @Modifying
+    @Query("delete from ReviewTag rt where rt.review.id =:reviewId")
+    void deleteReviewTagById(@Param("reviewId") Long reviewId);
 }
