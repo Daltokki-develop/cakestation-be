@@ -2,9 +2,11 @@ package com.cakestation.backend.review.controller;
 
 import com.cakestation.backend.common.ApiResponse;
 import com.cakestation.backend.review.controller.dto.request.CreateReviewRequest;
+import com.cakestation.backend.review.controller.dto.request.UpdateReviewRequest;
 import com.cakestation.backend.review.controller.dto.response.ReviewImageResponse;
 import com.cakestation.backend.review.controller.dto.response.ReviewResponse;
 import com.cakestation.backend.review.service.ReviewService;
+import com.cakestation.backend.review.service.dto.UpdateReviewDto;
 import com.cakestation.backend.user.service.UtilService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +38,17 @@ public class ReviewController {
         Long reviewId = reviewService.saveReview(createReviewRequest.toServiceDto(storeId, createReviewRequest), userEmail);
         return ResponseEntity.ok().body(
                 new ApiResponse<>(HttpStatus.CREATED.value(), "리뷰 등록 성공", reviewId));
+    }
+
+    // 리뷰 수정
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/reviews/{reviewId}")
+    public ResponseEntity<ApiResponse<ReviewResponse>> updateReview(@PathVariable Long reviewId,
+                                                                    @ModelAttribute UpdateReviewRequest updateReviewRequest) {
+        UpdateReviewDto updateReviewDto = updateReviewRequest.toServiceDto(reviewId, updateReviewRequest);
+        ReviewResponse reviewResponse = ReviewResponse.from(reviewService.updateReview(updateReviewDto, reviewId));
+        return ResponseEntity.ok().body(
+                new ApiResponse<>(HttpStatus.OK.value(), "리뷰 조회 성공", reviewResponse));
     }
 
     // 리뷰 단일 조회
