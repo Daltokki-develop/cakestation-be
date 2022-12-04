@@ -11,7 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static com.cakestation.backend.review.fixture.ReviewFixture.IMAGE_URLS;
+import static com.cakestation.backend.review.fixture.ReviewFixture.REVIEW_IMAGES;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static com.cakestation.backend.review.fixture.ReviewFixture.getReviewEntity;
 import static com.cakestation.backend.user.fixture.UserFixture.EMAIL;
@@ -44,7 +44,7 @@ class MyPageServiceTest {
         assertThat(myPageInfo.getRandomNumber(), is(lessThanOrEqualTo(4)));
         assertThat(myPageInfo.getReviewCount(),is(equalTo(1)));
         assertThat(myPageInfo.getReviewCount(),is(equalTo(1)));
-        assertThat(myPageInfo.getReviewImageCount(),is(equalTo(IMAGE_URLS.size())));
+        assertThat(myPageInfo.getReviewImageCount(),is(equalTo(REVIEW_IMAGES.size())));
 
     }
 }

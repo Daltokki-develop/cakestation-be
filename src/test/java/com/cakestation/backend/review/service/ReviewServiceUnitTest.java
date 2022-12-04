@@ -98,6 +98,6 @@ class ReviewServiceUnitTest {
         List<ReviewImageDto> reviewImageDtoList = reviewService.findReviewImagesByStore(STORE_ID, pageRequest);
 
         // then
-        assertEquals(reviewImageDtoList.size(), IMAGE_URLS.size());
+        assertEquals(reviewImageDtoList.size(), REVIEW_IMAGES.size());
     }
 }
