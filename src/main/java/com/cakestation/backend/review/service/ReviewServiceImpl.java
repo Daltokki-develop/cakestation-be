@@ -9,7 +9,9 @@ import com.cakestation.backend.review.domain.ReviewImage;
 import com.cakestation.backend.review.domain.ReviewTag;
 import com.cakestation.backend.review.domain.Tag;
 import com.cakestation.backend.review.exception.InvalidReviewException;
+import com.cakestation.backend.review.repository.ReviewImageRepository;
 import com.cakestation.backend.review.repository.ReviewRepository;
+import com.cakestation.backend.review.repository.ReviewTagRepository;
 import com.cakestation.backend.review.service.dto.CreateReviewDto;
 import com.cakestation.backend.review.service.dto.ReviewDto;
 import com.cakestation.backend.review.service.dto.ReviewImageDto;
@@ -35,6 +37,9 @@ public class ReviewServiceImpl implements ReviewService {
     private final UserRepository userRepository;
     private final CakeStoreRepository cakeStoreRepository;
     private final ReviewRepository reviewRepository;
+    private final ReviewImageRepository reviewImageRepository;
+    private final ReviewTagRepository reviewTagRepository;
+
 
     @Override
     @Transactional
@@ -58,11 +63,14 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public ReviewDto updateReview(UpdateReviewDto updateReviewDto, Long reviewId) {
+        List<Long> reviewImageIds = reviewImageRepository.findAllIdByReviewId(reviewId);
+        List<Long> reviewTagIds = reviewTagRepository.findAllIdByReviewId(reviewId);
+
+        reviewImageRepository.deleteReviewImageByIds(reviewImageIds);
+        reviewTagRepository.deleteReviewTagByIds(reviewTagIds);
+
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new InvalidReviewException(ErrorType.NOT_FOUND_REVIEW));
-
-        reviewRepository.deleteReviewTagById(reviewId);
-        reviewRepository.deleteReviewImageById(reviewId);
 
         List<String> imageUrls = imageUploadService.uploadFiles(updateReviewDto.getReviewImages());
         updateReviewDto.setImageUrls(imageUrls);
