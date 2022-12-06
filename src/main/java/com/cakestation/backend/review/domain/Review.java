@@ -106,7 +106,6 @@ public class Review extends BaseEntity {
     public void addReviewTag(Tag tag) {
         ReviewTag reviewTag = new ReviewTag(null, this, tag);
         reviewTags.add(reviewTag);
-        reviewTag.setReview(this);
     }
 
     public void addReviewImage(String url) {

@@ -29,17 +29,7 @@ public class ReviewDto {
     private LocalDateTime createdDateTime;
     private LocalDateTime lastModifiedDateTime;
 
-    public static ReviewDto from(Review review) {
-
-        List<Tag> tags = review.getReviewTags()
-                .stream()
-                .map(ReviewTag::getTag)
-                .collect(Collectors.toList());
-
-        List<String> imageUrls = review.getReviewImages()
-                .stream()
-                .map(ReviewImage::getUrl)
-                .collect(Collectors.toList());
+    public static ReviewDto from(Review review, List<Tag> tags, List<String> imageUrls) {
 
         return ReviewDto.builder()
                 .reviewId(review.getId())

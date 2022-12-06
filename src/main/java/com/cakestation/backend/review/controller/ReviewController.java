@@ -48,7 +48,7 @@ public class ReviewController {
         UpdateReviewDto updateReviewDto = updateReviewRequest.toServiceDto(reviewId, updateReviewRequest);
         ReviewResponse reviewResponse = ReviewResponse.from(reviewService.updateReview(updateReviewDto, reviewId));
         return ResponseEntity.ok().body(
-                new ApiResponse<>(HttpStatus.OK.value(), "리뷰 조회 성공", reviewResponse));
+                new ApiResponse<>(HttpStatus.OK.value(), "리뷰 수정 성공", reviewResponse));
     }
 
     // 리뷰 단일 조회
