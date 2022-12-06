@@ -54,8 +54,7 @@ public class ReviewServiceImpl implements ReviewService {
         List<String> imageUrls = imageUploadService.uploadFiles(createReviewDto.getReviewImages());
         createReviewDto.setImageUrls(imageUrls);
 
-        Review review = reviewRepository.save(
-                Review.createReview(user, cakeStore, createReviewDto));
+        Review review = reviewRepository.save(Review.createReview(user, cakeStore, createReviewDto));
 
         return review.getId();
     }
@@ -63,11 +62,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public ReviewDto updateReview(UpdateReviewDto updateReviewDto, Long reviewId) {
-        List<Long> reviewImageIds = reviewImageRepository.findAllIdByReviewId(reviewId);
-        List<Long> reviewTagIds = reviewTagRepository.findAllIdByReviewId(reviewId);
-
-        reviewImageRepository.deleteReviewImageByIds(reviewImageIds);
-        reviewTagRepository.deleteReviewTagByIds(reviewTagIds);
+        reviewImageRepository.deleteReviewImageByIds(reviewImageRepository.findAllIdByReviewId(reviewId));
+        reviewTagRepository.deleteReviewTagByIds(reviewTagRepository.findAllIdByReviewId(reviewId));
 
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new InvalidReviewException(ErrorType.NOT_FOUND_REVIEW));
@@ -120,11 +116,13 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new InvalidReviewException(ErrorType.NOT_FOUND_REVIEW));
 
-        if (review.getWriter().getEmail().equals(currentEmail)) {
-            reviewRepository.deleteById(reviewId);
-        } else {
+        if (!review.getWriter().getEmail().equals(currentEmail)) {
             throw new InvalidUserException(ErrorType.FORBIDDEN);
         }
+
+        reviewImageRepository.deleteReviewImageByIds(reviewImageRepository.findAllIdByReviewId(reviewId));
+        reviewTagRepository.deleteReviewTagByIds(reviewTagRepository.findAllIdByReviewId(reviewId));
+        reviewRepository.deleteById(reviewId);
     }
 
     @Override

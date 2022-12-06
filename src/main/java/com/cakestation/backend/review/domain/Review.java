@@ -37,7 +37,7 @@ public class Review extends BaseEntity {
     private CakeStore cakeStore;
 
     @Builder.Default
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<ReviewImage> reviewImages = new ArrayList<>(); // 리뷰 사진 url
 
     private int cakeNumber; // 케이크 호수
@@ -53,7 +53,7 @@ public class Review extends BaseEntity {
     private int score; // 별점
 
     @Builder.Default
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<ReviewTag> reviewTags = new ArrayList<>();
 
     private String content; // 하고 싶은 말
