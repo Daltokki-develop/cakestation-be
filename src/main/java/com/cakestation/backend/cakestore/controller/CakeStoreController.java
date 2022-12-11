@@ -59,7 +59,7 @@ public class CakeStoreController {
     @GetMapping("/stores/search/store")
     ResponseEntity<ApiResponse<List<CakeStoreResponse>>> searchStoresByKeyword(
             @RequestParam String name,
-            @PageableDefault(size = 30, sort = {"reviewCount"}, direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(size = 30, sort = {"reviewCount", "reviewScore"}, direction = Sort.Direction.DESC) Pageable pageable) {
 
         List<CakeStoreResponse> storeResponseList = cakeStoreService.searchStoresByKeyword(name, pageable)
                 .stream()
@@ -73,7 +73,7 @@ public class CakeStoreController {
     @GetMapping("/stores/search/station")
     ResponseEntity<ApiResponse<List<CakeStoreResponse>>> searchStoresByStation(
             @RequestParam String name,
-            @PageableDefault(size = 30, sort = {"reviewCount"}, direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(size = 30, sort = {"reviewCount", "reviewScore"}, direction = Sort.Direction.DESC) Pageable pageable) {
 
         List<CakeStoreResponse> storeResponseList = cakeStoreService.searchStoresByStation(name, pageable)
                 .stream()
