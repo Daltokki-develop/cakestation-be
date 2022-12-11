@@ -37,11 +37,11 @@ public class CakeStoreService {
     }
 
     public CakeStoreDto findStoreById(Long storeId) {
-        CakeStore store = cakeStoreRepository.findById(storeId)
+        CakeStore cakeStore = cakeStoreRepository.findById(storeId)
                 .orElseThrow(() -> new InvalidStoreException(ErrorType.NOT_FOUND_STORE));
-        List<String> reviewImageUrls = getReviewImageUrls(store);
+        List<String> reviewImageUrls = getReviewImageUrls(cakeStore);
 
-        return CakeStoreDto.from(store, reviewImageUrls);
+        return CakeStoreDto.from(cakeStore, reviewImageUrls);
     }
 
     public List<CakeStoreDto> findAllStore() {
