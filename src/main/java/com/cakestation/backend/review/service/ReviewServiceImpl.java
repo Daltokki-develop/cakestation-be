@@ -48,7 +48,7 @@ public class ReviewServiceImpl implements ReviewService {
         User user = userRepository.findUserByEmail(currentEmail).orElseThrow(
                 () -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
 
-        CakeStore cakeStore = cakeStoreRepository.findById(createReviewDto.getStoreId())
+        CakeStore cakeStore = cakeStoreRepository.findCakeStoreForUpdateById(createReviewDto.getStoreId())
                 .orElseThrow(() -> new InvalidStoreException(ErrorType.NOT_FOUND_STORE));
 
         List<String> imageUrls = imageUploadService.uploadFiles(createReviewDto.getReviewImages());
