@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.AccessLevel;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -43,11 +42,12 @@ public class CakeStore {
 
     private String nearByStation;
 
-    private int reviewCount = 0;
-
     @Builder.Default
     @OneToMany(mappedBy = "cakeStore")
     private List<Review> reviews = new ArrayList<>();
+    private int reviewCount = 0;
+
+    private double reviewScore = 0.0;
 
     public static CakeStore createCakeStore(CreateCakeStoreDto createCakeStoreDto) {
         return CakeStore.builder()
@@ -59,10 +59,23 @@ public class CakeStore {
                 .webpageUrl(createCakeStoreDto.getWebpageUrl())
                 .mapUrl(createCakeStoreDto.getMapUrl())
                 .nearByStation(createCakeStoreDto.getNearByStation())
+                .reviewCount(0)
+                .reviewScore(0.0)
                 .build();
     }
 
-    public void plusReviewCount() {
-        this.reviewCount += 1;
+    public void applyReview(double reviewScore) {
+        addReviewCount();
+        addReviewScore(reviewScore);
+    }
+
+    public void addReviewCount() {
+        this.reviewCount++;
+    }
+
+    public void addReviewScore(double reviewScore) {
+        double totalSum = this.reviewScore * (this.reviewCount - 1);
+        totalSum += reviewScore;
+        this.reviewScore = totalSum / this.reviewCount;
     }
 }

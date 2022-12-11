@@ -96,8 +96,8 @@ public class Review extends BaseEntity {
             review.addReviewTag(tag);
         }
 
-        cakeStore.plusReviewCount();
         cakeStore.getReviews().add(review);
+        cakeStore.applyReview(createReviewDto.getScore());
 
         return review;
     }
