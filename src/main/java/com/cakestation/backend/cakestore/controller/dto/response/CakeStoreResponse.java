@@ -21,6 +21,7 @@ public class CakeStoreResponse {
     private String nearByStation;
     private List<String> storeImages;
     private int reviewCount;
+    private double reviewScore;
 
     public static CakeStoreResponse from(CakeStoreDto storeDto) {
         return CakeStoreResponse.builder()
@@ -35,6 +36,7 @@ public class CakeStoreResponse {
                 .nearByStation(storeDto.getNearByStation())
                 .storeImages(storeDto.getStoreImages())
                 .reviewCount(storeDto.getReviewCount())
+                .reviewScore(storeDto.getReviewScore())
                 .build();
     }
 }
