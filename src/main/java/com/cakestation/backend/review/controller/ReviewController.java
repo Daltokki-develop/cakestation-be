@@ -32,7 +32,7 @@ public class ReviewController {
     @PostMapping("/stores/{storeId}/reviews")
     public ResponseEntity<ApiResponse<Long>> uploadReview(@RequestHeader("Authorization") String token,
                                                           @PathVariable Long storeId,
-                                                          @ModelAttribute CreateReviewRequest createReviewRequest) {
+                                                          @RequestBody CreateReviewRequest createReviewRequest) {
 
         String userEmail = utilService.getCurrentUserEmail(token);
         Long reviewId = reviewService.saveReview(createReviewRequest.toServiceDto(storeId, createReviewRequest), userEmail);

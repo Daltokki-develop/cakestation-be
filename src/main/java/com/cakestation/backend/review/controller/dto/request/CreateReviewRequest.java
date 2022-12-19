@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 public class CreateReviewRequest {
 
-    private List<MultipartFile> reviewImages = new ArrayList<>(); // 리뷰 이미지 파일 리스트
+    private List<String> reviewImages = new ArrayList<>(); // 리뷰 이미지 base64 리스트
     private int cakeNumber; // 케이크 호수
     private String sheetType; // 시트 종류
     private String requestOption; // 추가 옵션

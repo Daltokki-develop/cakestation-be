@@ -17,7 +17,7 @@ import java.util.List;
 public class UpdateReviewDto {
 
     private Long storeId;
-    private List<MultipartFile> reviewImages = new ArrayList<>();
+    private List<String> reviewImages = new ArrayList<>();
     @Builder.Default
     private List<String> imageUrls = new ArrayList<>();
     private int cakeNumber;

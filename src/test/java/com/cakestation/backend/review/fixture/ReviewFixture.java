@@ -15,7 +15,7 @@ public class ReviewFixture {
 
     public static Long REVIEW_ID = 1L;
 
-    public static List<MultipartFile> IMAGES = List.of();
+    public static List<String> IMAGES = List.of();
     public static List<ReviewImage> REVIEW_IMAGES = List.of(); // 리뷰 사진 url
     public static List<String> IMAGE_URLS = List.of(); // 리뷰 사진 url
 
