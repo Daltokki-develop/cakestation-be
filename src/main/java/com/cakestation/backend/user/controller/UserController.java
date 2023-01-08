@@ -20,6 +20,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -36,8 +38,7 @@ public class UserController {
         return new ResponseEntity<>(new ApiResponse<>(200, "이메일 획득", email), HttpStatus.OK);
     }
 
-
-    //"login" API에서 redirect된 URL에서 Code parameter를 추출하여 아래 메서드를 실행하여 유저정보를 저장및 토큰을 쿠키로 보내준다.
+    // code를 통한 Token 반환 API
     @GetMapping("/oauth")
     public ResponseEntity<ApiResponse<String>> KakaoCallback(@RequestParam String code) {
 
@@ -55,25 +56,34 @@ public class UserController {
                 httpHeaders, HttpStatus.OK);
     }
 
-    //로그아웃
+    //로그아웃 API
+    //TODO : Cookie에 있을 refresh Token도 삭제 할것
     @GetMapping("/logout/kakao")
-    public ResponseEntity<ApiResponse<CheckDto>> KakaoLogout(HttpServletRequest request, HttpServletResponse response) {
-        CheckDto result = null;
-        try {
-            //토큰을 찾는 메서드 
-            String findCookie = String.valueOf(utilService.headerAccessToken(request, "Authorization"));
-            //찾은 토큰을 통한 로그아웃 메서드
-            result = kakaoService.LogoutToken(findCookie);
+    public ResponseEntity<ApiResponse<String>> KakaoLogout(HttpServletRequest request) {
 
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-        return ResponseEntity.ok(new ApiResponse<>(200, "로그아웃 성공", result));
+        Optional<String> Token = utilService.headerAccessToken(request , JwtProperties.HEADER_STRING);
+        String userEmail = utilService.getCurrentUserEmail(Token.get());
+        kakaoService.LogoutToken(Token.get().replace(JwtProperties.TOKEN_PREFIX,""));//Token 강제 만료
+        return ResponseEntity.ok(new ApiResponse<>(200, "로그아웃 성공", userEmail ));
+
     }
 
+    // 회원탈퇴 API
+    @PostMapping("/delete/kakao")
+    public ResponseEntity<ApiResponse<String>> WithdrawalUser(HttpServletRequest request){
+
+        Optional<String> Token = utilService.headerAccessToken(request , JwtProperties.HEADER_STRING);
+        String userEmail = utilService.getCurrentUserEmail(Token.get());
+        kakaoService.deleteUser(Token.get().replace(JwtProperties.TOKEN_PREFIX, "")); //Kakao에 등록된 유저정보 삭제
+        userService.deleteUser(userEmail); // DB에 저장된 회원정보 삭제
+        return ResponseEntity.ok(new ApiResponse<>(200 , "회원삭제 성공" , userEmail));
+    }
+
+    // nickname 재발급 API
     @PatchMapping("/nickname")
     public ResponseEntity<NicknameResponse> updateNickname(@RequestHeader(JwtProperties.HEADER_STRING) String token) {
         String email = utilService.getCurrentUserEmail(token);
+        System.out.println(email + "!!!!!!!");
         return ResponseEntity.ok(
                 new NicknameResponse(userService.updateNickname(email)));
     }

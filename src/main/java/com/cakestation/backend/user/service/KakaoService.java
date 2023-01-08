@@ -164,8 +164,8 @@ public class KakaoService {
     }
 
     //로그아웃을 통한 발행된 토큰 무효화 작업(로그아웃)
-    public CheckDto LogoutToken(String access_Token) {
-        CheckDto logoutDto = null;
+    public void LogoutToken(String access_Token) {
+
         try {
             URL url = new URL(LOGOUT_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -185,23 +185,16 @@ public class KakaoService {
 
             JsonElement element = JsonParser.parseString(result.toString());
 
-            System.out.println("Element" + element);
-            int userId = element.getAsJsonObject().get("id").getAsInt();
-            logoutDto = CheckDto.builder()
-                    .userUid(userId)
-                    .build();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return logoutDto;
+
     }
 
     //회원탈퇴작업을 통해 나의 카카오에 등록된 유저에서 삭제
-    public CheckDto deleteUser(String accessToken) {
-        CheckDto withdrawal = null;
+    public void deleteUser(String accessToken) {
         try {
-            URL url = new URL(CHECK_TOKEN);
+            URL url = new URL(WITH_DRAWL_USER);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + accessToken);
@@ -219,14 +212,11 @@ public class KakaoService {
 
             System.out.println("Element" + element);
             int userId = element.getAsJsonObject().get("id").getAsInt();
-            withdrawal = CheckDto.builder()
-                    .userUid(userId)
-                    .build();
+
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return withdrawal;
     }
 
     public KakaoUserDto getUserInfo(String access_Token) {

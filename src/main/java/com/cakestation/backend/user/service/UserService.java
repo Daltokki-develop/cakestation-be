@@ -42,7 +42,7 @@ public class UserService {
         return nickname;
     }
 
-    private String makeNickname() {
+    public String makeNickname() {
         List<String> fruits = NicknameType.RADIX.getKeywords();
         List<String> actions = NicknameType.PREFIX.getKeywords();
 
@@ -60,6 +60,16 @@ public class UserService {
             checkNickName = userRepository.findByNickname(resultName);
         }
         return resultName;
+    }
+
+    public void deleteUser(String userEmail){
+
+        Optional<User> deletedUser;
+
+        deletedUser = userRepository.findUserByEmail(userEmail);
+
+        userRepository.delete(deletedUser.get());
+
     }
 }
 
