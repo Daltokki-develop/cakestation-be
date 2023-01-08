@@ -19,6 +19,8 @@ public class KakaoConfig implements ApplicationListener<ApplicationStartedEvent>
     public static String LOGOUT_URL = "https://kapi.kakao.com/v1/user/logout";
     //토큰 유효성겁사시 사용
     public static String CHECK_TOKEN = "https://kapi.kakao.com/v1/user/access_token_info";
+    //회원탈퇴용 URL
+    public static String WITH_DRAWL_USER = "https://kapi.kakao.com/v1/user/unlink";
     //Token 회득시 사용되는 URL
     public String GET_TOKEN_URL;
     //LoginPage로 redirect될시 사용되는 URL
