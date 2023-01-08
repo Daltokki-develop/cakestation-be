@@ -18,7 +18,7 @@ public class ReviewDto {
 
     private Long reviewId;
     private Long userId;
-    private String username;
+    private String nickname;
     private int cakeNumber;
     private int score;
     private String sheetType;
@@ -33,7 +33,7 @@ public class ReviewDto {
 
         return ReviewDto.builder()
                 .reviewId(review.getId())
-                .username(review.getWriter().getUsername())
+                .nickname(review.getWriter().getNickname())
                 .cakeNumber(review.getCakeNumber())
                 .score(review.getScore())
                 .sheetType(review.getSheetType())

@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 public class ReviewResponse {
     private Long reviewId;
-    private String username;
+    private String nickname;
     private int cakeNumber;
     private int score;
     private String sheetType;
@@ -31,7 +31,7 @@ public class ReviewResponse {
     public static ReviewResponse from(ReviewDto reviewDto){
         return ReviewResponse.builder()
                 .reviewId(reviewDto.getReviewId())
-                .username(reviewDto.getUsername())
+                .nickname(reviewDto.getNickname())
                 .cakeNumber(reviewDto.getCakeNumber())
                 .score(reviewDto.getScore())
                 .sheetType(reviewDto.getSheetType())
