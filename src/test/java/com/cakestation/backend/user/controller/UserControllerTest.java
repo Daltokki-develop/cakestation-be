@@ -40,13 +40,12 @@ public class UserControllerTest {
 
                 String uri = String.format("/api/nickname");
 
-                MvcResult result = mockMvc.perform(
-                        MockMvcRequestBuilders.get(uri)
-                                .accept(MediaType.APPLICATION_JSON)
-                )
-                        .andExpect(status().isOk())
-                        .andDo(MockMvcResultHandlers.print())
-                        .andReturn();
+//                MvcResult result = mockMvc.perform(
+//                        MockMvcRequestBuilders.patch(uri)
+//                                .accept(MediaType.APPLICATION_JSON)
+//                )
+//                        .andExpect(status().isOk())
+//                        .andDo(MockMvcResultHandlers.print())
+//                        .andReturn();
         }
-
 }

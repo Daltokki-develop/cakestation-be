@@ -72,7 +72,7 @@ class ReviewServiceUnitTest {
         List<ReviewDto> reviewDtoList = reviewService.findReviewsByWriter(USER_ID, pageRequest);
 
         // then
-        assertEquals(USERNAME, reviewDtoList.get(0).getUsername());
+        assertEquals(NICKNAME, reviewDtoList.get(0).getNickname());
     }
 
     @Test
@@ -85,7 +85,7 @@ class ReviewServiceUnitTest {
         List<ReviewDto> reviewDtoList = reviewService.findReviewsByStore(STORE_ID, pageRequest);
 
         // then
-        assertEquals(USERNAME, reviewDtoList.get(0).getUsername());
+        assertEquals(NICKNAME, reviewDtoList.get(0).getNickname());
     }
 
     @Test

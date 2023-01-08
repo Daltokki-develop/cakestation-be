@@ -8,14 +8,14 @@ public class UserFixture {
     public static Long USER_ID = 1L;
     public static String USERNAME = "김송이";
     public static String EMAIL = "aa@gmail.com";
-    public static String nickname;
+    public static String NICKNAME = "걱정많은 딸기";
     public static int randomNumber = 1;
     public static Role ROLE = Role.ROLE_USER;
 
     public static User getUserEntity(){
         return User.builder()
                 .id(USER_ID)
-//                .nickname(nickname)
+                .nickname(NICKNAME)
                 .randomNumber(randomNumber)
                 .username(USERNAME)
                 .email(EMAIL)
@@ -31,7 +31,7 @@ public class UserFixture {
     }
 
     public void setNickname(String nickname) {
-        this.nickname = nickname;
+        this.NICKNAME = nickname;
     }
 
     private static int createRandomNumber() {

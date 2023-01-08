@@ -7,6 +7,7 @@ import com.cakestation.backend.review.service.ReviewService;
 import com.cakestation.backend.review.service.dto.CreateReviewDto;
 import com.cakestation.backend.cakestore.service.CakeStoreService;
 import com.cakestation.backend.user.service.UserService;
+import com.cakestation.backend.user.service.UtilService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -44,6 +46,8 @@ class ReviewControllerTest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UtilService utilService;
 
     @Test
     public void HTTP_리뷰_등록() throws Exception {
@@ -54,7 +58,6 @@ class ReviewControllerTest {
 
         // 가게 등록
         cakeStoreService.saveStore(getCreateCakeStoreDto());
-
 
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
         CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
