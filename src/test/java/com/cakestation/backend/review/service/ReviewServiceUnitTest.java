@@ -34,7 +34,9 @@ class ReviewServiceUnitTest {
     @Mock
     ImageUploadService imageUploadService;
     @InjectMocks
-    ReviewServiceImpl reviewService;
+    ReviewService reviewService;
+    @InjectMocks
+    ReviewQueryService reviewQueryService;
 
     @Test
     void 리뷰_등록() {
@@ -56,7 +58,7 @@ class ReviewServiceUnitTest {
         // given
         doReturn(Optional.of(getReviewEntity())).when(reviewRepository).findById(any());
         // when
-        ReviewDto reviewDto = reviewService.findReviewById(REVIEW_ID);
+        ReviewDto reviewDto = reviewQueryService.findReviewById(REVIEW_ID);
         // then
         assertEquals(REVIEW_ID,reviewDto.getReviewId());
 
@@ -69,7 +71,7 @@ class ReviewServiceUnitTest {
 
         // when
         PageRequest pageRequest = PageRequest.of(0, 1);
-        List<ReviewDto> reviewDtoList = reviewService.findReviewsByWriter(USER_ID, pageRequest);
+        List<ReviewDto> reviewDtoList = reviewQueryService.findReviewsByWriter(USER_ID, pageRequest);
 
         // then
         assertEquals(NICKNAME, reviewDtoList.get(0).getNickname());
@@ -82,7 +84,7 @@ class ReviewServiceUnitTest {
 
         // when
         PageRequest pageRequest = PageRequest.of(0, 1);
-        List<ReviewDto> reviewDtoList = reviewService.findReviewsByStore(STORE_ID, pageRequest);
+        List<ReviewDto> reviewDtoList = reviewQueryService.findReviewsByStore(STORE_ID, pageRequest);
 
         // then
         assertEquals(NICKNAME, reviewDtoList.get(0).getNickname());
@@ -95,7 +97,7 @@ class ReviewServiceUnitTest {
 
         // when
         PageRequest pageRequest = PageRequest.of(0, 1);
-        List<ReviewImageDto> reviewImageDtoList = reviewService.findReviewImagesByStore(STORE_ID, pageRequest);
+        List<ReviewImageDto> reviewImageDtoList = reviewQueryService.findReviewImagesByStore(STORE_ID, pageRequest);
 
         // then
         assertEquals(reviewImageDtoList.size(), REVIEW_IMAGES.size());

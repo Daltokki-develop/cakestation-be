@@ -3,6 +3,7 @@ package com.cakestation.backend.review.controller;
 
 import com.cakestation.backend.review.controller.dto.request.CreateReviewRequest;
 import com.cakestation.backend.review.fixture.ReviewFixture;
+import com.cakestation.backend.review.service.ReviewQueryService;
 import com.cakestation.backend.review.service.ReviewService;
 import com.cakestation.backend.review.service.dto.CreateReviewDto;
 import com.cakestation.backend.cakestore.service.CakeStoreService;
@@ -38,6 +39,8 @@ class ReviewControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private ReviewService reviewService;
+    @Autowired
+    private ReviewQueryService reviewQueryService;
 
     @Autowired
     private CakeStoreService cakeStoreService;
