@@ -1,5 +1,6 @@
 package com.cakestation.backend.user.service;
 
+import com.cakestation.backend.auth.exception.InvalidTokenException;
 import com.cakestation.backend.common.exception.ErrorType;
 import com.cakestation.backend.config.JwtProperties;
 import com.cakestation.backend.config.KakaoConfig;
@@ -164,15 +165,15 @@ public class KakaoService {
     }
 
     //로그아웃을 통한 발행된 토큰 무효화 작업(로그아웃)
-    public void LogoutToken(String access_Token) {
+    public void LogoutToken(String access_Token) throws InvalidTokenException {
 
         try {
             URL url = new URL(LOGOUT_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
-
+            String Token = access_Token.replace(JwtProperties.TOKEN_PREFIX, "");
             // 요청에 필요한 Header에 포함될 내용
-            conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+            conn.setRequestProperty("Authorization", "Bearer " + Token);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
