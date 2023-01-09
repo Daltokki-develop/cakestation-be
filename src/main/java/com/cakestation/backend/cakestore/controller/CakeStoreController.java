@@ -1,5 +1,6 @@
 package com.cakestation.backend.cakestore.controller;
 
+import com.cakestation.backend.cakestore.service.CakeStoreQueryService;
 import com.cakestation.backend.common.ApiResponse;
 import com.cakestation.backend.cakestore.controller.dto.response.CakeStoreResponse;
 import com.cakestation.backend.cakestore.service.CakeStoreService;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 public class CakeStoreController {
 
     private final CakeStoreService cakeStoreService;
+    private final CakeStoreQueryService cakeStoreQueryService;
     private final UtilService utilService;
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -39,15 +41,23 @@ public class CakeStoreController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/stores/{storeId}")
     public ResponseEntity<ApiResponse<CakeStoreResponse>> showStore(@PathVariable Long storeId) {
-        CakeStoreResponse storeResponse = CakeStoreResponse.from(cakeStoreService.findStoreById(storeId));
+        CakeStoreResponse storeResponse = CakeStoreResponse.from(cakeStoreQueryService.findStoreById(storeId));
         return ResponseEntity.ok()
                 .body(new ApiResponse<>(HttpStatus.OK.value(), "가게 조회 성공", storeResponse));
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/stores/{storeId}")
+    public ResponseEntity<Void> deleteStore(@PathVariable Long storeId) {
+        cakeStoreService.deleteStore(storeId);
+        return ResponseEntity.noContent().build();
+    }
+
+
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/stores/all")
     public ResponseEntity<ApiResponse<List<CakeStoreResponse>>> showAllStores() {
-        List<CakeStoreResponse> storeResponseList = cakeStoreService.findAllStore()
+        List<CakeStoreResponse> storeResponseList = cakeStoreQueryService.findAllStore()
                 .stream()
                 .map(CakeStoreResponse::from)
                 .collect(Collectors.toList());
@@ -61,7 +71,7 @@ public class CakeStoreController {
             @RequestParam String name,
             @PageableDefault(size = 30, sort = {"reviewCount", "reviewScore"}, direction = Sort.Direction.DESC) Pageable pageable) {
 
-        List<CakeStoreResponse> storeResponseList = cakeStoreService.searchStoresByKeyword(name, pageable)
+        List<CakeStoreResponse> storeResponseList = cakeStoreQueryService.searchStoresByKeyword(name, pageable)
                 .stream()
                 .map(CakeStoreResponse::from)
                 .collect(Collectors.toList());
@@ -75,7 +85,7 @@ public class CakeStoreController {
             @RequestParam String name,
             @PageableDefault(size = 30, sort = {"reviewCount", "reviewScore"}, direction = Sort.Direction.DESC) Pageable pageable) {
 
-        List<CakeStoreResponse> storeResponseList = cakeStoreService.searchStoresByStation(name, pageable)
+        List<CakeStoreResponse> storeResponseList = cakeStoreQueryService.searchStoresByStation(name, pageable)
                 .stream()
                 .map(CakeStoreResponse::from)
                 .collect(Collectors.toList());
@@ -99,7 +109,7 @@ public class CakeStoreController {
     public ResponseEntity<ApiResponse<List<CakeStoreDto>>> likeStoreList(HttpServletRequest request) {
 
         String userEmail = utilService.getCurrentUserEmail(request.getHeader(JwtProperties.HEADER_STRING));
-        List<CakeStoreDto> cakeStoreDtoList = cakeStoreService.findAllLikeStore(userEmail);
+        List<CakeStoreDto> cakeStoreDtoList = cakeStoreQueryService.findAllLikeStore(userEmail);
 
         return ResponseEntity.ok()
                 .body(new ApiResponse<>(HttpStatus.OK.value(), "좋아요 리스트 조회 성공", cakeStoreDtoList));
