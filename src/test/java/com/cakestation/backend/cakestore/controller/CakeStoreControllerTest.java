@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static com.cakestation.backend.cakestore.fixture.StoreFixture.getCreateCakeStoreDto;
 import static com.cakestation.backend.user.fixture.UserFixture.getKakaoUserDto;

@@ -22,7 +22,7 @@ class CakeStoreServiceUnitTest {
     CakeStoreRepository cakeStoreRepository;
 
     @InjectMocks
-    CakeStoreService cakeStoreService;
+    CakeStoreQueryService cakeStoreQueryService;
 
     @Test
     void 가게_등록() {
@@ -34,7 +34,7 @@ class CakeStoreServiceUnitTest {
         doReturn(Optional.of(getCakeStoreEntity())).when(cakeStoreRepository).findById(any());
 
         // when
-        CakeStoreDto store = cakeStoreService.findStoreById(STORE_ID);
+        CakeStoreDto store = cakeStoreQueryService.findStoreById(STORE_ID);
 
         // then
         assertEquals(store.getStoreId(),STORE_ID);

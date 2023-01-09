@@ -3,6 +3,7 @@ package com.cakestation.backend.review.controller;
 
 import com.cakestation.backend.review.controller.dto.request.CreateReviewRequest;
 import com.cakestation.backend.review.fixture.ReviewFixture;
+import com.cakestation.backend.review.service.ReviewQueryService;
 import com.cakestation.backend.review.service.ReviewService;
 import com.cakestation.backend.review.service.dto.CreateReviewDto;
 import com.cakestation.backend.cakestore.service.CakeStoreService;
@@ -16,7 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -39,6 +39,8 @@ class ReviewControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private ReviewService reviewService;
+    @Autowired
+    private ReviewQueryService reviewQueryService;
 
     @Autowired
     private CakeStoreService cakeStoreService;
