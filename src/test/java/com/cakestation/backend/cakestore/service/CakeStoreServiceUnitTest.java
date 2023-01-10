@@ -1,42 +1,35 @@
 package com.cakestation.backend.cakestore.service;
 
-import java.util.Optional;
-
 import com.cakestation.backend.cakestore.repository.CakeStoreRepository;
-import com.cakestation.backend.cakestore.service.dto.CakeStoreDto;
+import com.cakestation.backend.common.annotations.ServiceTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import static com.cakestation.backend.cakestore.fixture.StoreFixture.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
+import static com.cakestation.backend.cakestore.fixture.StoreFixture.getCreateCakeStoreDto;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@ExtendWith(MockitoExtension.class)
+@DisplayName("CakeStoreService 는 ")
+@ServiceTest
 class CakeStoreServiceUnitTest {
 
-    @Mock
+    @Autowired
     CakeStoreRepository cakeStoreRepository;
 
-    @InjectMocks
-    CakeStoreQueryService cakeStoreQueryService;
+    @Autowired
+    CakeStoreService cakeStoreService;
 
-    @Test
-    void 가게_등록() {
+    @BeforeEach
+    void beforeEach() {
+        cakeStoreRepository.deleteAll();
     }
 
+    @DisplayName("가게를 등록할 수 있다.")
     @Test
-    public void 가게_조회() {
-        // given
-        doReturn(Optional.of(getCakeStoreEntity())).when(cakeStoreRepository).findById(any());
+    void saveStore() {
+        Long cakeStoreId = cakeStoreService.saveStore(getCreateCakeStoreDto());
 
-        // when
-        CakeStoreDto store = cakeStoreQueryService.findStoreById(STORE_ID);
-
-        // then
-        assertEquals(store.getStoreId(),STORE_ID);
+        assertThat(cakeStoreId).isNotNull();
     }
 }

@@ -22,8 +22,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import static com.cakestation.backend.review.fixture.ReviewFixture.REVIEW_ID;
-import static com.cakestation.backend.cakestore.fixture.StoreFixture.STORE_ID;
+import static com.cakestation.backend.review.fixture.ReviewFixture.REVIEW_ID_1;
+import static com.cakestation.backend.cakestore.fixture.StoreFixture.STORE_ID_1;
 import static com.cakestation.backend.cakestore.fixture.StoreFixture.getCreateCakeStoreDto;
 import static com.cakestation.backend.user.fixture.UserFixture.USER_ID;
 import static com.cakestation.backend.user.fixture.UserFixture.getKakaoUserDto;
@@ -62,11 +62,11 @@ class ReviewControllerTest {
         cakeStoreService.saveStore(getCreateCakeStoreDto());
 
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
-        CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
+        CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID_1, createReviewRequest);
 
         reviewService.saveReview(createReviewDto, getKakaoUserDto().getEmail());
 
-        String uri = String.format("/api/stores/%d/reviews", STORE_ID);
+        String uri = String.format("/api/stores/%d/reviews", STORE_ID_1);
 
         MvcResult result = mockMvc.perform(
                         MockMvcRequestBuilders.get(uri)
@@ -89,11 +89,11 @@ class ReviewControllerTest {
 
         // 리뷰 등록
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
-        CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
+        CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID_1, createReviewRequest);
 
         reviewService.saveReview(createReviewDto, getKakaoUserDto().getEmail());
 
-        String uri = String.format("/api/reviews/%d", REVIEW_ID);
+        String uri = String.format("/api/reviews/%d", REVIEW_ID_1);
 
         MvcResult result = mockMvc.perform(
                         MockMvcRequestBuilders.get(uri)
@@ -116,7 +116,7 @@ class ReviewControllerTest {
 
         // 리뷰 등록
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
-        CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
+        CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID_1, createReviewRequest);
 
         reviewService.saveReview(createReviewDto, getKakaoUserDto().getEmail());
 
@@ -143,10 +143,10 @@ class ReviewControllerTest {
 
         // 리뷰 등록
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
-        CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
+        CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID_1, createReviewRequest);
         reviewService.saveReview(createReviewDto, getKakaoUserDto().getEmail());
 
-        String uri = String.format("/api/stores/%d/reviews", STORE_ID);
+        String uri = String.format("/api/stores/%d/reviews", STORE_ID_1);
 
         MvcResult result = mockMvc.perform(
                         MockMvcRequestBuilders.get(uri)
@@ -169,10 +169,10 @@ class ReviewControllerTest {
 
         // 리뷰 등록
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
-        CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
+        CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID_1, createReviewRequest);
         reviewService.saveReview(createReviewDto, getKakaoUserDto().getEmail());
 
-        String uri = String.format("/api/stores/%d/reviews/image", STORE_ID);
+        String uri = String.format("/api/stores/%d/reviews/image", STORE_ID_1);
         MvcResult result = mockMvc.perform(
                         MockMvcRequestBuilders.get(uri)
                                 .accept(MediaType.APPLICATION_JSON)
@@ -194,7 +194,7 @@ class ReviewControllerTest {
 
         // 리뷰 등록
         CreateReviewRequest createReviewRequest = ReviewFixture.getCreateReviewRequest();
-        CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID, createReviewRequest);
+        CreateReviewDto createReviewDto = createReviewRequest.toServiceDto(STORE_ID_1, createReviewRequest);
         reviewService.saveReview(createReviewDto, getKakaoUserDto().getEmail());
 
         String uri = String.format("/api/users/%d/reviews/image", USER_ID);

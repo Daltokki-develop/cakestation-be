@@ -5,9 +5,13 @@ import com.cakestation.backend.cakestore.service.dto.CreateCakeStoreDto;
 
 public class StoreFixture {
 
-    public static Long STORE_ID = 1L;
+    public static Long STORE_ID_1 = 1L;
+    public static Long STORE_ID_2 = 2L;
+    public static Long STORE_ID_3 = 3L;
 
-    public static String NAME = "베니 케이크";
+    public static String NAME_1 = "베니 케이크";
+    public static String NAME_2 = "얌얌 케이크";
+    public static String NAME_3 = "송이 케이크";
 
     public static String ADDRESS = "주소";
 
@@ -31,10 +35,9 @@ public class StoreFixture {
             = "[['홍대입구역', ['2호선', '경의중앙선', '공항철도'], '3번 출구', '도보 12분'], ['가좌역', ['경의중앙선'], '1번 출구', '도보 16분']]";
 
 
-    public static CakeStore getCakeStoreEntity(){
+    public static CakeStore getCakeStoreEntity() {
         return CakeStore.builder()
-                .id(STORE_ID)
-                .name(NAME)
+                .name(NAME_1)
                 .address(ADDRESS)
                 .businessHours(BUSINESS_HOURS)
                 .phoneNumber(PHONE)
@@ -45,9 +48,9 @@ public class StoreFixture {
                 .build();
     }
 
-    public static CreateCakeStoreDto getCreateCakeStoreDto(){
+    public static CreateCakeStoreDto getCreateCakeStoreDto() {
         return CreateCakeStoreDto.builder()
-                .name(NAME)
+                .name(NAME_1)
                 .address(ADDRESS)
                 .businessHours(BUSINESS_HOURS)
                 .phoneNumber(PHONE)

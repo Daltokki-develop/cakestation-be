@@ -1,50 +1,69 @@
 package com.cakestation.backend.mypage.service;
 
+import com.cakestation.backend.cakestore.domain.CakeStore;
+import com.cakestation.backend.cakestore.repository.CakeStoreRepository;
+import com.cakestation.backend.common.annotations.ServiceTest;
 import com.cakestation.backend.mypage.service.dto.MyPageDto;
+import com.cakestation.backend.review.domain.DesignSatisfaction;
+import com.cakestation.backend.review.domain.Review;
+import com.cakestation.backend.review.domain.ReviewImage;
+import com.cakestation.backend.review.domain.ReviewTag;
 import com.cakestation.backend.review.repository.ReviewRepository;
+import com.cakestation.backend.user.domain.Role;
+import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.repository.UserRepository;
-import org.junit.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Optional;
+import java.util.List;
 
-import static com.cakestation.backend.review.fixture.ReviewFixture.REVIEW_IMAGES;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static com.cakestation.backend.review.fixture.ReviewFixture.getReviewEntity;
-import static com.cakestation.backend.user.fixture.UserFixture.EMAIL;
+import static com.cakestation.backend.cakestore.fixture.StoreFixture.getCakeStoreEntity;
+import static com.cakestation.backend.review.fixture.ReviewFixture.*;
 import static com.cakestation.backend.user.fixture.UserFixture.getUserEntity;
-import static org.hamcrest.Matchers.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 
-@ExtendWith(MockitoExtension.class)
+@DisplayName("MyPageService 는 ")
+@ServiceTest
 class MyPageServiceTest {
 
-    @Mock
+    @Autowired
     UserRepository userRepository;
-    @Mock
+    @Autowired
     ReviewRepository reviewRepository;
-    @InjectMocks
+    @Autowired
+    CakeStoreRepository cakeStoreRepository;
+    @Autowired
     MyPageService myPageService;
 
+    @BeforeEach
+    void beforeEach() {
+        userRepository.deleteAll();
+        reviewRepository.deleteAll();
+        cakeStoreRepository.deleteAll();
+    }
+
+    @DisplayName("리뷰개수가 1개일 때 마이페이지 정보의 리뷰 개수는 1개이다.")
     @Test
-    void 마이페이지_정보_조회(){
-        // given
-        doReturn(Optional.of(getUserEntity())).when(userRepository).findUserByEmail(any());
-        doReturn(Optional.of(getReviewEntity())).when(reviewRepository).findAllByWriter(any());
-        // when
-        MyPageDto myPageInfo = myPageService.getMyPageInfo(EMAIL);
-        // then
+    void getMyPageInfo() {
+        User user = new User(null, "유저넴", "닉넴", "mm@mail.com", 1, Role.ROLE_USER);
+        CakeStore cakeStore = getCakeStoreEntity();
+        Review review = new Review(null, user, cakeStore, List.of(), CAKE_NUMBER, SHEET_TYPE, REQUEST_OPTION, DesignSatisfaction.GOOD, SCORE, List.of(), CONTENT);
 
-        assertThat(myPageInfo.getRandomNumber(), is(greaterThanOrEqualTo(0)));
-        assertThat(myPageInfo.getRandomNumber(), is(lessThanOrEqualTo(4)));
-        assertThat(myPageInfo.getReviewCount(),is(equalTo(1)));
-        assertThat(myPageInfo.getReviewCount(),is(equalTo(1)));
-        assertThat(myPageInfo.getReviewImageCount(),is(equalTo(REVIEW_IMAGES.size())));
+        userRepository.save(user);
+        cakeStoreRepository.save(cakeStore);
+        reviewRepository.save(review);
 
+        MyPageDto myPageInfo = myPageService.getMyPageInfo("mm@mail.com");
+
+        assertAll(
+                () -> assertThat(myPageInfo.getReviewCount(), is(equalTo(1))),
+                () -> assertThat(myPageInfo.getReviewImageCount(), is(equalTo(0)))
+        );
     }
 }
