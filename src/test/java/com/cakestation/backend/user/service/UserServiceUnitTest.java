@@ -33,13 +33,10 @@ class UserServiceUnitTest {
     @Test
     @DisplayName("User의 닉네임을 랜덤으로 부여 한다.")
     void 유저_닉네임_부여() {
-
         // given
         doReturn(Optional.empty()).when(userRepository).findByNickname(any());
-
         // when
         String nickname = userService.makeNickname();
-
         // then
         assertThat(nickname).isNotNull();
     }

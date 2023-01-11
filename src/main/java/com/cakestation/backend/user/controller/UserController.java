@@ -31,13 +31,6 @@ public class UserController {
     private final UserService userService;
     private final UtilService utilService;
 
-    @GetMapping("/email")
-    public ResponseEntity<ApiResponse<String>> getEmail(@RequestHeader("Authorization") String token) {
-
-        String email = utilService.getCurrentUserEmail(token);
-        return new ResponseEntity<>(new ApiResponse<>(200, "이메일 획득", email), HttpStatus.OK);
-    }
-
     // code를 통한 Token 반환 API
     @GetMapping("/oauth")
     public ResponseEntity<ApiResponse<Long>> KakaoCallback(@RequestParam String code) {
