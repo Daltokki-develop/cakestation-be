@@ -9,14 +9,14 @@ public class UserFixture {
     public static String USERNAME = "김송이";
     public static String EMAIL = "aa@gmail.com";
     public static String NICKNAME = "걱정많은 딸기";
-    public static int randomNumber = 1;
+    public static int RANDOM_NUMBER = 1;
     public static Role ROLE = Role.ROLE_USER;
 
     public static User getUserEntity(){
         return User.builder()
                 .id(USER_ID)
                 .nickname(NICKNAME)
-                .randomNumber(randomNumber)
+                .randomNumber(RANDOM_NUMBER)
                 .username(USERNAME)
                 .email(EMAIL)
                 .role(ROLE)

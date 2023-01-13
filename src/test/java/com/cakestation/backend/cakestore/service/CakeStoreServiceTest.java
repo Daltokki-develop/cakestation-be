@@ -12,7 +12,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DisplayName("CakeStoreService 는 ")
 @ServiceTest
-class CakeStoreServiceUnitTest {
+class CakeStoreServiceTest {
 
     @Autowired
     CakeStoreRepository cakeStoreRepository;

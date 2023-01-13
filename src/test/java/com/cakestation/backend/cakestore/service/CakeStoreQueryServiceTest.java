@@ -33,7 +33,8 @@ class CakeStoreQueryServiceTest {
     @DisplayName("가게 아이디로 케이크가게를 조회할 수 있다.")
     @Test
     void getStoreById() {
-        cakeStoreRepository.save(new CakeStore(STORE_ID_1, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0));
+        CakeStore savedStore = new CakeStore(STORE_ID_1, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0);
+        cakeStoreRepository.save(savedStore);
         CakeStoreDto store = cakeStoreQueryService.findStoreById(STORE_ID_1);
 
         assertThat(store.getStoreId()).isEqualTo(STORE_ID_1);
