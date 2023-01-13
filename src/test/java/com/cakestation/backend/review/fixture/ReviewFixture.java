@@ -17,7 +17,7 @@ public class ReviewFixture {
 
     public static List<String> IMAGES = List.of();
     public static List<ReviewImage> REVIEW_IMAGES = List.of();
-    public static List<String> ENCODING_REVIEW_IMAGES= List.of(); // 리뷰 사진 base 64 인코딩 파일 리스트
+    public static List<String> ENCODING_REVIEW_IMAGES = List.of(); // 리뷰 사진 base 64 인코딩 파일 리스트
     public static List<String> IMAGE_URLS = List.of(); // 리뷰 사진 url 리스트
 
     public static int CAKE_NUMBER = 1; // 케이크 호수
@@ -31,7 +31,7 @@ public class ReviewFixture {
     public static int SCORE = 5; // 별점
 
     public static List<Tag> TAGS = List.of(Tag.CHEAP);
-
+    public static List<ReviewTag> REVIEW_TAGS = List.of(new ReviewTag(null, null, Tag.CHEAP));
     public static String CONTENT = ""; // 내용
 
     public ReviewFixture() throws IOException {

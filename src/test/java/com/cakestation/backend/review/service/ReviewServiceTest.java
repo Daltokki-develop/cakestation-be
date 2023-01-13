@@ -6,7 +6,6 @@ import com.cakestation.backend.common.annotations.ServiceTest;
 import com.cakestation.backend.review.domain.DesignSatisfaction;
 import com.cakestation.backend.review.repository.ReviewRepository;
 import com.cakestation.backend.review.service.dto.CreateReviewDto;
-import com.cakestation.backend.user.domain.Role;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,17 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 import static com.cakestation.backend.cakestore.fixture.StoreFixture.*;
-import static com.cakestation.backend.cakestore.fixture.StoreFixture.NEARBY_STATION;
-import static com.cakestation.backend.review.fixture.ReviewFixture.*;
 import static com.cakestation.backend.review.fixture.ReviewFixture.SCORE;
+import static com.cakestation.backend.review.fixture.ReviewFixture.*;
 import static com.cakestation.backend.user.fixture.UserFixture.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("ReviewService 는 ")
 @ServiceTest
 class ReviewServiceTest {
-
     @Autowired
     ReviewService reviewService;
     @Autowired
@@ -40,6 +36,8 @@ class ReviewServiceTest {
     @BeforeEach
     void beforeEach() {
         reviewRepository.deleteAll();
+        cakeStoreRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @DisplayName("리뷰를 등록할 수 있다.")
