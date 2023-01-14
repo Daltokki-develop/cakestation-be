@@ -1,6 +1,7 @@
 package com.cakestation.backend.user.service;
 
 import com.cakestation.backend.common.annotations.ServiceTest;
+import com.cakestation.backend.review.repository.ReviewRepository;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,12 +18,14 @@ class UserServiceTest {
 
     @Autowired
     UserRepository userRepository;
-
+    @Autowired
+    ReviewRepository reviewRepository;
     @Autowired
     UserService userService;
 
     @BeforeEach
     void beforeEach() {
+        reviewRepository.deleteAll();
         userRepository.deleteAll();
     }
 

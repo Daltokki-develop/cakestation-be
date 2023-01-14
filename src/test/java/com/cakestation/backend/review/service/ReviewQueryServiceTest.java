@@ -50,13 +50,9 @@ class ReviewQueryServiceTest {
     @DisplayName("사용자 아이디로 사용자가 작성한 리뷰를 조회할 수 있다.")
     @Test
     void findReviewsByWriterId() {
-        User writer = new User(null, USERNAME, NICKNAME, EMAIL, RANDOM_NUMBER, ROLE);
-        CakeStore cakeStore = new CakeStore(null, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0);
-        CakeStore cakeStore2 = new CakeStore(null, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0);
-
-        userRepository.save(writer);
-        cakeStoreRepository.save(cakeStore);
-        cakeStoreRepository.save(cakeStore2);
+        User writer = userRepository.save(new User(null, USERNAME, NICKNAME, EMAIL, RANDOM_NUMBER, ROLE));
+        CakeStore cakeStore = cakeStoreRepository.save(new CakeStore(null, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0));
+        CakeStore cakeStore2 = cakeStoreRepository.save(new CakeStore(null, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0));
 
         Review review1 = new Review(null, writer, cakeStore, REVIEW_IMAGES, CAKE_NUMBER, SHEET_TYPE, REQUEST_OPTION, DesignSatisfaction.GOOD, SCORE, null, CONTENT);
         Review review2 = new Review(null, writer, cakeStore2, REVIEW_IMAGES, CAKE_NUMBER, SHEET_TYPE, REQUEST_OPTION, DesignSatisfaction.GOOD, SCORE, null, CONTENT);
@@ -84,5 +80,4 @@ class ReviewQueryServiceTest {
                 () -> assertThat(reviews.get(0).getStoreId()).isEqualTo(cakeStore.getId())
         );
     }
-
 }
