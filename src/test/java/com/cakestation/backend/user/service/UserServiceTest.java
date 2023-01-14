@@ -37,7 +37,6 @@ class UserServiceTest {
     @Test
     @DisplayName("User의 닉네임을 랜덤으로 재부여 한다.")
     void remakeNickname() {
-
         // given
         User user = userRepository.save(new User(null, USERNAME, NICKNAME, EMAIL, RANDOM_NUMBER, ROLE));
         String beforeNickname = user.getNickname();
