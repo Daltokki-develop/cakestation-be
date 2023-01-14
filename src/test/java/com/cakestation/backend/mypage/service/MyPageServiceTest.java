@@ -43,8 +43,8 @@ class MyPageServiceTest {
 
     @BeforeEach
     void beforeEach() {
-        userRepository.deleteAll();
         reviewRepository.deleteAll();
+        userRepository.deleteAll();
         cakeStoreRepository.deleteAll();
     }
 

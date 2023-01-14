@@ -72,14 +72,12 @@ class ReviewQueryServiceTest {
     @DisplayName("가게 아이디로 가게의 리뷰를 조회할 수 있다.")
     @Test
     void findReviewsByStore() {
-        User writer = new User(null, USERNAME, NICKNAME, EMAIL, RANDOM_NUMBER, ROLE);
-        CakeStore cakeStore = new CakeStore(null, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0);
-        userRepository.save(writer);
-        cakeStoreRepository.save(cakeStore);
+        User writer = userRepository.save(new User(null, USERNAME, NICKNAME, EMAIL, RANDOM_NUMBER, ROLE));
+        CakeStore cakeStore = cakeStoreRepository.save(new CakeStore(null, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0));
 
-        reviewRepository.save(new Review(null, writer, cakeStore, REVIEW_IMAGES, CAKE_NUMBER, SHEET_TYPE, REQUEST_OPTION, DesignSatisfaction.GOOD, SCORE, null, CONTENT));
+        Review review = reviewRepository.save(new Review(null, writer, cakeStore, REVIEW_IMAGES, CAKE_NUMBER, SHEET_TYPE, REQUEST_OPTION, DesignSatisfaction.GOOD, SCORE, null, CONTENT));
 
-        List<ReviewDto> reviews = reviewQueryService.findReviewsByStore(STORE_ID_1, PageRequest.of(0, 10));
+        List<ReviewDto> reviews = reviewQueryService.findReviewsByStore(review.getCakeStore().getId(), PageRequest.of(0, 10));
 
         assertAll(
                 () -> assertThat(reviews).hasSize(1),

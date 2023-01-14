@@ -43,14 +43,13 @@ class ReviewServiceTest {
     @DisplayName("리뷰를 등록할 수 있다.")
     @Test
     void saveReview() {
-        userRepository.save(new User(USER_ID, USERNAME, NICKNAME, EMAIL, RANDOM_NUMBER, ROLE));
-        cakeStoreRepository.save(new CakeStore(STORE_ID_1, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0));
+        userRepository.save(new User(null, USERNAME, NICKNAME, EMAIL, RANDOM_NUMBER, ROLE));
+        CakeStore cakeStore = cakeStoreRepository.save(new CakeStore(null, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0));
 
-        CreateReviewDto createReviewDto = new CreateReviewDto(STORE_ID_1, ENCODING_REVIEW_IMAGES, IMAGE_URLS, CAKE_NUMBER, SHEET_TYPE, REQUEST_OPTION, DesignSatisfaction.GOOD, SCORE, TAGS, CONTENT);
+        CreateReviewDto createReviewDto = new CreateReviewDto(cakeStore.getId(), ENCODING_REVIEW_IMAGES, IMAGE_URLS, CAKE_NUMBER, SHEET_TYPE, REQUEST_OPTION, DesignSatisfaction.GOOD, SCORE, TAGS, CONTENT);
 
         Long reviewId = reviewService.saveReview(createReviewDto, EMAIL);
 
         assertThat(reviewId).isNotNull();
     }
-
 }
