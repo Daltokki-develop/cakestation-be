@@ -16,6 +16,18 @@ import java.util.Optional;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
+    @Modifying(clearAutomatically = true)
+    @Query("delete from Review r where r.id in :ids")
+    void deleteReviewByIds(@Param("ids") List<Long> ids);
+
+    @Modifying(clearAutomatically = true)
+    @Query("delete from ReviewImage ri where ri.review.id in :ids")
+    void deleteReviewImagesByReviewIds(@Param("ids") List<Long> ids);
+
+    @Modifying(clearAutomatically = true)
+    @Query("delete from ReviewTag rt where rt.review.id in :ids")
+    void deleteReviewTagsByReviewIds(@Param("ids") List<Long> ids);
+
     @EntityGraph(attributePaths = {"writer"})
     List<Review> findAllByWriterId(Long writerId, Pageable pageable);
 
@@ -29,11 +41,4 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("select r from Review r where r.writer.id =:writerId")
     List<Review> findAllByWriter(@Param("writerId") Long writerId);
 
-    @Modifying
-    @Query("delete from ReviewImage ri where ri.review.id =:reviewId")
-    void deleteReviewImageById(@Param("reviewId") Long reviewId);
-
-    @Modifying
-    @Query("delete from ReviewTag rt where rt.review.id =:reviewId")
-    void deleteReviewTagById(@Param("reviewId") Long reviewId);
 }

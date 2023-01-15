@@ -1,9 +1,5 @@
 package com.cakestation.backend.user.service;
 
-import com.cakestation.backend.common.exception.ErrorType;
-import com.cakestation.backend.review.service.ReviewServiceImpl;
-import com.cakestation.backend.user.domain.User;
-import com.cakestation.backend.user.exception.InvalidUserException;
 import com.cakestation.backend.user.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,10 +12,8 @@ import java.util.Optional;
 
 import static com.cakestation.backend.user.fixture.UserFixture.getUserEntity;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceUnitTest {

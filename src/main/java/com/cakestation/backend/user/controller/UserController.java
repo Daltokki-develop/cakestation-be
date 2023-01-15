@@ -33,7 +33,7 @@ public class UserController {
 
     // code를 통한 Token 반환 API
     @GetMapping("/oauth")
-    public ResponseEntity<ApiResponse<Long>> KakaoCallback(@RequestParam String code) {
+    public ResponseEntity<ApiResponse<Long>> kakaoCallback(@RequestParam String code) {
 
         //Token 획득
         TokenDto tokenDto = kakaoService.getKaKaoAccessToken(code);
@@ -50,19 +50,17 @@ public class UserController {
 
     //로그아웃 API
     //TODO : Cookie에 있을 refresh Token도 삭제 할것
-    @GetMapping("/logout/kakao")
-    public ResponseEntity<ApiResponse<String>> KakaoLogout(HttpServletRequest request) {
-
-        Optional<String> Token = utilService.headerAccessToken(request, JwtProperties.HEADER_STRING);
-        String userEmail = utilService.getCurrentUserEmail(Token.get());
-        kakaoService.LogoutToken(Token.get().replace(JwtProperties.TOKEN_PREFIX, ""));//Token 강제 만료
+    @PostMapping("/logout/kakao")
+    public ResponseEntity<ApiResponse<String>> kakaoLogout(@RequestHeader(JwtProperties.HEADER_STRING) String token) {
+        String userEmail = utilService.getCurrentUserEmail(token);
+        kakaoService.LogoutToken(token);//Token 강제 만료
         return ResponseEntity.ok(new ApiResponse<>(200, "로그아웃 성공", userEmail));
 
     }
 
     // 회원탈퇴 API
     @PostMapping("/delete/kakao")
-    public ResponseEntity<ApiResponse<String>> WithdrawalUser(HttpServletRequest request) {
+    public ResponseEntity<ApiResponse<String>> withdrawalUser(HttpServletRequest request) {
 
         Optional<String> Token = utilService.headerAccessToken(request, JwtProperties.HEADER_STRING);
         String userEmail = utilService.getCurrentUserEmail(Token.get());
@@ -75,7 +73,6 @@ public class UserController {
     @PatchMapping("/nickname")
     public ResponseEntity<NicknameResponse> updateNickname(@RequestHeader(JwtProperties.HEADER_STRING) String token) {
         String email = utilService.getCurrentUserEmail(token);
-        System.out.println(email + "!!!!!!!");
         return ResponseEntity.ok(
                 new NicknameResponse(userService.updateNickname(email)));
     }

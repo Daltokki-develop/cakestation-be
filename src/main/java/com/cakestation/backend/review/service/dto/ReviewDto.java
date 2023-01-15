@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 public class ReviewDto {
 
     private Long reviewId;
+    private Long storeId;
     private Long userId;
     private String nickname;
     private int cakeNumber;
@@ -33,6 +34,7 @@ public class ReviewDto {
 
         return ReviewDto.builder()
                 .reviewId(review.getId())
+                .storeId(review.getCakeStore().getId())
                 .nickname(review.getWriter().getNickname())
                 .cakeNumber(review.getCakeNumber())
                 .score(review.getScore())

@@ -62,14 +62,10 @@ public class UserService {
         return resultName;
     }
 
-    public void deleteUser(String userEmail){
-
-        Optional<User> deletedUser;
-
-        deletedUser = userRepository.findUserByEmail(userEmail);
-
-        userRepository.delete(deletedUser.get());
-
+    public void deleteUser(String userEmail) {
+        User user = userRepository.findUserByEmail(userEmail)
+                .orElseThrow(() -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
+        userRepository.delete(user);
     }
 }
 

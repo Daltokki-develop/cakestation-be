@@ -16,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class CreateReviewDto {
-
     private Long storeId;
     private List<String> reviewImages;
     @Builder.Default
