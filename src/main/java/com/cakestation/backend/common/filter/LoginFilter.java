@@ -22,7 +22,7 @@ public class LoginFilter implements Filter {
 
     // 인증을 적용하지 않을 API 작성
     private static final String[] whiteList = {
-            "/api/oauth",
+            "/api/oauth", "/api/subway/**"
     };
 
     private final KakaoService kakaoService;
