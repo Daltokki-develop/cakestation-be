@@ -47,12 +47,14 @@ class UserServiceTest {
         // when
         String newNickname = userService.updateNickname(user.getEmail());
 
-//        // when Error
-//        assertThrows(InvalidUserException.class, () -> {
-//            userService.updateNickname("ERROR@Email.com");
-//        });
-
         // then
         assertThat(newNickname).isNotEqualTo(beforeNickname);
     }
+
+//    @Test
+//    @DisplayName("회원탈퇴시 작성한 데이터가 전부 삭제된다.")
+//    void deleteUser() {
+//        // given
+//
+//    }
 }

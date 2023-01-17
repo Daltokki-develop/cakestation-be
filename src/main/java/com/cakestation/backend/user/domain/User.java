@@ -1,10 +1,13 @@
 package com.cakestation.backend.user.domain;
 
+import com.cakestation.backend.cakestore.domain.LikeStore;
 import com.cakestation.backend.common.BaseEntity;
+import com.cakestation.backend.review.domain.Review;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -20,7 +23,6 @@ public class User extends BaseEntity {
     private Long id;
 
     private String username;
-
     private String nickname;
 
     @Column(nullable = false, unique = true)
@@ -31,6 +33,12 @@ public class User extends BaseEntity {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER;
+
+    @OneToMany(cascade = CascadeType.ALL , mappedBy = "user")
+    private List<LikeStore> likeStore;
+
+    @OneToMany(cascade = CascadeType.ALL , mappedBy = "writer")
+    private List<Review> review;
 
     public static User createUser(KakaoUserDto kakaoUserDto, String nickname) {
         return User.builder()

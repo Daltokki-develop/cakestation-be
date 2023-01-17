@@ -56,4 +56,10 @@ class UserServiceUnitTest {
         // then
         assertThat(newNickname).isNotEqualTo(getUserEntity().getNickname());
     }
+
+    @Test
+    @DisplayName("User가 회원탈퇴할경우 User가 작성한 모든 데이터가 삭제됩니다.")
+    void 유저_회원탈퇴_데이터삭제() {
+
+    }
 }
