@@ -36,15 +36,15 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER;
 
-    @OneToMany(cascade = CascadeType.ALL , mappedBy = "user")
-    private List<LikeStore> likeStore = new ArrayList<>();
+//    @OneToMany(cascade = CascadeType.ALL , mappedBy = "user")
+//    private List<LikeStore> likeStore = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL , mappedBy = "writer")
-    private List<Review> review = new ArrayList<>();
+//    @OneToMany(cascade = CascadeType.ALL , mappedBy = "writer")
+//    private List<Review> review = new ArrayList<>();
 
-    public User(Object id, String username, String nickname, String email, int randomNumber, Role role) {
-        super();
-    }
+//    public User(Object id, String username, String nickname, String email, int randomNumber, Role role) {
+//        super();
+//    }
 
     public static User createUser(KakaoUserDto kakaoUserDto, String nickname) {
         return User.builder()
