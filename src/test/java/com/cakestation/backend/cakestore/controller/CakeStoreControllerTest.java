@@ -1,55 +1,51 @@
-//package com.cakestation.backend.cakestore.controller;
-//
-//import com.cakestation.backend.cakestore.service.CakeStoreService;
-//import com.cakestation.backend.user.service.UserService;
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.http.MediaType;
-//import org.springframework.test.context.TestPropertySource;
-//import org.springframework.test.context.junit.jupiter.SpringExtension;
-//import org.springframework.test.web.servlet.MockMvc;
-//import org.springframework.test.web.servlet.MvcResult;
-//import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-//import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-//import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-//
-//import static com.cakestation.backend.cakestore.fixture.StoreFixture.getCreateCakeStoreDto;
-//import static com.cakestation.backend.user.fixture.UserFixture.getKakaoUserDto;
-//
-//@AutoConfigureMockMvc
-//@SpringBootTest
-//@ExtendWith(SpringExtension.class)
-//@TestPropertySource(properties = {"spring.config.location=classpath:application-test.yml"})
-//public class CakeStoreControllerTest {
-//
-//    @Autowired
-//    private MockMvc mockMvc;
-//    @Autowired
-//    private CakeStoreService cakeStoreService;
-//
-//    @Autowired
-//    private UserService userService;
-//
-//    @Test
-//    public void 가게_조회() throws Exception {
-//
-//        // given
-//        // 회원 등록
-//        userService.join(getKakaoUserDto());
-//
-//        // 가게 등록
-//        cakeStoreService.saveStore(getCreateCakeStoreDto());
-//
-//        String uri = "/api/stores/1";
-//        MvcResult result = mockMvc.perform(
-//                        MockMvcRequestBuilders.get(uri)
-//                                .accept(MediaType.APPLICATION_JSON)
-//                )
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.result").exists())
-//                .andDo(MockMvcResultHandlers.print())
-//                .andReturn();
-//    }
-//}
+package com.cakestation.backend.cakestore.controller;
+
+import com.cakestation.backend.cakestore.controller.dto.response.CakeStoreResponse;
+import com.cakestation.backend.cakestore.service.dto.CakeStoreDto;
+import com.cakestation.backend.common.ApiResponse;
+import com.cakestation.backend.common.ControllerTest;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.ArrayList;
+
+import static com.cakestation.backend.cakestore.fixture.StoreFixture.*;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@DisplayName("CakeStoreController 는")
+public class CakeStoreControllerTest extends ControllerTest {
+    @DisplayName("가게의 정보를 조회한다.")
+    @Test
+
+    public void getStoreByStoreId() throws Exception {
+        CakeStoreDto cakeStoreDto = new CakeStoreDto(1L, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL,
+                KAKAOMAP_URL, NEARBY_STATION, new ArrayList<>(), 0, 0);
+        given(cakeStoreQueryService.findStoreById(anyLong())).willReturn(cakeStoreDto);
+
+        CakeStoreResponse cakeStoreResponse = new CakeStoreResponse(1L, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL,
+                KAKAOMAP_URL, NEARBY_STATION, new ArrayList<>(), 0, 0);
+
+        ApiResponse<CakeStoreResponse> expectedResponse = new ApiResponse<>(
+                HttpStatus.OK.value(), "가게 조회 성공", cakeStoreResponse);
+
+        MvcResult mvcResult = mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/stores/1")
+                                .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpectAll(
+                        status().isOk(),
+                        content().string(objectMapper.writeValueAsString(expectedResponse))
+                )
+                .andDo(print())
+                .andReturn();
+
+    }
+}
