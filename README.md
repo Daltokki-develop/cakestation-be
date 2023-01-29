@@ -56,7 +56,8 @@ docker run -itd -p 8080:8080 -it --name cakestation-server cakestation-server
     void deleteReviewImagesByReviewIds(@Param("ids") List<Long> ids);
 ```
 
-- **벌크 연산 쿼리는 1차 캐시를 포함한 영속성 컨텍스트를 무시하고 바로 query를 실행하기 때문에** 영속성 컨텍스트는 데이터 변경을 알 수 없다. 따라서 `@Modifying` 어노테이션을 추가해주어야 한다. - 또한 `@Modifying`을 사용할때 `clearAutomatically=true` 속성을 주어, 연산 직 후 영속성 컨텍스트를 반드시 초기화해 데이터를 동기화해주어야 한다.
+- **벌크 연산 쿼리는 1차 캐시를 포함한 영속성 컨텍스트를 무시하고 바로 query를 실행하기 때문에** 영속성 컨텍스트는 데이터 변경을 알 수 없다. 따라서 `@Modifying` 어노테이션을 추가해주어야 한다. 
+- 또한 `@Modifying`을 사용할때 `clearAutomatically=true` 속성을 주어, 연산 직 후 영속성 컨텍스트를 반드시 초기화해 데이터를 동기화해주어야 한다.   
 - 더 나아가, 가게 삭제시 삭제할 대용량 리뷰들과 관련된 정보들 삭제에도 적용해주었다.
 
 ### 테스트 관련 이슈
