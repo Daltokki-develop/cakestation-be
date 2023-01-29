@@ -61,11 +61,11 @@ public class UserService {
         }
         return resultName;
     }
-
+    @Transactional
     public void deleteUser(String userEmail) {
         User user = userRepository.findUserByEmail(userEmail)
                 .orElseThrow(() -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
-        userRepository.delete(user);
+        userRepository.deleteById(user.getId());
     }
 }
 

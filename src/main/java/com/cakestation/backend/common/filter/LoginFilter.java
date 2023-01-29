@@ -33,13 +33,13 @@ public class LoginFilter implements Filter {
 
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpreq = (HttpServletRequest) req;
-        String AccessToken = httpreq.getHeader(JwtProperties.HEADER_STRING);
         String reqURI = httpreq.getRequestURI();
-
         if (!CheckPath(reqURI)) {
+            String AccessToken = httpreq.getHeader(JwtProperties.HEADER_STRING);
             log.info("인증 체크 시작", reqURI);
             Optional.ofNullable(kakaoService.checkAccessToken(AccessToken))
                     .orElseThrow(() -> new InvalidUserException(ErrorType.INVALID_TOKEN));
+            chain.doFilter(req, res);
         } else {
             log.info("검증은 없음");
             //kakao URL인증을 위해 모든 URL을 열어둬야함x

@@ -61,7 +61,6 @@ public class UserController {
     // 회원탈퇴 API
     @PostMapping("/delete/kakao")
     public ResponseEntity<ApiResponse<String>> withdrawalUser(HttpServletRequest request) {
-
         Optional<String> Token = utilService.headerAccessToken(request, JwtProperties.HEADER_STRING);
         String userEmail = utilService.getCurrentUserEmail(Token.get());
         kakaoService.deleteUser(Token.get().replace(JwtProperties.TOKEN_PREFIX, "")); //Kakao에 등록된 유저정보 삭제
@@ -72,6 +71,7 @@ public class UserController {
     // nickname 재발급 API
     @PatchMapping("/nickname")
     public ResponseEntity<NicknameResponse> updateNickname(@RequestHeader(JwtProperties.HEADER_STRING) String token) {
+        System.out.println("!!!!!");
         String email = utilService.getCurrentUserEmail(token);
         return ResponseEntity.ok(
                 new NicknameResponse(userService.updateNickname(email)));

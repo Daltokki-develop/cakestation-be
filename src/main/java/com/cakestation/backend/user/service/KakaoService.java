@@ -88,10 +88,11 @@ public class KakaoService {
         try {
             URL url = new URL(CHECK_TOKEN);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
+            conn.setRequestMethod("GET");
+            String Token = access_Token.replace(JwtProperties.TOKEN_PREFIX, "");
 
             // 요청에 필요한 Header에 포함될 내용
-            conn.setRequestProperty(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + access_Token);
+            conn.setRequestProperty(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + Token);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
@@ -173,7 +174,7 @@ public class KakaoService {
             conn.setRequestMethod("POST");
             String Token = access_Token.replace(JwtProperties.TOKEN_PREFIX, "");
             // 요청에 필요한 Header에 포함될 내용
-            conn.setRequestProperty("Authorization", "Bearer " + Token);
+            conn.setRequestProperty(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + Token);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 

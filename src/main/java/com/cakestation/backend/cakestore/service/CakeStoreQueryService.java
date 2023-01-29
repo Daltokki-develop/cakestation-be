@@ -63,14 +63,9 @@ public class CakeStoreQueryService {
         User targetUser = userRepository.findUserByEmail(userEmail)
                 .orElseThrow(() -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
 
-        List<CakeStore> cakeStores = likeStoreRepository.findLikeStoresByUser(targetUser)
+        List<Long> cakeStoreIds = likeStoreRepository.findLikeStoresByUser(targetUser)
                 .stream()
-                .map(LikeStore::getCakeStore)
-                .collect(Collectors.toList());
-
-        List<Long> cakeStoreIds = cakeStores
-                .stream()
-                .map(CakeStore::getId)
+                .map(likeStore -> likeStore.getCakeStore().getId())
                 .collect(Collectors.toList());
 
         return cakeStoreRepository.findAllById(cakeStoreIds)
