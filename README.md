@@ -50,7 +50,7 @@ docker run -itd -p 8080:8080 -it --name cakestation-server cakestation-server
 하지만 이렇게 할 경우 1:N 관계에서 1을 삭제할 때 N번(리뷰 이미지,태그 개수 만큼)의 삭제 쿼리가 날라가게 되는데 이게 성능상의 문제가 될 것이라는 생각이 들었다. 
 그래서 bulk delete로 직접 쿼리를 생성해 한번의 쿼리로 대량 데이터 삭제가 가능하도록 변경해주었다. 
 
-```
+```java
     @Modifying(clearAutomatically = true)
     @Query("delete from ReviewImage ri where ri.review.id in :ids")
     void deleteReviewImagesByReviewIds(@Param("ids") List<Long> ids);
@@ -62,7 +62,7 @@ docker run -itd -p 8080:8080 -it --name cakestation-server cakestation-server
 ### 테스트 관련 이슈
 #### 컨트롤러 테스트 중, MockMvc 응답 시 한글 깨짐 문제   
 테스트 중 한글을 사용하면 한글이 깨져 테스트에 실패하는 문제를 겪었다. mockMvc 설정 시 UTF-8 인코딩 필터를 추가해주어 문제를 해결할 수 있었다.   
-```
+```java
     @BeforeEach
     public void setUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx)

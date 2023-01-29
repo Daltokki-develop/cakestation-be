@@ -1,11 +1,8 @@
 package com.cakestation.backend.user.domain;
 
-import com.cakestation.backend.cakestore.domain.LikeStore;
 import com.cakestation.backend.common.BaseEntity;
-import com.cakestation.backend.review.domain.Review;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import lombok.*;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 
