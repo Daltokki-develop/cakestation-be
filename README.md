@@ -9,6 +9,7 @@
 - 좋아요 기능을 통해 좋았던 가게들을 저장해둘 수 있어요 ❤️
 - 마이 페이지 기능을 통해 활동 기록을 볼 수 있어요 🏃🏻‍♀️
 
+
 ## Tech Stack 🛠
 
 ```
@@ -44,7 +45,7 @@
 - 더 나아가, 가게 삭제시 삭제할 대용량 리뷰들과 관련된 정보들 삭제에도 적용해주었다.
 
 ### 테스트 관련 이슈
-#### 컨트롤러 테스트 중, MockMvc 응답 시 한글 깨짐 문제   
+#### 1. 컨트롤러 테스트 중, MockMvc 응답 시 한글 깨짐 문제   
 테스트 중 한글을 사용하면 한글이 깨져 테스트에 실패하는 문제를 겪었다. mockMvc 설정 시 UTF-8 인코딩 필터를 추가해주어 문제를 해결할 수 있었다.   
 ```java
     @BeforeEach
@@ -55,6 +56,19 @@
                 .build();
     }
 ```
+</br>
+
+#### 2. @WebMvcTest를 사용한 슬라이스 테스트에서 ```JPA metamodel must not be empty!``` 에러 발생 문제
+WebMvcTest 의 경우 웹과 관련된 의존성만 주입받는다. 따라서 컨트롤러 슬라이스 테스트를 할 때 주로 사용된다.   
+해당 문제는 **메인클래스**에 등록되어 있는 ```@EnableJpaAuditing``` 과 관련된 JPA 관련된 주입이 없어 나타나는 문제였다. 
+통합테스트였다면 모든 빈들을 주입받기 때문에 상관없었겠지만 ```@WebMvcTest``` 에서는 나타날 수 있는 문제였다.
+```java
+@Configuration
+@EnableJpaAuditing
+public class JpaAuditingConfig {
+}
+```
+config 패키지에 따로 JpaAuditingConfig 클래스를 만들어 분리하여 관리해줌으로써 문제를 해결할 수 있었다.
 
 ## Docker 🐳
 **1. git repo clone**
