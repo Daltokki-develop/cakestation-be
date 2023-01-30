@@ -4,6 +4,9 @@ import com.cakestation.backend.cakestore.controller.CakeStoreController;
 import com.cakestation.backend.cakestore.service.CakeStoreQueryService;
 import com.cakestation.backend.cakestore.service.CakeStoreService;
 import com.cakestation.backend.review.controller.ReviewController;
+import com.cakestation.backend.review.domain.Review;
+import com.cakestation.backend.review.service.ReviewQueryService;
+import com.cakestation.backend.review.service.ReviewService;
 import com.cakestation.backend.user.service.UtilService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +21,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-@WebMvcTest(value = {CakeStoreController.class}
+@WebMvcTest(value = {CakeStoreController.class, ReviewController.class}
         , excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 
 public class ControllerTest {
@@ -31,9 +34,12 @@ public class ControllerTest {
     protected CakeStoreService cakeStoreService;
     @MockBean
     protected CakeStoreQueryService cakeStoreQueryService;
-
     @MockBean
     protected UtilService utilService;
+    @MockBean
+    protected ReviewService reviewService;
+    @MockBean
+    protected ReviewQueryService reviewQueryService;
     @Autowired
     protected WebApplicationContext ctx;
 

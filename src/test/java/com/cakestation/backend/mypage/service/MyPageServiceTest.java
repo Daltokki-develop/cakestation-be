@@ -6,8 +6,6 @@ import com.cakestation.backend.common.annotations.ServiceTest;
 import com.cakestation.backend.mypage.service.dto.MyPageDto;
 import com.cakestation.backend.review.domain.DesignSatisfaction;
 import com.cakestation.backend.review.domain.Review;
-import com.cakestation.backend.review.domain.ReviewImage;
-import com.cakestation.backend.review.domain.ReviewTag;
 import com.cakestation.backend.review.repository.ReviewRepository;
 import com.cakestation.backend.user.domain.Role;
 import com.cakestation.backend.user.domain.User;
@@ -21,7 +19,6 @@ import java.util.List;
 
 import static com.cakestation.backend.cakestore.fixture.StoreFixture.getCakeStoreEntity;
 import static com.cakestation.backend.review.fixture.ReviewFixture.*;
-import static com.cakestation.backend.user.fixture.UserFixture.getUserEntity;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
