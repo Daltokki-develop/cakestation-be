@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class ApiResponse<T> {
-
     private int code;
     private String responseMsg;
     private T result;
