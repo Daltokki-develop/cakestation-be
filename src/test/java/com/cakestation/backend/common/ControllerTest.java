@@ -3,6 +3,7 @@ package com.cakestation.backend.common;
 import com.cakestation.backend.cakestore.controller.CakeStoreController;
 import com.cakestation.backend.cakestore.service.CakeStoreQueryService;
 import com.cakestation.backend.cakestore.service.CakeStoreService;
+import com.cakestation.backend.review.controller.ReviewController;
 import com.cakestation.backend.user.service.UtilService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;

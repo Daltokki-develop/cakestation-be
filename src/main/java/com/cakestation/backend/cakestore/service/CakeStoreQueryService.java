@@ -1,7 +1,6 @@
 package com.cakestation.backend.cakestore.service;
 
 import com.cakestation.backend.cakestore.domain.CakeStore;
-import com.cakestation.backend.cakestore.domain.LikeStore;
 import com.cakestation.backend.cakestore.exception.InvalidStoreException;
 import com.cakestation.backend.cakestore.repository.CakeStoreRepository;
 import com.cakestation.backend.cakestore.repository.LikeStoreRepository;
@@ -45,7 +44,7 @@ public class CakeStoreQueryService {
                 .collect(Collectors.toList());
     }
 
-    public List<CakeStoreDto> searchStoresByKeyword(String storeName, Pageable pageable) {
+    public List<CakeStoreDto> searchStoresByName(String storeName, Pageable pageable) {
         List<CakeStore> stores = cakeStoreRepository.findAllByNameContains(storeName, pageable);
         return stores.stream()
                 .map(store -> CakeStoreDto.from(store, getReviewImageUrls(store)))

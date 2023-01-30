@@ -71,7 +71,7 @@ public class CakeStoreController {
             @RequestParam String name,
             @PageableDefault(size = 30, sort = {"reviewCount", "reviewScore"}, direction = Sort.Direction.DESC) Pageable pageable) {
 
-        List<CakeStoreResponse> storeResponseList = cakeStoreQueryService.searchStoresByKeyword(name, pageable)
+        List<CakeStoreResponse> storeResponseList = cakeStoreQueryService.searchStoresByName(name, pageable)
                 .stream()
                 .map(CakeStoreResponse::from)
                 .collect(Collectors.toList());
