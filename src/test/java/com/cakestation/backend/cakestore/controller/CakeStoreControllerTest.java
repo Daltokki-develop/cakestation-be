@@ -67,7 +67,7 @@ public class CakeStoreControllerTest extends ControllerTest {
 
         MvcResult mvcResult = mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/stores/search/store")
-                                .queryParam("name","케이크")
+                                .queryParam("name", "케이크")
                                 .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpectAll(
@@ -96,7 +96,7 @@ public class CakeStoreControllerTest extends ControllerTest {
 
         MvcResult mvcResult = mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/stores/search/station")
-                                .queryParam("name","강남역")
+                                .queryParam("name", "강남역")
                                 .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpectAll(

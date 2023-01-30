@@ -1,9 +1,6 @@
 package com.cakestation.backend.review.service.dto;
 
-import com.cakestation.backend.review.domain.Review;
-import com.cakestation.backend.review.domain.ReviewImage;
-import com.cakestation.backend.review.domain.ReviewTag;
-import com.cakestation.backend.review.domain.Tag;
+import com.cakestation.backend.review.domain.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -24,6 +21,7 @@ public class ReviewDto {
     private int score;
     private String sheetType;
     private String requestOption;
+    private DesignSatisfaction designSatisfaction;
     private List<String> reviewImages;
     private List<Tag> tags;
     private String content;
@@ -40,6 +38,7 @@ public class ReviewDto {
                 .score(review.getScore())
                 .sheetType(review.getSheetType())
                 .requestOption(review.getRequestOption())
+                .designSatisfaction(review.getDesignSatisfaction())
                 .content(review.getContent())
                 .reviewImages(imageUrls)
                 .tags(tags)
