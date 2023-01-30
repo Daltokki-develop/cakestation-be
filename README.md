@@ -1,4 +1,14 @@
 # Cake Station BE 🍰 🚏
+
+## Service Description 👀
+***지하철 역 위치 기반 레터링 케이크 리뷰 플랫폼***   
+
+- 지도를 확인하며 원하는 케이크 가게의 위치를 확인할 수 있어요 🗺
+- 지하철 역을 기반으로 가까운 케이크 가게를 검색할 수 있어요 🚉
+- 방문했던 케이크 가게에 별점과 리뷰를 남길 수 있어요 ⭐️
+- 좋아요 기능을 통해 좋았던 가게들을 저장해둘 수 있어요 ❤️
+- 마이 페이지 기능을 통해 활동 기록을 볼 수 있어요 🏃🏻‍♀️
+
 ## Tech Stack 🛠
 
 ```
@@ -14,33 +24,6 @@
 - Infrastructure : AWS EC2, RDS, S3, Docker 
 ```
 
-## Docker 🐳
-**1. git repo clone**
-```
-git clone https://github.com/Daltokki-develop/cakestation-be.git
-```
-**2. 프로젝트 폴더로 이동**
-```
-cd cakestation-be
-```
-**3. 프로젝트 빌드**
-```
-./gradlew build
-```
-**4. 도커 이미지 빌드**
-```
-docker build -t cakestation-server .
-```
-**5. 도커 컨테이너 실행**
-```
-docker run -itd -p 8080:8080 -it --name cakestation-server cakestation-server
-```
-
-
-## Service Description
-
-- BE 아키텍쳐
-- 서비스 이미지 등
 
 ## Major Issues
 
@@ -73,3 +56,24 @@ docker run -itd -p 8080:8080 -it --name cakestation-server cakestation-server
     }
 ```
 
+## Docker 🐳
+**1. git repo clone**
+```
+git clone https://github.com/Daltokki-develop/cakestation-be.git
+```
+**2. 프로젝트 폴더로 이동**
+```
+cd cakestation-be
+```
+**3. 프로젝트 빌드**
+```
+./gradlew build
+```
+**4. 도커 이미지 빌드**
+```
+docker build -t cakestation-server .
+```
+**5. 도커 컨테이너 실행**
+```
+docker run -itd -p 8080:8080 -it --name cakestation-server cakestation-server
+```
