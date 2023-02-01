@@ -7,7 +7,7 @@ import com.cakestation.backend.cakestore.service.CakeStoreService;
 import com.cakestation.backend.cakestore.service.dto.CakeStoreDto;
 import com.cakestation.backend.cakestore.service.dto.CreateCakeStoreDto;
 import com.cakestation.backend.config.JwtProperties;
-import com.cakestation.backend.user.service.UtilService;
+import com.cakestation.backend.common.UtilService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -21,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.cakestation.backend.common.UtilService.getCurrentUserEmail;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -28,7 +30,6 @@ public class CakeStoreController {
 
     private final CakeStoreService cakeStoreService;
     private final CakeStoreQueryService cakeStoreQueryService;
-    private final UtilService utilService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/stores")
@@ -97,18 +98,16 @@ public class CakeStoreController {
     // 가게 좋아요 하기 기능
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/stores/{storeId}/like")
-    public ResponseEntity<Void> likeStore(HttpServletRequest request, @PathVariable Long storeId) {
-
-        String userEmail = utilService.getCurrentUserEmail(request.getHeader(JwtProperties.HEADER_STRING));
+    public ResponseEntity<Void> likeStore(@PathVariable Long storeId) {
+        String userEmail = getCurrentUserEmail();
         cakeStoreService.likeStore(storeId, userEmail);
 
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/users/like/all")
-    public ResponseEntity<ApiResponse<List<CakeStoreDto>>> likeStoreList(HttpServletRequest request) {
-
-        String userEmail = utilService.getCurrentUserEmail(request.getHeader(JwtProperties.HEADER_STRING));
+    public ResponseEntity<ApiResponse<List<CakeStoreDto>>> likeStoreList() {
+        String userEmail = getCurrentUserEmail();
         List<CakeStoreDto> cakeStoreDtoList = cakeStoreQueryService.findAllLikeStore(userEmail);
 
         return ResponseEntity.ok()

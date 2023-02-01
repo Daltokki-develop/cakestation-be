@@ -27,10 +27,8 @@ public class ReviewQueryService {
     private final ReviewRepository reviewRepository;
 
     public ReviewDto findReviewById(Long reviewId) {
-        Review review =
-                reviewRepository.findById(reviewId).orElseThrow(
-                        () -> new InvalidReviewException(ErrorType.NOT_FOUND_REVIEW));
-
+        Review review = reviewRepository.findById(reviewId).orElseThrow(
+                () -> new InvalidReviewException(ErrorType.NOT_FOUND_REVIEW));
         List<Tag> tags = getTags(review);
         return ReviewDto.from(review, tags, getImageUrls(review));
     }

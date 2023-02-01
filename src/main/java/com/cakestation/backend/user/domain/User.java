@@ -5,6 +5,8 @@ import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Random;
 
 
 @Entity
@@ -48,5 +50,4 @@ public class User extends BaseEntity {
     private static int createRandomNumber() {
         return (int) (Math.random() * 4);
     }
-
 }
