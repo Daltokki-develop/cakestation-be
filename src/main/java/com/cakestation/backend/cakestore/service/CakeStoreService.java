@@ -36,10 +36,8 @@ public class CakeStoreService {
 
     @Transactional
     public void likeStore(Long storeId, String userEmail) {
-        CakeStore cakeStore = cakeStoreRepository.findById(storeId)
-                .orElseThrow(() -> new InvalidStoreException(ErrorType.NOT_FOUND_STORE));
-        User targetUser = userRepository.findUserByEmail(userEmail)
-                .orElseThrow(() -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
+        CakeStore cakeStore = getCakeStore(storeId);
+        User targetUser = getUser(userEmail);
 
         likeStoreRepository.findByUserAndCakeStore(targetUser, cakeStore)
                 .ifPresentOrElse(likeStoreRepository::delete,
@@ -48,8 +46,7 @@ public class CakeStoreService {
 
     @Transactional
     public void deleteStore(Long storeId) {
-        CakeStore cakeStore = cakeStoreRepository.findById(storeId)
-                .orElseThrow(() -> new InvalidStoreException(ErrorType.NOT_FOUND_STORE));
+        CakeStore cakeStore = getCakeStore(storeId);
 
         List<Long> reviewIds = cakeStore.getReviews()
                 .stream()
@@ -61,5 +58,15 @@ public class CakeStoreService {
         reviewRepository.deleteReviewByIds(reviewIds);
 
         cakeStoreRepository.deleteById(cakeStore.getId());
+    }
+
+    private CakeStore getCakeStore(Long storeId) {
+        return cakeStoreRepository.findById(storeId)
+                .orElseThrow(() -> new InvalidStoreException(ErrorType.NOT_FOUND_STORE));
+    }
+
+    private User getUser(String userEmail) {
+        return userRepository.findUserByEmail(userEmail)
+                .orElseThrow(() -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
     }
 }

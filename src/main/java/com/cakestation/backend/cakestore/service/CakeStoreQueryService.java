@@ -30,8 +30,7 @@ public class CakeStoreQueryService {
     private final LikeStoreRepository likeStoreRepository;
 
     public CakeStoreDto findStoreById(Long storeId) {
-        CakeStore cakeStore = cakeStoreRepository.findById(storeId)
-                .orElseThrow(() -> new InvalidStoreException(ErrorType.NOT_FOUND_STORE));
+        CakeStore cakeStore = getCakeStore(storeId);
         List<String> reviewImageUrls = getReviewImageUrls(cakeStore);
 
         return CakeStoreDto.from(cakeStore, reviewImageUrls);
@@ -46,6 +45,7 @@ public class CakeStoreQueryService {
 
     public List<CakeStoreDto> searchStoresByName(String storeName, Pageable pageable) {
         List<CakeStore> stores = cakeStoreRepository.findAllByNameContains(storeName, pageable);
+
         return stores.stream()
                 .map(store -> CakeStoreDto.from(store, getReviewImageUrls(store)))
                 .collect(Collectors.toList());
@@ -53,19 +53,15 @@ public class CakeStoreQueryService {
 
     public List<CakeStoreDto> searchStoresByStation(String stationName, Pageable pageable) {
         List<CakeStore> stores = cakeStoreRepository.findAllByNearByStationContains(stationName, pageable);
+
         return stores.stream()
                 .map(store -> CakeStoreDto.from(store, getReviewImageUrls(store)))
                 .collect(Collectors.toList());
     }
 
     public List<CakeStoreDto> findAllLikeStore(String userEmail) {
-        User targetUser = userRepository.findUserByEmail(userEmail)
-                .orElseThrow(() -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
-
-        List<Long> cakeStoreIds = likeStoreRepository.findLikeStoresByUser(targetUser)
-                .stream()
-                .map(likeStore -> likeStore.getCakeStore().getId())
-                .collect(Collectors.toList());
+        User targetUser = getUser(userEmail);
+        List<Long> cakeStoreIds = getLikeStoreIdsByUser(targetUser);
 
         return cakeStoreRepository.findAllById(cakeStoreIds)
                 .stream()
@@ -86,6 +82,23 @@ public class CakeStoreQueryService {
                 .stream()
                 .map(Review::getReviewImages)
                 .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+    }
+
+    private User getUser(String userEmail) {
+        return userRepository.findUserByEmail(userEmail)
+                .orElseThrow(() -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
+    }
+
+    private CakeStore getCakeStore(Long storeId) {
+        return cakeStoreRepository.findById(storeId)
+                .orElseThrow(() -> new InvalidStoreException(ErrorType.NOT_FOUND_STORE));
+    }
+
+    private List<Long> getLikeStoreIdsByUser(User targetUser) {
+        return likeStoreRepository.findLikeStoresByUser(targetUser)
+                .stream()
+                .map(likeStore -> likeStore.getCakeStore().getId())
                 .collect(Collectors.toList());
     }
 }
