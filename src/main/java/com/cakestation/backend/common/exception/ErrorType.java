@@ -4,6 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum ErrorType {
+    SUCCESS(200, "OK"),
+
     NOT_AUTHENTICATED(1001, "인증되지 않았습니다."),
     ALREADY_AUTHENTICATED(1002, "이미 인증정보가 존재합니다."),
     INVALID_TOKEN(1003, "유효하지 않은 토큰입니다."),

@@ -1,9 +1,9 @@
 package com.cakestation.backend.user.service;
 
-import com.cakestation.backend.auth.exception.InvalidTokenException;
+import com.cakestation.backend.common.auth.InvalidTokenException;
 import com.cakestation.backend.common.exception.ErrorType;
-import com.cakestation.backend.config.JwtProperties;
-import com.cakestation.backend.config.KakaoConfig;
+import com.cakestation.backend.common.config.JwtProperties;
+import com.cakestation.backend.common.config.KakaoConfig;
 import com.cakestation.backend.user.exception.InvalidCodeException;
 import com.cakestation.backend.user.exception.InvalidUserException;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
@@ -23,7 +23,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Optional;
 
-import static com.cakestation.backend.config.KakaoConfig.*;
+import static com.cakestation.backend.common.config.KakaoConfig.*;
 
 @Service
 @Transactional(readOnly = true)

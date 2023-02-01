@@ -2,7 +2,7 @@ package com.cakestation.backend.cakestore.controller;
 
 import com.cakestation.backend.cakestore.controller.dto.response.CakeStoreResponse;
 import com.cakestation.backend.cakestore.service.dto.CakeStoreDto;
-import com.cakestation.backend.common.ApiResponse;
+import com.cakestation.backend.common.dto.ApiResponse;
 import com.cakestation.backend.common.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,7 +35,7 @@ public class CakeStoreControllerTest extends ControllerTest {
                 KAKAOMAP_URL, NEARBY_STATION, new ArrayList<>(), 0, 0);
 
         ApiResponse<CakeStoreResponse> expectedResponse = new ApiResponse<>(
-                HttpStatus.OK.value(), "가게 조회 성공", cakeStoreResponse);
+                HttpStatus.OK.value(), cakeStoreResponse);
 
         MvcResult mvcResult = mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/stores/1")
@@ -61,9 +61,7 @@ public class CakeStoreControllerTest extends ControllerTest {
                 .willReturn(List.of(STORE_1, STORE_2));
 
         ApiResponse<List<CakeStoreResponse>> expectedResponse = new ApiResponse<>(
-                HttpStatus.OK.value(), "가게 리스트 조회 성공", List.of(
-                CakeStoreResponse.from(STORE_1), CakeStoreResponse.from(STORE_2)
-        ));
+                HttpStatus.OK.value(), List.of(CakeStoreResponse.from(STORE_1), CakeStoreResponse.from(STORE_2)));
 
         MvcResult mvcResult = mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/stores/search/store")
@@ -90,9 +88,7 @@ public class CakeStoreControllerTest extends ControllerTest {
                 .willReturn(List.of(STORE_1, STORE_2));
 
         ApiResponse<List<CakeStoreResponse>> expectedResponse = new ApiResponse<>(
-                HttpStatus.OK.value(), "가게 리스트 조회 성공", List.of(
-                CakeStoreResponse.from(STORE_1), CakeStoreResponse.from(STORE_2)
-        ));
+                HttpStatus.OK.value(), List.of(CakeStoreResponse.from(STORE_1), CakeStoreResponse.from(STORE_2)));
 
         MvcResult mvcResult = mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/stores/search/station")

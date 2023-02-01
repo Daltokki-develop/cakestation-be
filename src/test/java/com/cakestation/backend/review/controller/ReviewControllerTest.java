@@ -1,9 +1,9 @@
 package com.cakestation.backend.review.controller;
 
 
-import com.cakestation.backend.common.ApiResponse;
+import com.cakestation.backend.common.dto.ApiResponse;
 import com.cakestation.backend.common.ControllerTest;
-import com.cakestation.backend.common.UtilService;
+import com.cakestation.backend.common.auth.AuthUtil;
 import com.cakestation.backend.review.controller.dto.request.UpdateReviewRequest;
 import com.cakestation.backend.review.controller.dto.response.ReviewResponse;
 import com.cakestation.backend.review.domain.Tag;
@@ -23,7 +23,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import java.util.List;
 
 import static com.cakestation.backend.cakestore.fixture.StoreFixture.STORE_ID_1;
-import static com.cakestation.backend.common.UtilService.getCurrentUserEmail;
+import static com.cakestation.backend.common.auth.AuthUtil.getCurrentUserEmail;
 import static com.cakestation.backend.review.fixture.ReviewFixture.getCreateReviewRequest;
 import static com.cakestation.backend.review.fixture.ReviewFixture.getReviewEntity;
 import static com.cakestation.backend.user.fixture.UserFixture.EMAIL;
@@ -37,18 +37,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("ReviewController 는")
 class ReviewControllerTest extends ControllerTest {
 
-    private static MockedStatic<UtilService> utilService;
-
-    @BeforeAll
-    public static void beforeALl() {
-        utilService = mockStatic(UtilService.class);
-    }
-
-    @AfterAll
-    public static void afterAll() {
-        utilService.close();
-    }
-
     @DisplayName("리뷰를 등록할 수 있다.")
     @Test
     public void uploadReview() throws Exception {
@@ -58,7 +46,7 @@ class ReviewControllerTest extends ControllerTest {
         String uri = String.format("/api/stores/%d/reviews", STORE_ID_1);
 
         ApiResponse<Long> expectedResponse =
-                new ApiResponse<>(HttpStatus.CREATED.value(), "리뷰 등록 성공", 1L);
+                new ApiResponse<>(HttpStatus.CREATED.value(), 1L);
 
         MvcResult result = mockMvc.perform(
                         MockMvcRequestBuilders.post(uri)
@@ -86,7 +74,7 @@ class ReviewControllerTest extends ControllerTest {
         String uri = String.format("/api/reviews/%d", STORE_ID_1);
 
         ApiResponse<ReviewResponse> expectedResponse = new ApiResponse<>(
-                HttpStatus.OK.value(), "리뷰 수정 성공", ReviewResponse.from(reviewDto));
+                HttpStatus.OK.value(), ReviewResponse.from(reviewDto));
 
         MvcResult result = mockMvc.perform(
                         MockMvcRequestBuilders.patch(uri)

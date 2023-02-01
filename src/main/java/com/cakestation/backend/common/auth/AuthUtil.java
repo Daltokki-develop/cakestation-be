@@ -1,36 +1,26 @@
-package com.cakestation.backend.common;
+package com.cakestation.backend.common.auth;
 
-import java.util.HashMap;
 import java.util.Optional;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
-import com.cakestation.backend.auth.exception.InvalidTokenException;
 import com.cakestation.backend.common.exception.ErrorType;
-import com.cakestation.backend.config.JwtProperties;
-import com.cakestation.backend.user.exception.InvalidUserException;
-import com.cakestation.backend.user.repository.UserRepository;
+import com.cakestation.backend.common.config.JwtProperties;
 import com.cakestation.backend.user.service.KakaoService;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
-import com.cakestation.backend.user.service.dto.response.TokenDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.security.SecurityUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 @Slf4j
-@Service
+@Component
 @RequiredArgsConstructor
-public class UtilService {
+public class AuthUtil {
 
     private final KakaoService kakaoService;
-
 
     public Optional<String> headerAccessToken(HttpServletRequest request, String Target) {
 

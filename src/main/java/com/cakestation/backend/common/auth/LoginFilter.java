@@ -1,15 +1,13 @@
-package com.cakestation.backend.common.filter;
+package com.cakestation.backend.common.auth;
 
 
-import com.cakestation.backend.auth.exception.InvalidTokenException;
-import com.cakestation.backend.common.CustomUserDetails;
+import com.cakestation.backend.common.domain.CustomUserDetails;
 import com.cakestation.backend.common.exception.ErrorType;
-import com.cakestation.backend.config.JwtProperties;
+import com.cakestation.backend.common.config.JwtProperties;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.exception.InvalidUserException;
 import com.cakestation.backend.user.repository.UserRepository;
 import com.cakestation.backend.user.service.KakaoService;
-import com.cakestation.backend.user.service.dto.response.CheckDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,10 +27,10 @@ public class LoginFilter implements Filter {
     private final KakaoService kakaoService;
     private final UserRepository userRepository;
     private static final String[] whiteList = {
-            "/api/oauth", "/api/subway/**"
+            "/api/oauth", "/api/subway/**", "/swagger-ui/**"
     };
 
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest httpReq = (HttpServletRequest) req;
         String reqURI = httpReq.getRequestURI();
         if (!checkPath(reqURI)) {
@@ -40,25 +38,26 @@ public class LoginFilter implements Filter {
             validateTokenExists(accessToken);
 
             log.info("토큰 검증 시작");
-            CheckDto checkDto = kakaoService.checkAccessToken(accessToken);
+            kakaoService.checkAccessToken(accessToken);
             User user = getUser(kakaoService.getUserInfo(accessToken).getEmail());
             log.info("토큰 검증 완료");
 
-            CustomUserDetails principalDetails = new CustomUserDetails(user);
-
-            // jwt 토큰 서명이 정상이면 Authentication 객체 만듦
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    principalDetails, "", principalDetails.getAuthorities());
-
-            // 강제로 시큐리티 세션에 접근하여 Authentication 객체를 저장
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
+            setSecurityContext(user);
             chain.doFilter(req, res);
         } else {
             log.info("검증은 없음");
             chain.doFilter(req, res);
         }
 
+    }
+
+    private void setSecurityContext(User user) {
+        CustomUserDetails principalDetails = new CustomUserDetails(user);
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                principalDetails, "", principalDetails.getAuthorities());
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     private User getUser(String email) {

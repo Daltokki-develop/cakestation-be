@@ -1,9 +1,8 @@
-package com.cakestation.backend.config;
+package com.cakestation.backend.common.config;
 
-import com.cakestation.backend.common.filter.LoginFilter;
+import com.cakestation.backend.common.auth.LoginFilter;
 import com.cakestation.backend.user.repository.UserRepository;
 import com.cakestation.backend.user.service.KakaoService;
-import com.cakestation.backend.common.UtilService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

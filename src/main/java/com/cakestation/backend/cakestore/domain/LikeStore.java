@@ -1,6 +1,6 @@
 package com.cakestation.backend.cakestore.domain;
 
-import com.cakestation.backend.common.BaseEntity;
+import com.cakestation.backend.common.domain.BaseEntity;
 import com.cakestation.backend.user.domain.User;
 import lombok.*;
 
