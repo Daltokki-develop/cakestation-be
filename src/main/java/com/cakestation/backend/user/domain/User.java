@@ -1,12 +1,10 @@
 package com.cakestation.backend.user.domain;
 
-import com.cakestation.backend.common.BaseEntity;
+import com.cakestation.backend.common.domain.BaseEntity;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Random;
 
 
 @Entity

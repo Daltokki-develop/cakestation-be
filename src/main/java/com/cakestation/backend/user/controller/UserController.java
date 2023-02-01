@@ -1,14 +1,14 @@
 package com.cakestation.backend.user.controller;
 
-import com.cakestation.backend.auth.exception.InvalidTokenException;
-import com.cakestation.backend.common.ApiResponse;
+import com.cakestation.backend.common.auth.InvalidTokenException;
+import com.cakestation.backend.common.dto.ApiResponse;
 import com.cakestation.backend.common.exception.ErrorType;
-import com.cakestation.backend.config.JwtProperties;
-import com.cakestation.backend.config.KakaoConfig;
+import com.cakestation.backend.common.config.JwtProperties;
+import com.cakestation.backend.common.config.KakaoConfig;
 import com.cakestation.backend.user.controller.dto.NicknameResponse;
 import com.cakestation.backend.user.service.KakaoService;
 import com.cakestation.backend.user.service.UserService;
-import com.cakestation.backend.common.UtilService;
+import com.cakestation.backend.common.auth.AuthUtil;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import com.cakestation.backend.user.service.dto.response.TokenDto;
 
@@ -22,9 +22,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URISyntaxException;
-import java.util.Optional;
 
-import static com.cakestation.backend.common.UtilService.getCurrentUserEmail;
+import static com.cakestation.backend.common.auth.AuthUtil.getCurrentUserEmail;
 
 
 @RestController
@@ -33,7 +32,7 @@ import static com.cakestation.backend.common.UtilService.getCurrentUserEmail;
 public class UserController {
     private final KakaoService kakaoService;
     private final UserService userService;
-    private final UtilService utilService;
+    private final AuthUtil authUtil;
     private final KakaoConfig kakaoConfig;
 
     // code 를 통한 token 반환 API
@@ -50,7 +49,7 @@ public class UserController {
         httpHeaders.add(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + tokenDto.getAccessToken());
 
         return new ResponseEntity<>(
-                new ApiResponse<>(200, "로그인 성공", userId), httpHeaders, HttpStatus.OK);
+                new ApiResponse<>(200, userId), httpHeaders, HttpStatus.OK);
     }
 
     //로그아웃 API
@@ -69,12 +68,12 @@ public class UserController {
     // 회원탈퇴 API
     @PostMapping("/delete/kakao")
     public ResponseEntity<ApiResponse<String>> withdrawalUser(HttpServletRequest request) {
-        String token = utilService.headerAccessToken(request, JwtProperties.HEADER_STRING)
+        String token = authUtil.headerAccessToken(request, JwtProperties.HEADER_STRING)
                 .orElseThrow(() -> new InvalidTokenException(ErrorType.INVALID_TOKEN));
         String userEmail = getCurrentUserEmail();
         kakaoService.deleteUser(token.replace(JwtProperties.TOKEN_PREFIX, "")); // kakao에 등록된 유저정보 삭제
         userService.deleteUser(userEmail); // DB에 저장된 회원정보 삭제
-        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(), "회원 삭제 성공", userEmail));
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(), userEmail));
     }
 
     // nickname 재발급 API

@@ -1,4 +1,4 @@
-package com.cakestation.backend.common;
+package com.cakestation.backend.common.domain;
 
 import com.cakestation.backend.user.domain.User;
 import lombok.AllArgsConstructor;

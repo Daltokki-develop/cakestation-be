@@ -1,4 +1,4 @@
-package com.cakestation.backend.review.service;
+package com.cakestation.backend.common.aws;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -6,7 +6,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -16,23 +16,23 @@ import java.util.UUID;
 
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
 
-@Service
+@Component
 @RequiredArgsConstructor
-public class ImageUploadService {
+public class AwsS3Uploader {
+    private static final String FILE_EXTENSION = "png";
+    private static final String FILE_EXTENSION_SEPARATOR = ".";
     private final AmazonS3Client amazonS3Client;
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
-    private static final String FILE_EXTENSION = "png";
-    private static final String FILE_EXTENSION_SEPARATOR = ".";
 
-    public List<String> uploadFiles(List<String> reviewImages) {
+    public List<String> uploadFilesWithBase64(List<String> reviewImages, S3CategoryType category) {
         List<String> fileUrls = new ArrayList<>();
 
         for (String base64Data : reviewImages) {
             byte[] bI = decodeBase64((base64Data.substring(base64Data.indexOf(",") + 1)).getBytes());
 
             InputStream inputStream = new ByteArrayInputStream(bI);
-            String fileName = buildFileName("review");
+            String fileName = buildFileName(category.toString());
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentLength(bI.length);
             objectMetadata.setContentType("image/png");

@@ -1,6 +1,6 @@
 package com.cakestation.backend.review.controller;
 
-import com.cakestation.backend.common.ApiResponse;
+import com.cakestation.backend.common.dto.ApiResponse;
 import com.cakestation.backend.review.controller.dto.request.CreateReviewRequest;
 import com.cakestation.backend.review.controller.dto.request.UpdateReviewRequest;
 import com.cakestation.backend.review.controller.dto.response.ReviewImageResponse;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.cakestation.backend.common.UtilService.getCurrentUserEmail;
+import static com.cakestation.backend.common.auth.AuthUtil.getCurrentUserEmail;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,7 +36,7 @@ public class ReviewController {
         String userEmail = getCurrentUserEmail();
         Long reviewId = reviewService.saveReview(createReviewRequest.toServiceDto(storeId, createReviewRequest), userEmail);
         return ResponseEntity.ok().body(
-                new ApiResponse<>(HttpStatus.CREATED.value(), "리뷰 등록 성공", reviewId));
+                new ApiResponse<>(HttpStatus.CREATED.value(), reviewId));
     }
 
     // 리뷰 수정
@@ -47,7 +47,7 @@ public class ReviewController {
         ReviewResponse reviewResponse = ReviewResponse.from(
                 reviewService.updateReview(updateReviewRequest.toServiceDto(reviewId, updateReviewRequest), reviewId));
         return ResponseEntity.ok().body(
-                new ApiResponse<>(HttpStatus.OK.value(), "리뷰 수정 성공", reviewResponse));
+                new ApiResponse<>(HttpStatus.OK.value(), reviewResponse));
     }
 
     // 리뷰 삭제
@@ -65,7 +65,7 @@ public class ReviewController {
     public ResponseEntity<ApiResponse<ReviewResponse>> getReview(@PathVariable Long reviewId) {
         ReviewResponse reviewResponse = ReviewResponse.from(reviewQueryService.findReviewById(reviewId));
         return ResponseEntity.ok().body(
-                new ApiResponse<>(HttpStatus.OK.value(), "리뷰 조회 성공", reviewResponse));
+                new ApiResponse<>(HttpStatus.OK.value(), reviewResponse));
     }
 
     // 리뷰 조회 by writer id
@@ -77,7 +77,7 @@ public class ReviewController {
         List<ReviewResponse> reviews = reviewQueryService.findReviewsByWriter(userId, pageable)
                 .stream().map(ReviewResponse::from).collect(Collectors.toList());
         return ResponseEntity.ok().body(
-                new ApiResponse<>(HttpStatus.OK.value(), "리뷰 조회 성공", reviews)
+                new ApiResponse<>(HttpStatus.OK.value(), reviews)
         );
     }
 
@@ -90,7 +90,7 @@ public class ReviewController {
         List<ReviewResponse> reviews = reviewQueryService.findReviewsByStore(storeId, pageable)
                 .stream().map(ReviewResponse::from).collect(Collectors.toList());
         return ResponseEntity.ok().body(
-                new ApiResponse<>(HttpStatus.OK.value(), "리뷰 조회 성공", reviews)
+                new ApiResponse<>(HttpStatus.OK.value(), reviews)
         );
     }
 
@@ -100,7 +100,7 @@ public class ReviewController {
     public ResponseEntity<ApiResponse<Double>> getReviewAverageByStore(@PathVariable Long storeId) {
         Double avg = reviewQueryService.findReviewAvgByStore(storeId);
         return ResponseEntity.ok()
-                .body(new ApiResponse<>(HttpStatus.OK.value(), "리뷰 별점 평균 조회 성공", avg));
+                .body(new ApiResponse<>(HttpStatus.OK.value(), avg));
     }
 
     // 리뷰 이미지 전체 조회 by store id
@@ -114,7 +114,7 @@ public class ReviewController {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok().body(
-                new ApiResponse<>(HttpStatus.OK.value(), "리뷰 이미지 조회 성공", reviewImages));
+                new ApiResponse<>(HttpStatus.OK.value(), reviewImages));
 
     }
 
@@ -129,6 +129,6 @@ public class ReviewController {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok().body(
-                new ApiResponse<>(HttpStatus.OK.value(), "리뷰 이미지 조회 성공", reviewImages));
+                new ApiResponse<>(HttpStatus.OK.value(), reviewImages));
     }
 }

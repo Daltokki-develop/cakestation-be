@@ -1,4 +1,4 @@
-package com.cakestation.backend.config;
+package com.cakestation.backend.common.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
