@@ -34,6 +34,7 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.mockito:mockito-inline:3.6.0'
 
 	//log
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'

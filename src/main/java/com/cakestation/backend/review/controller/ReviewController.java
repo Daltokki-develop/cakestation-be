@@ -7,8 +7,6 @@ import com.cakestation.backend.review.controller.dto.response.ReviewImageRespons
 import com.cakestation.backend.review.controller.dto.response.ReviewResponse;
 import com.cakestation.backend.review.service.ReviewQueryService;
 import com.cakestation.backend.review.service.ReviewService;
-import com.cakestation.backend.review.service.dto.UpdateReviewDto;
-import com.cakestation.backend.user.service.UtilService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.cakestation.backend.common.UtilService.getCurrentUserEmail;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -27,16 +27,13 @@ public class ReviewController {
 
     private final ReviewService reviewService;
     private final ReviewQueryService reviewQueryService;
-    private final UtilService utilService;
 
     // 리뷰 등록
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/stores/{storeId}/reviews")
-    public ResponseEntity<ApiResponse<Long>> uploadReview(@RequestHeader("Authorization") String token,
-                                                          @PathVariable Long storeId,
+    public ResponseEntity<ApiResponse<Long>> uploadReview(@PathVariable Long storeId,
                                                           @RequestBody CreateReviewRequest createReviewRequest) {
-
-        String userEmail = utilService.getCurrentUserEmail(token);
+        String userEmail = getCurrentUserEmail();
         Long reviewId = reviewService.saveReview(createReviewRequest.toServiceDto(storeId, createReviewRequest), userEmail);
         return ResponseEntity.ok().body(
                 new ApiResponse<>(HttpStatus.CREATED.value(), "리뷰 등록 성공", reviewId));
@@ -56,8 +53,8 @@ public class ReviewController {
     // 리뷰 삭제
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/reviews/{reviewId}")
-    public ResponseEntity<Void> deleteReview(@RequestHeader("Authorization") String token, @PathVariable Long reviewId) {
-        String email = utilService.getCurrentUserEmail(token);
+    public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId) {
+        String email = getCurrentUserEmail();
         reviewService.deleteReview(reviewId, email);
         return ResponseEntity.noContent().build();
     }
@@ -133,7 +130,5 @@ public class ReviewController {
 
         return ResponseEntity.ok().body(
                 new ApiResponse<>(HttpStatus.OK.value(), "리뷰 이미지 조회 성공", reviewImages));
-
     }
-
 }
