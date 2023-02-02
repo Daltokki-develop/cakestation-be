@@ -43,12 +43,11 @@ public class AuthorizationFilter implements Filter {
             log.info("토큰 검증 완료");
 
             setSecurityContext(user);
-            chain.doFilter(req, res);
         } else {
-            log.info("검증은 없음");
-            chain.doFilter(req, res);
+            log.info("검증 없음");
         }
-
+        chain.doFilter(req, res);
+        log.info("필터 통과");
     }
 
     private void setSecurityContext(User user) {
