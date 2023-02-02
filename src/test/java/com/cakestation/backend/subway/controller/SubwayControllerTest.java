@@ -3,6 +3,7 @@ package com.cakestation.backend.subway.controller;
 import com.cakestation.backend.subway.fixture.SubwayFixture;
 import com.cakestation.backend.subway.dto.request.CreateSubwayDto;
 import com.cakestation.backend.subway.service.SubwayService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,9 @@ class SubwayControllerTest {
     @Autowired
     private SubwayService subwayService;
 
+    @DisplayName("지하철역을 전체 조회할 수 있다.")
     @Test
-    public void 지하철_전체조회() throws Exception {
+    public void getSubway() throws Exception {
 
         CreateSubwayDto createSubwayDto = SubwayFixture.getSubwayDto();
         subwayService.saveSubway(createSubwayDto);
