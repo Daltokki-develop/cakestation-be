@@ -1,6 +1,6 @@
 package com.cakestation.backend.common.config;
 
-import com.cakestation.backend.common.auth.LoginFilter;
+import com.cakestation.backend.common.auth.AuthorizationFilter;
 import com.cakestation.backend.user.repository.UserRepository;
 import com.cakestation.backend.user.service.KakaoService;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +16,10 @@ public class WebConfig {
     private final UserRepository userRepository;
 
     @Bean
-    public FilterRegistrationBean<LoginFilter> logFilter() {
+    public FilterRegistrationBean<AuthorizationFilter> logFilter() {
 
-        FilterRegistrationBean<LoginFilter> filterRegistrationBean = new FilterRegistrationBean<>();
-        filterRegistrationBean.setFilter(new LoginFilter(kakaoService, userRepository));
+        FilterRegistrationBean<AuthorizationFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+        filterRegistrationBean.setFilter(new AuthorizationFilter(kakaoService, userRepository));
         filterRegistrationBean.setOrder(1);
         filterRegistrationBean.addUrlPatterns("/api/*");
 

@@ -21,13 +21,13 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @Slf4j
-public class LoginFilter implements Filter {
+public class AuthorizationFilter implements Filter {
 
     // 인증을 적용하지 않을 API 작성
     private final KakaoService kakaoService;
     private final UserRepository userRepository;
     private static final String[] whiteList = {
-            "/api/oauth", "/api/subway/**", "/swagger-ui/**"
+            "/api/oauth", "/api/subway/**"
     };
 
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws ServletException, IOException {
