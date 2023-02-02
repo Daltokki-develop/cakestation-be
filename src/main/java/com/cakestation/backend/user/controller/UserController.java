@@ -1,26 +1,29 @@
 package com.cakestation.backend.user.controller;
 
-import com.cakestation.backend.common.ApiResponse;
-import com.cakestation.backend.config.JwtProperties;
-import com.cakestation.backend.config.KakaoConfig;
+import com.cakestation.backend.common.auth.InvalidTokenException;
+import com.cakestation.backend.common.dto.ApiResponse;
+import com.cakestation.backend.common.exception.ErrorType;
+import com.cakestation.backend.common.config.JwtProperties;
+import com.cakestation.backend.common.config.KakaoConfig;
+import com.cakestation.backend.user.controller.dto.NicknameResponse;
 import com.cakestation.backend.user.service.KakaoService;
 import com.cakestation.backend.user.service.UserService;
-import com.cakestation.backend.user.service.UtilService;
+import com.cakestation.backend.common.auth.AuthUtil;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
-import com.cakestation.backend.user.service.dto.response.CheckDto;
 import com.cakestation.backend.user.service.dto.response.TokenDto;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URISyntaxException;
+
+import static com.cakestation.backend.common.auth.AuthUtil.getCurrentUserEmail;
 
 
 @RestController
@@ -29,71 +32,55 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final KakaoService kakaoService;
     private final UserService userService;
-    private final UtilService utilService;
-
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
+    private final AuthUtil authUtil;
     private final KakaoConfig kakaoConfig;
 
-    @GetMapping("/email")
-    public ResponseEntity getEmail(@RequestHeader("Authorization") String token) throws Exception {
-
-        String email = utilService.getCurrentUserEmail(token);
-
-//        int test = utilService.makeNickName(request);
-        System.out.println(email);
-        return new ResponseEntity<>(new ApiResponse<>(200, "이메일 획득", email), HttpStatus.OK);
-    }
-
-
-    //"login" API에서 redirect된 URL에서 Code parameter를 추출하여 아래 메서드를 실행하여 유저정보를 저장및 토큰을 쿠키로 보내준다.
+    // code 를 통한 token 반환 API
     @GetMapping("/oauth")
-    public ResponseEntity KakaoCallback(@RequestParam String code) {
+    public ResponseEntity<ApiResponse<Long>> kakaoCallback(@RequestParam String code) {
 
-        //Token획득 메드 호출
+        //Token 획득
         TokenDto tokenDto = kakaoService.getKaKaoAccessToken(code);
-        Long userId = userService.join(kakaoService.getUserInfo(tokenDto.getAccessToken()));
+        KakaoUserDto userInfo = kakaoService.getUserInfo(tokenDto.getAccessToken());
+        Long userId = userService.join(userInfo);
 
         //얻은 토큰을 통한 유저정보 조회 및 저장
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + tokenDto.getAccessToken());
 
         return new ResponseEntity<>(
-                new ApiResponse<>(200, "로그인 성공", userId), httpHeaders, HttpStatus.OK);
+                new ApiResponse<>(200, userId), httpHeaders, HttpStatus.OK);
     }
 
-    //로그아웃
-    @GetMapping("/logout/kakao")
-    public ResponseEntity KakaoLogout(HttpServletRequest request, HttpServletResponse response) {
-        CheckDto result = null;
-        Cookie accesscookie = null;
-        Cookie refreshcookie = null;
+    //로그아웃 API
+    //TODO : Cookie 에 있을 refresh Token 도 삭제 할것
+    @PostMapping("/logout/kakao")
+    public ResponseEntity kakaoLogout(@RequestHeader(JwtProperties.HEADER_STRING) String token) throws URISyntaxException {
+        kakaoService.logoutToken(token); // Token 강제 만료
 
-
-        try {
-            //토큰을 찾는 메서드 
-            String findCookie = String.valueOf(utilService.headerAccessToken(request, "Authorization"));
-
-            //찾은 토큰을 통한 로그아웃 메서드
-            result = kakaoService.LogoutToken(findCookie);
-
-
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-        //로그아웃 후 웹 쿠키에 남아있는 Token을 삭제
-//        accesscookie = new Cookie("Authorization", null); // 삭제할 쿠키에 대한 값을 null로 지정
-//        accesscookie.setPath("/"); // 전체 주소에 적용된 쿠키를 삭제
-//        accesscookie.setMaxAge(0); // 유효시간을 0으로 설정해서 바로 만료시킨다.
-//
-//        refreshcookie = new Cookie("refresh", null);
-//        refreshcookie.setPath("/");
-//        refreshcookie.setMaxAge(0);
-
-
-//        response.addCookie(accesscookie); // 응답에 추가해서 없어지도록 함
-//        response.addCookie(refreshcookie);
-        return new ResponseEntity<>(new ApiResponse(200, "로그아웃 성공", result), HttpStatus.OK);
+//        URI redirectUri = new URI(kakaoConfig.LOGOUT_URL);
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.setLocation(redirectUri);
+//        return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
+    // 회원탈퇴 API
+    @PostMapping("/delete/kakao")
+    public ResponseEntity<ApiResponse<String>> withdrawalUser(HttpServletRequest request) {
+        String token = authUtil.headerAccessToken(request, JwtProperties.HEADER_STRING)
+                .orElseThrow(() -> new InvalidTokenException(ErrorType.INVALID_TOKEN));
+        String userEmail = getCurrentUserEmail();
+        kakaoService.deleteUser(token.replace(JwtProperties.TOKEN_PREFIX, "")); // kakao에 등록된 유저정보 삭제
+        userService.deleteUser(userEmail); // DB에 저장된 회원정보 삭제
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(), userEmail));
+    }
+
+    // nickname 재발급 API
+    @PatchMapping("/nickname")
+    public ResponseEntity<NicknameResponse> updateNickname() {
+        String email = getCurrentUserEmail();
+        return ResponseEntity.ok(
+                new NicknameResponse(userService.updateNickname(email)));
+    }
 }

@@ -3,20 +3,22 @@ package com.cakestation.backend.review.fixture;
 import com.cakestation.backend.review.domain.*;
 import com.cakestation.backend.review.controller.dto.request.CreateReviewRequest;
 import com.cakestation.backend.review.service.dto.CreateReviewDto;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
 
-import static com.cakestation.backend.store.fixture.StoreFixture.getCakeStoreEntity;
+import static com.cakestation.backend.cakestore.fixture.StoreFixture.getCakeStoreEntity;
 import static com.cakestation.backend.user.fixture.UserFixture.getUserEntity;
 
 public class ReviewFixture {
 
-    public static Long REVIEW_ID = 1L;
+    public static Long REVIEW_ID_1 = 1L;
+    public static Long REVIEW_ID_2 = 2L;
 
-    public static List<MultipartFile> IMAGES = List.of();
-    public static List<String> IMAGE_URLS = List.of("abc","def"); // 리뷰 사진 url
+    public static List<String> IMAGES = List.of();
+    public static List<ReviewImage> REVIEW_IMAGES = List.of();
+    public static List<String> ENCODING_REVIEW_IMAGES = List.of(); // 리뷰 사진 base 64 인코딩 파일 리스트
+    public static List<String> IMAGE_URLS = List.of(); // 리뷰 사진 url 리스트
 
     public static int CAKE_NUMBER = 1; // 케이크 호수
 
@@ -29,7 +31,7 @@ public class ReviewFixture {
     public static int SCORE = 5; // 별점
 
     public static List<Tag> TAGS = List.of(Tag.CHEAP);
-
+    public static List<ReviewTag> REVIEW_TAGS = List.of(new ReviewTag(null, null, Tag.CHEAP));
     public static String CONTENT = ""; // 내용
 
     public ReviewFixture() throws IOException {
@@ -40,11 +42,6 @@ public class ReviewFixture {
 
         return CreateReviewRequest.builder()
                 .reviewImages(IMAGES)
-//                .reviewImages(List.of(new MockMultipartFile(
-//                        "test.png",
-//                        "test.png",
-//                        "multipart/form-data",
-//                        new FileInputStream("src/test/resources/image/test.png"))))
                 .cakeNumber(CAKE_NUMBER)
                 .sheetType(SHEET_TYPE)
                 .requestOption(REQUEST_OPTION)
@@ -55,7 +52,7 @@ public class ReviewFixture {
                 .build();
     }
 
-    public static CreateReviewDto getCreateReviewDto(){
+    public static CreateReviewDto getCreateReviewDto() {
         return CreateReviewDto.builder()
                 .reviewImages(IMAGES)
                 .imageUrls(IMAGE_URLS)
@@ -69,15 +66,13 @@ public class ReviewFixture {
                 .build();
     }
 
-    public static Review reviewEntity(){
+    public static Review getReviewEntity() {
 
-        ReviewTag reviewTag = ReviewTag.builder()
-                .tag(Tag.CHEAP)
-                .build();
+        ReviewTag reviewTag = new ReviewTag(null, null, Tag.CHEAP);
 
         Review review = Review.builder()
-                .id(REVIEW_ID)
-                .imageUrls(IMAGE_URLS)
+                .id(REVIEW_ID_1)
+                .reviewImages(REVIEW_IMAGES)
                 .cakeNumber(CAKE_NUMBER)
                 .sheetType(SHEET_TYPE)
                 .requestOption(REQUEST_OPTION)
@@ -94,5 +89,4 @@ public class ReviewFixture {
         return review;
 
     }
-
 }

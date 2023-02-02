@@ -15,5 +15,17 @@ public class MyPageDto {
     private int reviewCount;
     private int reviewImageCount;
     private int likeCount;
+    private int randomNumber;
 
+    public static MyPageDto from(
+            String nickName, int reviewCount, int reviewImageCount, int likeCount, int randomNumber) {
+
+        return MyPageDto.builder()
+                .nickName(nickName)
+                .reviewCount(reviewCount)
+                .reviewImageCount(reviewImageCount)
+                .likeCount(likeCount)
+                .randomNumber(randomNumber)
+                .build();
+    }
 }

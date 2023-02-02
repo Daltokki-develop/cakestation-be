@@ -7,3 +7,9 @@ labels:
     - '\brefactor\b'
   'test':
     - '\btest\b'
+  'fix':
+    - '\bfix\b'
+  'release':
+    - '\brelease\b'
+  'work in progress':
+    - '\bwip\b'

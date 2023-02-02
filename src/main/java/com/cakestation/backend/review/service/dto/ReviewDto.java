@@ -1,8 +1,6 @@
 package com.cakestation.backend.review.service.dto;
 
-import com.cakestation.backend.review.domain.Review;
-import com.cakestation.backend.review.domain.ReviewTag;
-import com.cakestation.backend.review.domain.Tag;
+import com.cakestation.backend.review.domain.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -16,34 +14,34 @@ import java.util.stream.Collectors;
 public class ReviewDto {
 
     private Long reviewId;
+    private Long storeId;
     private Long userId;
-    private String username;
+    private String nickname;
     private int cakeNumber;
     private int score;
     private String sheetType;
     private String requestOption;
+    private DesignSatisfaction designSatisfaction;
     private List<String> reviewImages;
     private List<Tag> tags;
     private String content;
     private LocalDateTime createdDateTime;
     private LocalDateTime lastModifiedDateTime;
 
-    public static ReviewDto from(Review review){
-
-        List<Tag> tagList = review.getReviewTags().stream().map(
-                ReviewTag::getTag
-        ).collect(Collectors.toList());
+    public static ReviewDto from(Review review, List<Tag> tags, List<String> imageUrls) {
 
         return ReviewDto.builder()
                 .reviewId(review.getId())
-                .username(review.getWriter().getUsername())
+                .storeId(review.getCakeStore().getId())
+                .nickname(review.getWriter().getNickname())
                 .cakeNumber(review.getCakeNumber())
                 .score(review.getScore())
                 .sheetType(review.getSheetType())
                 .requestOption(review.getRequestOption())
-                .reviewImages(review.getImageUrls())
+                .designSatisfaction(review.getDesignSatisfaction())
                 .content(review.getContent())
-                .tags(tagList)
+                .reviewImages(imageUrls)
+                .tags(tags)
                 .createdDateTime(review.getCreatedDateTime())
                 .lastModifiedDateTime(review.getLastModifiedDateTime())
                 .build();

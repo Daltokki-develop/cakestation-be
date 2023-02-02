@@ -25,5 +25,4 @@ public class SubwayService {
         Subway subway = CreateSubwayDto.toEntity(createSubwayDto);
         subwayRePository.save(subway);
     }
-
 }

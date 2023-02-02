@@ -1,9 +1,10 @@
 package com.cakestation.backend.review.domain;
 
 
-import com.cakestation.backend.common.BaseEntity;
+import com.cakestation.backend.common.domain.BaseEntity;
 import com.cakestation.backend.review.service.dto.CreateReviewDto;
-import com.cakestation.backend.store.domain.CakeStore;
+import com.cakestation.backend.cakestore.domain.CakeStore;
+import com.cakestation.backend.review.service.dto.UpdateReviewDto;
 import com.cakestation.backend.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +23,8 @@ import java.util.List;
 @Builder
 public class Review extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id")
     private Long id;
 
@@ -35,11 +37,8 @@ public class Review extends BaseEntity {
     private CakeStore cakeStore;
 
     @Builder.Default
-    @ElementCollection
-    @CollectionTable(name = "review_image", joinColumns =
-    @JoinColumn(name = "review_id"))
-    @Column(name = "image_url")
-    private List<String> imageUrls = new ArrayList<>(); // 리뷰 사진 url
+    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<ReviewImage> reviewImages = new ArrayList<>(); // 리뷰 사진 url
 
     private int cakeNumber; // 케이크 호수
 
@@ -54,18 +53,34 @@ public class Review extends BaseEntity {
     private int score; // 별점
 
     @Builder.Default
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<ReviewTag> reviewTags = new ArrayList<>();
 
     private String content; // 하고 싶은 말
 
+
+    public void update(UpdateReviewDto updateReviewDto) {
+        this.cakeNumber = updateReviewDto.getCakeNumber();
+        this.sheetType = updateReviewDto.getSheetType();
+        this.requestOption = updateReviewDto.getRequestOption();
+        this.designSatisfaction = updateReviewDto.getDesignSatisfaction();
+        this.score = updateReviewDto.getScore();
+        this.content = updateReviewDto.getContent();
+
+        for (String url : updateReviewDto.getImageUrls()) {
+            this.addReviewImage(url);
+        }
+        for (Tag tag : updateReviewDto.getTags()) {
+            this.addReviewTag(tag);
+        }
+    }
+
     // 리뷰 생성 메서드
-    public static Review createReview(User user, CakeStore cakeStore, CreateReviewDto createReviewDto){
+    public static Review createReview(User user, CakeStore cakeStore, CreateReviewDto createReviewDto) {
 
         Review review = Review.builder()
                 .writer(user)
                 .cakeStore(cakeStore)
-                .imageUrls(createReviewDto.getImageUrls())
                 .cakeNumber(createReviewDto.getCakeNumber())
                 .sheetType(createReviewDto.getSheetType())
                 .requestOption(createReviewDto.getRequestOption())
@@ -74,18 +89,27 @@ public class Review extends BaseEntity {
                 .content(createReviewDto.getContent())
                 .build();
 
-        for (Tag tag: createReviewDto.getTags()){
+        for (String url : createReviewDto.getImageUrls()) {
+            review.addReviewImage(url);
+        }
+        for (Tag tag : createReviewDto.getTags()) {
             review.addReviewTag(tag);
         }
+
+        cakeStore.getReviews().add(review);
+        cakeStore.applyReview(createReviewDto.getScore());
+
         return review;
     }
 
     // 연관관계 편의 메서드
-    public void addReviewTag(Tag tag){
-        ReviewTag reviewTag = ReviewTag.builder()
-                .tag(tag)
-                .build();
+    public void addReviewTag(Tag tag) {
+        ReviewTag reviewTag = new ReviewTag(null, this, tag);
         reviewTags.add(reviewTag);
-        reviewTag.setReview(this);
+    }
+
+    public void addReviewImage(String url) {
+        ReviewImage reviewImage = new ReviewImage(null, this, url);
+        reviewImages.add(reviewImage);
     }
 }

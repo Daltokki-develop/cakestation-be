@@ -7,7 +7,5 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CheckDto {
-
     private int userUid; // 기능이 적용된 사용자의 회원번호
-
 }

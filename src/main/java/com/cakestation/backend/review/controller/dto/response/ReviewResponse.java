@@ -1,5 +1,6 @@
 package com.cakestation.backend.review.controller.dto.response;
 
+import com.cakestation.backend.review.domain.DesignSatisfaction;
 import com.cakestation.backend.review.domain.Tag;
 import com.cakestation.backend.review.service.dto.ReviewDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -15,11 +16,12 @@ import java.util.List;
 @Builder
 public class ReviewResponse {
     private Long reviewId;
-    private String username;
+    private String nickname;
     private int cakeNumber;
     private int score;
     private String sheetType;
     private String requestOption;
+    private DesignSatisfaction designSatisfaction;
     private List<String> reviewImages;
     private List<Tag> tags;
     private String content;
@@ -28,14 +30,15 @@ public class ReviewResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime lastModifiedDateTime;
 
-    public static ReviewResponse from(ReviewDto reviewDto){
+    public static ReviewResponse from(ReviewDto reviewDto) {
         return ReviewResponse.builder()
                 .reviewId(reviewDto.getReviewId())
-                .username(reviewDto.getUsername())
+                .nickname(reviewDto.getNickname())
                 .cakeNumber(reviewDto.getCakeNumber())
                 .score(reviewDto.getScore())
                 .sheetType(reviewDto.getSheetType())
                 .requestOption(reviewDto.getRequestOption())
+                .designSatisfaction(reviewDto.getDesignSatisfaction())
                 .reviewImages(reviewDto.getReviewImages())
                 .content(reviewDto.getContent())
                 .tags(reviewDto.getTags())

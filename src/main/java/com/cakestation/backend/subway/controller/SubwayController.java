@@ -1,7 +1,7 @@
 package com.cakestation.backend.subway.controller;
 
 import com.cakestation.backend.subway.domain.Subway;
-import com.cakestation.backend.common.ApiResponse;
+import com.cakestation.backend.common.dto.ApiResponse;
 import com.cakestation.backend.subway.dto.response.SubwayResponse;
 import com.cakestation.backend.subway.service.SubwayService;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +25,9 @@ public class SubwayController {
     // 지하철 역 전체 조회
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/subway/all")
-    public ResponseEntity<ApiResponse<List<SubwayResponse>>> getAllSubwayStation(){
+    public ResponseEntity<ApiResponse<List<SubwayResponse>>> getAllSubwayStation() {
         List<Subway> subways = subwayService.findAll();
         List<SubwayResponse> response = subways.stream().map(SubwayResponse::from).collect(Collectors.toList());
-        return ResponseEntity.ok().body(new ApiResponse<>(HttpStatus.OK.value(),"지하철역 전체 조회 성공", response));
+        return ResponseEntity.ok().body(new ApiResponse<>(HttpStatus.OK.value(), response));
     }
 }
