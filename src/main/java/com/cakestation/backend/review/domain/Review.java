@@ -102,7 +102,6 @@ public class Review extends BaseEntity {
         return review;
     }
 
-    // 연관관계 편의 메서드
     public void addReviewTag(Tag tag) {
         ReviewTag reviewTag = new ReviewTag(null, this, tag);
         reviewTags.add(reviewTag);

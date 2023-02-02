@@ -100,5 +100,4 @@ class ReviewControllerTest extends ControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
     }
-
 }

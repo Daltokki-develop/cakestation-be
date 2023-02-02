@@ -68,6 +68,7 @@ class CakeStoreQueryServiceTest {
         stationNames.forEach(name -> {
             assertThat(name).contains("홍대입구");
         });
+        
         assertThat(stationNames.size()).isEqualTo(1);
     }
 }
