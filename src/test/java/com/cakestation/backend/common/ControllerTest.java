@@ -9,7 +9,6 @@ import com.cakestation.backend.mypage.service.MyPageService;
 import com.cakestation.backend.review.controller.ReviewController;
 import com.cakestation.backend.review.service.ReviewQueryService;
 import com.cakestation.backend.review.service.ReviewService;
-import com.cakestation.backend.user.controller.UserController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
