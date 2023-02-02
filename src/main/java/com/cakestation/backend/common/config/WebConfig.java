@@ -21,7 +21,7 @@ public class WebConfig {
         FilterRegistrationBean<LoginFilter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setFilter(new LoginFilter(kakaoService, userRepository));
         filterRegistrationBean.setOrder(1);
-        filterRegistrationBean.addUrlPatterns("/*");
+        filterRegistrationBean.addUrlPatterns("/api/**");
 
         return filterRegistrationBean;
     }
