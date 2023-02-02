@@ -47,7 +47,7 @@ public class AuthorizationFilter implements Filter {
             log.info("검증 없음");
         }
         chain.doFilter(req, res);
-        log.info("필터 통과");
+        log.info("Authorization Filter 통과");
     }
 
     private void setSecurityContext(User user) {
