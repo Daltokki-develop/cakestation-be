@@ -62,6 +62,8 @@ jobs:
           username: ubuntu
           key: ${{ secrets.KEY }}
           script: |
-            sudo docker rm -f $(docker ps -qa)
+            docker stop $(docker ps -a -q)
+            docker rm $(docker ps -a -q)
+            docker rmi -f $(docker images -q) 
             sudo docker pull ${{ secrets.DOCKER_REPO }}
             docker run -itd -p 8080:8080 ${{ secrets.DOCKER_REPO }}
