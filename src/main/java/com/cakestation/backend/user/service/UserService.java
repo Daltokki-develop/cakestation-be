@@ -1,5 +1,7 @@
 package com.cakestation.backend.user.service;
 
+import com.cakestation.backend.cakestore.domain.LikeStore;
+import com.cakestation.backend.cakestore.repository.LikeStoreRepository;
 import com.cakestation.backend.common.exception.ErrorType;
 import com.cakestation.backend.user.domain.NicknameType;
 import com.cakestation.backend.user.domain.User;
@@ -19,6 +21,7 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class UserService {
 
+    private final LikeStoreRepository likeStoreRepository;
     private final UserRepository userRepository;
 
     @Transactional
@@ -37,12 +40,6 @@ public class UserService {
         return user.getNickname();
     }
 
-    @Transactional
-    public void deleteUser(String userEmail) {
-        User user = getUser(userEmail);
-        userRepository.deleteById(user.getId());
-    }
-
     private String getUniqueNickname() {
         String newNickname;
         do {
@@ -58,6 +55,14 @@ public class UserService {
         Random random = new Random();
 
         return actions.get(random.nextInt(actions.size())) + fruits.get(random.nextInt(fruits.size()));
+    }
+
+    @Transactional
+    public void deleteUser(String userEmail) {
+        User user = userRepository.findUserByEmail(userEmail)
+                .orElseThrow(() -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
+        likeStoreRepository.deleteAll(likeStoreRepository.findLikeStoresByUser(user));
+        userRepository.deleteById(user.getId());
     }
 
     private boolean validateNicknameExists(String newNickname) {

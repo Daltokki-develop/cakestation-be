@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URISyntaxException;
+import java.util.Optional;
 
 import static com.cakestation.backend.common.auth.AuthUtil.getCurrentUserEmail;
 
@@ -68,12 +69,11 @@ public class UserController {
     // 회원탈퇴 API
     @PostMapping("/delete/kakao")
     public ResponseEntity<ApiResponse<String>> withdrawalUser(HttpServletRequest request) {
-        String token = authUtil.headerAccessToken(request, JwtProperties.HEADER_STRING)
-                .orElseThrow(() -> new InvalidTokenException(ErrorType.INVALID_TOKEN));
-        String userEmail = getCurrentUserEmail();
-        kakaoService.deleteUser(token.replace(JwtProperties.TOKEN_PREFIX, "")); // kakao에 등록된 유저정보 삭제
-        userService.deleteUser(userEmail); // DB에 저장된 회원정보 삭제
-        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(), userEmail));
+        kakaoService.deleteUser(authUtil.headerAccessToken(request, JwtProperties.HEADER_STRING).get()
+                .replace(JwtProperties.TOKEN_PREFIX, ""));
+        userService.deleteUser(authUtil.getCurrentUserEmail());
+        return ResponseEntity.ok(new ApiResponse<>(200, "회원삭제 성공"));
+
     }
 
     // nickname 재발급 API

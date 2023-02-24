@@ -89,6 +89,7 @@ public class KakaoService {
         try {
             URL url = new URL(CHECK_TOKEN);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
             conn.setRequestMethod(GET);
             String token = accessToken.replace(JwtProperties.TOKEN_PREFIX, "");
 
@@ -141,10 +142,10 @@ public class KakaoService {
         try {
             URL url = new URL(kakaoConfig.LOGOUT_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
             conn.setRequestMethod("GET");
             String token = access_Token.replace(JwtProperties.TOKEN_PREFIX, "");
             conn.setRequestProperty(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + token);
-
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
             String line;

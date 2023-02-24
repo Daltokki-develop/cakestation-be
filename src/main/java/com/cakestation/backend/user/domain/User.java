@@ -1,10 +1,14 @@
 package com.cakestation.backend.user.domain;
 
+
 import com.cakestation.backend.common.domain.BaseEntity;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import lombok.*;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
