@@ -69,10 +69,9 @@ public class UserController {
     // 회원탈퇴 API
     @PostMapping("/delete/kakao")
     public ResponseEntity<ApiResponse<String>> withdrawalUser(HttpServletRequest request) {
-        Optional<String> Token =   authUtil.headerAccessToken(request, JwtProperties.HEADER_STRING);
-        String userEmail = authUtil.getCurrentUserEmail();
-        kakaoService.deleteUser(Token.get().replace(JwtProperties.TOKEN_PREFIX, ""));
-        userService.deleteUser(userEmail);
+        kakaoService.deleteUser(authUtil.headerAccessToken(request, JwtProperties.HEADER_STRING).get()
+                .replace(JwtProperties.TOKEN_PREFIX, ""));
+        userService.deleteUser(authUtil.getCurrentUserEmail());
         return ResponseEntity.ok(new ApiResponse<>(200, "회원삭제 성공"));
 
     }

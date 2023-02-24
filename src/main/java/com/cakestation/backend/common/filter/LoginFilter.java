@@ -1,13 +1,12 @@
 package com.cakestation.backend.common.filter;
 
 
+import com.cakestation.backend.common.auth.AuthUtil;
+import com.cakestation.backend.common.config.JwtProperties;
+import com.cakestation.backend.common.config.KakaoConfig;
 import com.cakestation.backend.common.exception.ErrorType;
-import com.cakestation.backend.config.JwtProperties;
-import com.cakestation.backend.config.KakaoConfig;
 import com.cakestation.backend.user.exception.InvalidUserException;
 import com.cakestation.backend.user.service.KakaoService;
-import com.cakestation.backend.user.service.UtilService;
-import com.cakestation.backend.user.service.dto.response.CheckDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.PatternMatchUtils;
 
@@ -15,7 +14,6 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 @Slf4j
 public class LoginFilter implements Filter {
@@ -27,7 +25,7 @@ public class LoginFilter implements Filter {
 
     private final KakaoService kakaoService;
 
-    public LoginFilter(KakaoService kakaoService, UtilService utilService, KakaoConfig kakaoConfig) {
+    public LoginFilter(KakaoService kakaoService, AuthUtil authUtil, KakaoConfig kakaoConfig) {
         this.kakaoService = kakaoService;
     }
 
