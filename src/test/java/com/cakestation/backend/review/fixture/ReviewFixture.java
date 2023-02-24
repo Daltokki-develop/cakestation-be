@@ -87,6 +87,5 @@ public class ReviewFixture {
         reviewTag.setReview(review);
 
         return review;
-
     }
 }

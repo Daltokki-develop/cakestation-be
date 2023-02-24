@@ -1,4 +1,4 @@
-package com.cakestation.backend.auth.exception;
+package com.cakestation.backend.common.auth;
 
 import com.cakestation.backend.common.exception.BadRequestException;
 import com.cakestation.backend.common.exception.ErrorType;

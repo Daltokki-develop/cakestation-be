@@ -46,7 +46,7 @@ class CakeStoreQueryServiceTest {
         cakeStoreRepository.save(new CakeStore(null, NAME_2, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0));
         cakeStoreRepository.save(new CakeStore(null, NAME_3, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0));
 
-        List<CakeStoreDto> cakeStores = cakeStoreQueryService.searchStoresByKeyword("케이크", PageRequest.of(0, 10));
+        List<CakeStoreDto> cakeStores = cakeStoreQueryService.searchStoresByName("케이크", PageRequest.of(0, 10));
         List<String> cakeStoreNames = cakeStores.stream().map(CakeStoreDto::getName).collect(Collectors.toList());
 
         cakeStoreNames.forEach(name -> {
@@ -68,6 +68,7 @@ class CakeStoreQueryServiceTest {
         stationNames.forEach(name -> {
             assertThat(name).contains("홍대입구");
         });
+        
         assertThat(stationNames.size()).isEqualTo(1);
     }
 }

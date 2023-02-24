@@ -3,6 +3,8 @@ package com.cakestation.backend.review.service;
 import com.cakestation.backend.cakestore.domain.CakeStore;
 import com.cakestation.backend.cakestore.exception.InvalidStoreException;
 import com.cakestation.backend.cakestore.repository.CakeStoreRepository;
+import com.cakestation.backend.common.aws.AwsS3Uploader;
+import com.cakestation.backend.common.aws.S3CategoryType;
 import com.cakestation.backend.common.exception.ErrorType;
 import com.cakestation.backend.review.domain.Review;
 import com.cakestation.backend.review.domain.ReviewTag;
@@ -27,7 +29,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ReviewService {
 
-    private final ImageUploadService imageUploadService;
+    private final AwsS3Uploader awsS3Uploader;
     private final UserRepository userRepository;
     private final CakeStoreRepository cakeStoreRepository;
     private final ReviewRepository reviewRepository;
@@ -41,7 +43,7 @@ public class ReviewService {
         CakeStore cakeStore = cakeStoreRepository.findCakeStoreForUpdateById(createReviewDto.getStoreId())
                 .orElseThrow(() -> new InvalidStoreException(ErrorType.NOT_FOUND_STORE));
 
-        List<String> imageUrls = imageUploadService.uploadFiles(createReviewDto.getReviewImages());
+        List<String> imageUrls = awsS3Uploader.uploadFilesWithBase64(createReviewDto.getReviewImages(), S3CategoryType.REVIEW);
         createReviewDto.setImageUrls(imageUrls);
 
         Review review = reviewRepository.save(Review.createReview(user, cakeStore, createReviewDto));
@@ -57,7 +59,7 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new InvalidReviewException(ErrorType.NOT_FOUND_REVIEW));
 
-        List<String> imageUrls = imageUploadService.uploadFiles(updateReviewDto.getReviewImages());
+        List<String> imageUrls = awsS3Uploader.uploadFilesWithBase64(updateReviewDto.getReviewImages(), S3CategoryType.REVIEW);
         updateReviewDto.setImageUrls(imageUrls);
 
         review.update(updateReviewDto);

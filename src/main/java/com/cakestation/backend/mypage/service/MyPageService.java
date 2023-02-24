@@ -24,15 +24,22 @@ public class MyPageService {
     private final LikeStoreRepository likeStoreRepository;
 
     public MyPageDto getMyPageInfo(String currentEmail) {
-        User user = userRepository.findUserByEmail(currentEmail).orElseThrow(
-                () -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
-
-        List<Review> reviews = reviewRepository.findAllByWriter(user.getId());
+        User user = getUser(currentEmail);
+        List<Review> reviews = getReviewsByWriter(user);
         int reviewImageCount = getReviewImageCount(reviews);
         int likeCount = likeStoreRepository.findLikeStoresByUser(user).size();
 
         return MyPageDto.from(
                 user.getNickname(), reviews.size(), reviewImageCount, likeCount, user.getRandomNumber());
+    }
+
+    private User getUser(String currentEmail) {
+        return userRepository.findUserByEmail(currentEmail).orElseThrow(
+                () -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
+    }
+
+    private List<Review> getReviewsByWriter(User user) {
+        return reviewRepository.findAllByWriter(user.getId());
     }
 
     private int getReviewImageCount(List<Review> reviews) {
