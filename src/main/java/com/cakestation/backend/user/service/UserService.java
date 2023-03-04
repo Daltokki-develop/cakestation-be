@@ -40,7 +40,15 @@ public class UserService {
         return user.getNickname();
     }
 
-    private String getUniqueNickname() {
+    @Transactional
+    public void deleteUser(String userEmail) {
+        User user = userRepository.findUserByEmail(userEmail)
+                .orElseThrow(() -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
+        likeStoreRepository.deleteAll(likeStoreRepository.findLikeStoresByUser(user));
+        userRepository.deleteById(user.getId());
+    }
+
+    public String getUniqueNickname() {
         String newNickname;
         do {
             newNickname = makeNickname();
@@ -55,14 +63,6 @@ public class UserService {
         Random random = new Random();
 
         return actions.get(random.nextInt(actions.size())) + fruits.get(random.nextInt(fruits.size()));
-    }
-
-    @Transactional
-    public void deleteUser(String userEmail) {
-        User user = userRepository.findUserByEmail(userEmail)
-                .orElseThrow(() -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
-        likeStoreRepository.deleteAll(likeStoreRepository.findLikeStoresByUser(user));
-        userRepository.deleteById(user.getId());
     }
 
     private boolean validateNicknameExists(String newNickname) {

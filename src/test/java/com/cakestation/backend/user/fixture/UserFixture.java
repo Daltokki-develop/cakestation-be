@@ -14,7 +14,7 @@ public class UserFixture {
     public static int RANDOM_NUMBER = 1;
     public static Role ROLE = Role.ROLE_USER;
 
-    public static User getUserEntity(){
+    public static User getUserEntity() {
         return User.builder()
                 .id(USER_ID)
                 .nickname(NICKNAME)
@@ -25,18 +25,10 @@ public class UserFixture {
                 .build();
     }
 
-    public static KakaoUserDto getKakaoUserDto(){
+    public static KakaoUserDto getKakaoUserDto() {
         return KakaoUserDto.builder()
                 .username(USERNAME)
                 .email(EMAIL)
                 .build();
-    }
-
-    public void setNickname(String nickname) {
-        this.NICKNAME = nickname;
-    }
-
-    private static int createRandomNumber() {
-        return (int) (Math.random() * 4);
     }
 }
