@@ -1,18 +1,14 @@
 package com.cakestation.backend.user.domain;
 
-
 import com.cakestation.backend.common.domain.BaseEntity;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import lombok.*;
 
 import javax.persistence.*;
 
-
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class User extends BaseEntity {
 
     @Id
@@ -28,9 +24,18 @@ public class User extends BaseEntity {
 
     private int randomNumber;
 
-    @Builder.Default
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER;
+
+    @Builder
+    public User(String username, String nickname, String email, int randomNumber, Role role) {
+        this.id = null;
+        this.username = username;
+        this.nickname = nickname;
+        this.email = email;
+        this.randomNumber = randomNumber;
+        this.role = role;
+    }
 
     public static User createUser(KakaoUserDto kakaoUserDto, String nickname) {
         return User.builder()

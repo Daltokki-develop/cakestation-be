@@ -49,12 +49,12 @@ class ReviewQueryServiceTest {
     @DisplayName("사용자 아이디로 사용자가 작성한 리뷰를 조회할 수 있다.")
     @Test
     void find_reviews_with_user_id() {
-        User writer = userRepository.save(new User(null, USERNAME, NICKNAME, EMAIL, RANDOM_NUMBER, ROLE));
-        CakeStore cakeStore = cakeStoreRepository.save(new CakeStore(null, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0));
-        CakeStore cakeStore2 = cakeStoreRepository.save(new CakeStore(null, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0));
+        User writer = userRepository.save(new User(USERNAME, NICKNAME, EMAIL, RANDOM_NUMBER, ROLE));
+        CakeStore cakeStore = cakeStoreRepository.save(new CakeStore(NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION));
+        CakeStore cakeStore2 = cakeStoreRepository.save(new CakeStore(NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION));
 
-        Review review1 = new Review(null, writer, cakeStore, REVIEW_IMAGES, CAKE_NUMBER, SHEET_TYPE, REQUEST_OPTION, DesignSatisfaction.GOOD, SCORE, null, CONTENT);
-        Review review2 = new Review(null, writer, cakeStore2, REVIEW_IMAGES, CAKE_NUMBER, SHEET_TYPE, REQUEST_OPTION, DesignSatisfaction.GOOD, SCORE, null, CONTENT);
+        Review review1 = new Review(writer, cakeStore, CAKE_NUMBER, SHEET_TYPE, REQUEST_OPTION, DesignSatisfaction.GOOD, SCORE, CONTENT);
+        Review review2 = new Review(writer, cakeStore2, CAKE_NUMBER, SHEET_TYPE, REQUEST_OPTION, DesignSatisfaction.GOOD, SCORE, CONTENT);
 
         reviewRepository.save(review1);
         reviewRepository.save(review2);
@@ -67,10 +67,10 @@ class ReviewQueryServiceTest {
     @DisplayName("가게 아이디로 가게의 리뷰를 조회할 수 있다.")
     @Test
     void find_reviews_with_store_id() {
-        User writer = userRepository.save(new User(null, USERNAME, NICKNAME, EMAIL, RANDOM_NUMBER, ROLE));
-        CakeStore cakeStore = cakeStoreRepository.save(new CakeStore(null, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0));
+        User writer = userRepository.save(new User(USERNAME, NICKNAME, EMAIL, RANDOM_NUMBER, ROLE));
+        CakeStore cakeStore = cakeStoreRepository.save(new CakeStore(NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION));
 
-        Review review = reviewRepository.save(new Review(null, writer, cakeStore, REVIEW_IMAGES, CAKE_NUMBER, SHEET_TYPE, REQUEST_OPTION, DesignSatisfaction.GOOD, SCORE, null, CONTENT));
+        Review review = reviewRepository.save(new Review(writer, cakeStore, CAKE_NUMBER, SHEET_TYPE, REQUEST_OPTION, DesignSatisfaction.GOOD, SCORE, CONTENT));
 
         List<ReviewDto> reviews = reviewQueryService.findReviewsByStore(review.getCakeStore().getId(), PageRequest.of(0, 10));
 

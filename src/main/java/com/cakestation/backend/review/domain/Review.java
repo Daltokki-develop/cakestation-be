@@ -1,16 +1,14 @@
 package com.cakestation.backend.review.domain;
 
-
+import com.cakestation.backend.cakestore.domain.CakeStore;
 import com.cakestation.backend.common.domain.BaseEntity;
 import com.cakestation.backend.review.service.dto.CreateReviewDto;
-import com.cakestation.backend.cakestore.domain.CakeStore;
 import com.cakestation.backend.review.service.dto.UpdateReviewDto;
 import com.cakestation.backend.user.domain.User;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.AccessLevel;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,8 +17,6 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 public class Review extends BaseEntity {
 
     @Id
@@ -36,28 +32,40 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "cake_store_id")
     private CakeStore cakeStore;
 
-    @Builder.Default
     @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<ReviewImage> reviewImages = new ArrayList<>(); // 리뷰 사진 url
 
-    private int cakeNumber; // 케이크 호수
+    private int cakeNumber;
 
-    private String sheetType; // 시트 종류
+    private String sheetType;
 
-    private String requestOption; // 추가 옵션
+    private String requestOption;
 
     @Enumerated(value = EnumType.STRING)
-    private DesignSatisfaction designSatisfaction; // 만족도
+    private DesignSatisfaction designSatisfaction;
 
     @Column(nullable = false)
-    private int score; // 별점
+    private int score;
 
-    @Builder.Default
     @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<ReviewTag> reviewTags = new ArrayList<>();
 
-    private String content; // 하고 싶은 말
+    private String content;
 
+    @Builder
+    public Review(User writer, CakeStore cakeStore, int cakeNumber, String sheetType, String requestOption, DesignSatisfaction designSatisfaction, int score, String content) {
+        this.id = null;
+        this.writer = writer;
+        this.cakeStore = cakeStore;
+        this.cakeNumber = cakeNumber;
+        this.sheetType = sheetType;
+        this.requestOption = requestOption;
+        this.designSatisfaction = designSatisfaction;
+        this.score = score;
+        this.content = content;
+        this.reviewImages = new ArrayList<>();
+        this.reviewTags = new ArrayList<>();
+    }
 
     public void update(UpdateReviewDto updateReviewDto) {
         this.cakeNumber = updateReviewDto.getCakeNumber();

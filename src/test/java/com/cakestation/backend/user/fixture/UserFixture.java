@@ -16,7 +16,6 @@ public class UserFixture {
 
     public static User getUserEntity() {
         return User.builder()
-                .id(USER_ID)
                 .nickname(NICKNAME)
                 .randomNumber(RANDOM_NUMBER)
                 .username(USERNAME)

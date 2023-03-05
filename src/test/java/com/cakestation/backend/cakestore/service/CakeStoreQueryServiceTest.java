@@ -33,7 +33,7 @@ class CakeStoreQueryServiceTest {
     @DisplayName("가게 아이디로 케이크가게를 조회할 수 있다.")
     @Test
     void get_store_by_store_id() {
-        CakeStore savedStore = cakeStoreRepository.save(new CakeStore(null, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0));
+        CakeStore savedStore = cakeStoreRepository.save(new CakeStore(NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION));
         CakeStoreDto store = cakeStoreQueryService.findStoreById(savedStore.getId());
 
         assertThat(store.getStoreId()).isEqualTo(savedStore.getId());
@@ -42,9 +42,9 @@ class CakeStoreQueryServiceTest {
     @DisplayName("케이크라는 검색어를 입력했을 때 케이크라는 이름이 들어간 가게들을 조회할 수 있다.")
     @Test
     void get_stores_if_name_is_cake() {
-        cakeStoreRepository.save(new CakeStore(null, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0));
-        cakeStoreRepository.save(new CakeStore(null, NAME_2, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0));
-        cakeStoreRepository.save(new CakeStore(null, NAME_3, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0));
+        cakeStoreRepository.save(new CakeStore(NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION));
+        cakeStoreRepository.save(new CakeStore(NAME_2, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION));
+        cakeStoreRepository.save(new CakeStore(NAME_3, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION));
 
         List<CakeStoreDto> cakeStores = cakeStoreQueryService.searchStoresByName("케이크", PageRequest.of(0, 10));
         List<String> cakeStoreNames = cakeStores.stream().map(CakeStoreDto::getName).collect(Collectors.toList());
@@ -58,9 +58,9 @@ class CakeStoreQueryServiceTest {
     @DisplayName("홍대입구를 검색했을 때 홍대입구 근처에 위치한 케이크 가게들을 조회할 수 있다.")
     @Test
     void get_stores_if_station_name_is_홍대입구() {
-        cakeStoreRepository.save(new CakeStore(null, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, "홍대입구", List.of(), 0, 0));
-        cakeStoreRepository.save(new CakeStore(null, NAME_2, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, "룰루", List.of(), 0, 0));
-        cakeStoreRepository.save(new CakeStore(null, NAME_3, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, "랄라", List.of(), 0, 0));
+        cakeStoreRepository.save(new CakeStore(NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, "홍대입구"));
+        cakeStoreRepository.save(new CakeStore(NAME_2, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, "룰루"));
+        cakeStoreRepository.save(new CakeStore(NAME_3, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, "랄라"));
 
         List<CakeStoreDto> cakeStores = cakeStoreQueryService.searchStoresByStation("홍대입구", PageRequest.of(0, 3));
         List<String> stationNames = cakeStores.stream().map(CakeStoreDto::getNearByStation).collect(Collectors.toList());

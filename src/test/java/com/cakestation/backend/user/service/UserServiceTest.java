@@ -32,7 +32,7 @@ class UserServiceTest {
     @Test
     @DisplayName("User의 닉네임을 랜덤으로 부여 한다.")
     void make_nickname() {
-        User user = userRepository.save(new User(null, USERNAME, NICKNAME, EMAIL, RANDOM_NUMBER, ROLE));
+        User user = userRepository.save(new User(USERNAME, NICKNAME, EMAIL, RANDOM_NUMBER, ROLE));
 
         assertThat(user.getNickname()).isNotNull();
     }
@@ -41,7 +41,7 @@ class UserServiceTest {
     @DisplayName("User의 닉네임을 랜덤으로 재부여 한다.")
     void remake_nickname() {
         // given
-        User user = userRepository.save(new User(null, USERNAME, NICKNAME, EMAIL, RANDOM_NUMBER, ROLE));
+        User user = userRepository.save(new User(USERNAME, NICKNAME, EMAIL, RANDOM_NUMBER, ROLE));
         String beforeNickname = user.getNickname();
 
         // when

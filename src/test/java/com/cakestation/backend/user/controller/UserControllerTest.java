@@ -1,6 +1,5 @@
 package com.cakestation.backend.user.controller;
 
-
 import com.cakestation.backend.common.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

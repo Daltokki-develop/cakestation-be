@@ -41,7 +41,6 @@ public class ReviewFixture {
     public static CreateReviewRequest getCreateReviewRequest() throws IOException {
 
         return CreateReviewRequest.builder()
-                .reviewImages(IMAGES)
                 .cakeNumber(CAKE_NUMBER)
                 .sheetType(SHEET_TYPE)
                 .requestOption(REQUEST_OPTION)
@@ -71,15 +70,12 @@ public class ReviewFixture {
         ReviewTag reviewTag = new ReviewTag(null, null, Tag.CHEAP);
 
         Review review = Review.builder()
-                .id(REVIEW_ID_1)
-                .reviewImages(REVIEW_IMAGES)
                 .cakeNumber(CAKE_NUMBER)
                 .sheetType(SHEET_TYPE)
                 .requestOption(REQUEST_OPTION)
                 .designSatisfaction(SATISFACTION)
                 .score(SCORE)
                 .content(CONTENT)
-                .reviewTags(List.of(reviewTag))
                 .writer(getUserEntity())
                 .cakeStore(getCakeStoreEntity())
                 .build();
