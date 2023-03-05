@@ -13,13 +13,10 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class CreateReviewDto {
     private Long storeId;
     private List<String> reviewImages;
-    @Builder.Default
-    private List<String> imageUrls = new ArrayList<>();
+    private List<String> imageUrls;
     private int cakeNumber;
     private String sheetType;
     private String requestOption;
@@ -27,4 +24,18 @@ public class CreateReviewDto {
     private int score;
     private List<Tag> tags;
     private String content;
+
+    @Builder
+    public CreateReviewDto(Long storeId, List<String> reviewImages, int cakeNumber, String sheetType, String requestOption, DesignSatisfaction designSatisfaction, int score, List<Tag> tags, String content) {
+        this.storeId = storeId;
+        this.reviewImages = reviewImages;
+        this.imageUrls = new ArrayList<>();
+        this.cakeNumber = cakeNumber;
+        this.sheetType = sheetType;
+        this.requestOption = requestOption;
+        this.designSatisfaction = designSatisfaction;
+        this.score = score;
+        this.tags = tags;
+        this.content = content;
+    }
 }

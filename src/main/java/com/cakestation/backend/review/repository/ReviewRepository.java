@@ -16,15 +16,15 @@ import java.util.Optional;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    @Modifying(clearAutomatically = true)
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("delete from Review r where r.id in :ids")
     void deleteReviewByIds(@Param("ids") List<Long> ids);
 
-    @Modifying(clearAutomatically = true)
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("delete from ReviewImage ri where ri.review.id in :ids")
     void deleteReviewImagesByReviewIds(@Param("ids") List<Long> ids);
 
-    @Modifying(clearAutomatically = true)
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("delete from ReviewTag rt where rt.review.id in :ids")
     void deleteReviewTagsByReviewIds(@Param("ids") List<Long> ids);
 

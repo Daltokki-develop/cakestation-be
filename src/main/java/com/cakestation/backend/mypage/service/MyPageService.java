@@ -27,7 +27,7 @@ public class MyPageService {
         User user = getUser(currentEmail);
         List<Review> reviews = getReviewsByWriter(user);
         int reviewImageCount = getReviewImageCount(reviews);
-        int likeCount = likeStoreRepository.findLikeStoresByUser(user).size();
+        int likeCount = likeStoreRepository.findAllByUser(user.getId()).size();
 
         return MyPageDto.from(
                 user.getNickname(), reviews.size(), reviewImageCount, likeCount, user.getRandomNumber());

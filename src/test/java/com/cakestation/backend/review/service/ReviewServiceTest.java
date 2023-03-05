@@ -50,7 +50,7 @@ class ReviewServiceTest {
         userRepository.save(new User(USERNAME, NICKNAME, EMAIL, RANDOM_NUMBER, ROLE));
         CakeStore cakeStore = cakeStoreRepository.save(new CakeStore(NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION));
 
-        CreateReviewDto createReviewDto = new CreateReviewDto(cakeStore.getId(), ENCODING_REVIEW_IMAGES, IMAGE_URLS, CAKE_NUMBER, SHEET_TYPE, REQUEST_OPTION, DesignSatisfaction.GOOD, SCORE, TAGS, CONTENT);
+        CreateReviewDto createReviewDto = new CreateReviewDto(cakeStore.getId(), ENCODING_REVIEW_IMAGES, CAKE_NUMBER, SHEET_TYPE, REQUEST_OPTION, DesignSatisfaction.GOOD, SCORE, TAGS, CONTENT);
         Long reviewId = reviewService.saveReview(createReviewDto, EMAIL);
 
         assertThat(reviewId).isNotNull();

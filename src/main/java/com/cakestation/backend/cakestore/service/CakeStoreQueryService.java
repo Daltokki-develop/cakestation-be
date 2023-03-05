@@ -96,7 +96,7 @@ public class CakeStoreQueryService {
     }
 
     private List<Long> getLikeStoreIdsByUser(User targetUser) {
-        return likeStoreRepository.findLikeStoresByUser(targetUser)
+        return likeStoreRepository.findAllByUser(targetUser.getId())
                 .stream()
                 .map(likeStore -> likeStore.getCakeStore().getId())
                 .collect(Collectors.toList());
