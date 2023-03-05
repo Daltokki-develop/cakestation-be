@@ -1,45 +1,40 @@
-//package com.cakestation.backend.user.controller;
-//
-//
-//import com.cakestation.backend.user.service.UserService;
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.test.context.TestPropertySource;
-//import org.springframework.test.context.junit.jupiter.SpringExtension;
-//import org.springframework.test.web.servlet.MockMvc;
-//
-//import static com.cakestation.backend.user.fixture.UserFixture.getKakaoUserDto;
-//
-//
-//@AutoConfigureMockMvc
-//@SpringBootTest
-//@ExtendWith(SpringExtension.class)
-//@TestPropertySource(properties = {"spring.config.location=classpath:application-test.yml"})
-//public class UserControllerTest {
-//
-//        @Autowired
-//        private MockMvc mockMvc;
-//
-//        @Autowired
-//        private UserService userService;
-//
-//        @Test
-//        public void User_nickname_등록() throws Exception {
-//                // given
-//                // 회원등록
-//                userService.join(getKakaoUserDto());
-//
-//                String uri = String.format("/api/nickname");
-//
-////                MvcResult result = mockMvc.perform(
-////                        MockMvcRequestBuilders.patch(uri)
-////                                .accept(MediaType.APPLICATION_JSON)
-////                )
-////                        .andExpect(status().isOk())
-////                        .andDo(MockMvcResultHandlers.print())
-////                        .andReturn();
-//        }
-//}
+package com.cakestation.backend.user.controller;
+
+
+import com.cakestation.backend.common.ControllerTest;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+
+import static com.cakestation.backend.common.auth.AuthUtil.getCurrentUserEmail;
+import static com.cakestation.backend.user.fixture.UserFixture.EMAIL;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+
+@DisplayName("UserController 는")
+public class UserControllerTest extends ControllerTest {
+
+    @DisplayName("닉네임을 업데이트할 수 있다.")
+    @Test
+    public void update_nickname() throws Exception {
+        // given
+        given(getCurrentUserEmail()).willReturn(EMAIL);
+        given(userService.updateNickname(anyString())).willReturn("SongSong");
+        String uri = "/api/nickname";
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.patch(uri)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .contentType(APPLICATION_JSON)
+                                .header("Authorization", "abc")
+                )
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+}
