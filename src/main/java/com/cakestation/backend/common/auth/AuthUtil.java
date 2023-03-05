@@ -58,28 +58,4 @@ public class AuthUtil {
 
         return email;
     }
-
-//    public HashMap makeCookie(TokenDto tokenDto) {
-//        HashMap<String, Cookie> cookieMap = new HashMap<String, Cookie>();
-//
-//        Cookie accessToken = new Cookie("Authorization", tokenDto.getAccessToken());
-//        Cookie refreshToken = new Cookie("refresh", tokenDto.getRefreshToken());
-//
-////        accessToken = new Cookie("Authorization", tokenDto.getAccessToken());
-////        refreshToken = new Cookie("refresh", tokenDto.getRefreshToken());
-//        // ->토큰 만료시간과 동일하게 쿠키만료시간 설정하기
-//        accessToken.setMaxAge(tokenDto.getAccessExpires());
-//        accessToken.setPath("/");
-////        accessToken.setPath("/localhost");
-//
-//        refreshToken.setMaxAge(tokenDto.getRefreshExpires());
-//        refreshToken.setPath("/");
-////        refreshToken.setPath("/localhost");
-//
-//
-//        cookieMap.put("access", accessToken);
-//        cookieMap.put("refresh", refreshToken);
-//
-//        return cookieMap;
-//    }
 }

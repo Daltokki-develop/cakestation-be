@@ -12,8 +12,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class UpdateReviewRequest {
     private List<String> reviewImages = new ArrayList<>(); // 리뷰 이미지 base64 리스트
     private int cakeNumber; // 케이크 호수

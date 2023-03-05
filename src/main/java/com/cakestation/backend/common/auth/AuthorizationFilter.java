@@ -1,6 +1,5 @@
 package com.cakestation.backend.common.auth;
 
-
 import com.cakestation.backend.common.domain.CustomUserDetails;
 import com.cakestation.backend.common.exception.ErrorType;
 import com.cakestation.backend.common.config.JwtProperties;

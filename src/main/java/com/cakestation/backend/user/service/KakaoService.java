@@ -148,12 +148,6 @@ public class KakaoService {
             conn.setRequestProperty(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + token);
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            String line;
-            StringBuilder result = new StringBuilder();
-
-            while ((line = br.readLine()) != null) {
-                result.append(line);
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
