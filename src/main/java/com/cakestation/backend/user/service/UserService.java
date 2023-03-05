@@ -3,26 +3,30 @@ package com.cakestation.backend.user.service;
 import com.cakestation.backend.cakestore.domain.LikeStore;
 import com.cakestation.backend.cakestore.repository.LikeStoreRepository;
 import com.cakestation.backend.common.exception.ErrorType;
+import com.cakestation.backend.review.domain.Review;
+import com.cakestation.backend.review.repository.ReviewRepository;
 import com.cakestation.backend.user.domain.NicknameType;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.exception.InvalidUserException;
 import com.cakestation.backend.user.repository.UserRepository;
 import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Random;
-
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserService {
 
-    private final LikeStoreRepository likeStoreRepository;
     private final UserRepository userRepository;
+    private final ReviewRepository reviewRepository;
+    private final LikeStoreRepository likeStoreRepository;
 
     @Transactional
     public Long join(KakaoUserDto kakaoUserDto) {
@@ -44,8 +48,23 @@ public class UserService {
     public void deleteUser(String userEmail) {
         User user = userRepository.findUserByEmail(userEmail)
                 .orElseThrow(() -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
-        likeStoreRepository.deleteAll(likeStoreRepository.findLikeStoresByUser(user));
+
+        likeStoreRepository.deleteLikeStoresByIds(getLikeStoreIds(user.getId()));
+
+        List<Long> reviewIds = getReviewIdsByWriter(user.getId());
+
+        reviewRepository.deleteReviewImagesByReviewIds(reviewIds);
+        reviewRepository.deleteReviewTagsByReviewIds(reviewIds);
+        reviewRepository.deleteReviewByIds(reviewIds);
+
         userRepository.deleteById(user.getId());
+    }
+
+    private List<Long> getLikeStoreIds(Long userId) {
+        return likeStoreRepository.findAllByUser(userId)
+                .stream()
+                .map(LikeStore::getId)
+                .collect(Collectors.toList());
     }
 
     public String getUniqueNickname() {
@@ -72,6 +91,13 @@ public class UserService {
     private User getUser(String userEmail) {
         return userRepository.findUserByEmail(userEmail)
                 .orElseThrow(() -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
+    }
+
+    private List<Long> getReviewIdsByWriter(Long userId) {
+        return reviewRepository.findAllByWriterId(userId, Pageable.unpaged())
+                .stream()
+                .map(Review::getId)
+                .collect(Collectors.toList());
     }
 }
 
