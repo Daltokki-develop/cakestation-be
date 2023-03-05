@@ -5,6 +5,7 @@ import com.cakestation.backend.user.service.dto.response.KakaoUserDto;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Random;
 
 @Entity
 @Getter
@@ -17,15 +18,16 @@ public class User extends BaseEntity {
     private Long id;
 
     private String username;
+
     private String nickname;
 
     @Column(nullable = false, unique = true)
     private String email;
 
-    private int randomNumber;
-
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER;
+
+    private int randomNumber;
 
     @Builder
     public User(String username, String nickname, String email, int randomNumber, Role role) {
@@ -52,6 +54,7 @@ public class User extends BaseEntity {
     }
 
     private static int createRandomNumber() {
-        return (int) (Math.random() * 4);
+        Random random = new Random();
+        return random.nextInt(4);
     }
 }
