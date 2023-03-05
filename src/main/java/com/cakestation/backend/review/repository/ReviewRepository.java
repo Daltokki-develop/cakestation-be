@@ -40,5 +40,4 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @EntityGraph(attributePaths = {"writer"})
     @Query("select r from Review r where r.writer.id =:writerId")
     List<Review> findAllByWriter(@Param("writerId") Long writerId);
-
 }
