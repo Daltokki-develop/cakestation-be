@@ -27,7 +27,7 @@ class CakeStoreServiceTest {
 
     @DisplayName("가게를 등록할 수 있다.")
     @Test
-    void saveStore() {
+    void save_store() {
         Long cakeStoreId = cakeStoreService.saveStore(getCreateCakeStoreDto());
 
         assertThat(cakeStoreId).isNotNull();

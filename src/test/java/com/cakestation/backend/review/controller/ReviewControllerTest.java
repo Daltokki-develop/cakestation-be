@@ -12,7 +12,6 @@ import com.cakestation.backend.review.service.dto.UpdateReviewDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
@@ -33,7 +32,7 @@ class ReviewControllerTest extends ControllerTest {
 
     @DisplayName("리뷰를 등록할 수 있다.")
     @Test
-    public void uploadReview() throws Exception {
+    public void save_review() throws Exception {
         given(getCurrentUserEmail()).willReturn(EMAIL);
         given(reviewService.saveReview(any(CreateReviewDto.class), anyString())).willReturn(1L);
 
@@ -42,7 +41,7 @@ class ReviewControllerTest extends ControllerTest {
         ApiResponse<Long> expectedResponse =
                 new ApiResponse<>(HttpStatus.CREATED.value(), 1L);
 
-        MvcResult result = mockMvc.perform(
+        mockMvc.perform(
                         MockMvcRequestBuilders.post(uri)
                                 .accept(APPLICATION_JSON)
                                 .contentType(APPLICATION_JSON)
@@ -59,7 +58,7 @@ class ReviewControllerTest extends ControllerTest {
 
     @DisplayName("리뷰를 수정할 수 있다.")
     @Test
-    public void updateReview() throws Exception {
+    public void update_review() throws Exception {
         ReviewDto reviewDto = ReviewDto.from(getReviewEntity(), List.of(Tag.CHEAP), List.of());
         given(reviewService.updateReview(any(UpdateReviewDto.class), anyLong()))
                 .willReturn(reviewDto);
@@ -69,7 +68,7 @@ class ReviewControllerTest extends ControllerTest {
         ApiResponse<ReviewResponse> expectedResponse = new ApiResponse<>(
                 HttpStatus.OK.value(), ReviewResponse.from(reviewDto));
 
-        MvcResult result = mockMvc.perform(
+        mockMvc.perform(
                         MockMvcRequestBuilders.patch(uri)
                                 .accept(APPLICATION_JSON)
                                 .contentType(APPLICATION_JSON)
@@ -85,13 +84,13 @@ class ReviewControllerTest extends ControllerTest {
 
     @DisplayName("리뷰를 삭제할 수 있다.")
     @Test
-    public void deleteReview() throws Exception {
+    public void delete_review() throws Exception {
         given(getCurrentUserEmail()).willReturn(EMAIL);
         doNothing().when(reviewService).deleteReview(anyLong(), anyString());
 
         String uri = String.format("/api/reviews/%d", REVIEW_ID_1);
 
-        MvcResult result = mockMvc.perform(
+        mockMvc.perform(
                         MockMvcRequestBuilders.delete(uri)
                                 .accept(APPLICATION_JSON)
                                 .contentType(APPLICATION_JSON)

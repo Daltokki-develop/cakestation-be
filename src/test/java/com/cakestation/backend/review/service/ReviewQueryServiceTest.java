@@ -6,7 +6,6 @@ import com.cakestation.backend.common.annotations.ServiceTest;
 import com.cakestation.backend.review.domain.DesignSatisfaction;
 import com.cakestation.backend.review.domain.Review;
 import com.cakestation.backend.review.repository.ReviewRepository;
-import com.cakestation.backend.review.repository.ReviewTagRepository;
 import com.cakestation.backend.review.service.dto.ReviewDto;
 import com.cakestation.backend.user.domain.User;
 import com.cakestation.backend.user.repository.UserRepository;
@@ -49,7 +48,7 @@ class ReviewQueryServiceTest {
 
     @DisplayName("사용자 아이디로 사용자가 작성한 리뷰를 조회할 수 있다.")
     @Test
-    void findReviewsByWriterId() {
+    void find_reviews_with_user_id() {
         User writer = userRepository.save(new User(null, USERNAME, NICKNAME, EMAIL, RANDOM_NUMBER, ROLE));
         CakeStore cakeStore = cakeStoreRepository.save(new CakeStore(null, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0));
         CakeStore cakeStore2 = cakeStoreRepository.save(new CakeStore(null, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0));
@@ -67,7 +66,7 @@ class ReviewQueryServiceTest {
 
     @DisplayName("가게 아이디로 가게의 리뷰를 조회할 수 있다.")
     @Test
-    void findReviewsByStore() {
+    void find_reviews_with_store_id() {
         User writer = userRepository.save(new User(null, USERNAME, NICKNAME, EMAIL, RANDOM_NUMBER, ROLE));
         CakeStore cakeStore = cakeStoreRepository.save(new CakeStore(null, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0));
 

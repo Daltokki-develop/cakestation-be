@@ -4,11 +4,15 @@ import com.cakestation.backend.cakestore.controller.CakeStoreController;
 import com.cakestation.backend.cakestore.service.CakeStoreQueryService;
 import com.cakestation.backend.cakestore.service.CakeStoreService;
 import com.cakestation.backend.common.auth.AuthUtil;
+import com.cakestation.backend.common.config.KakaoConfig;
 import com.cakestation.backend.mypage.controller.MyPageController;
 import com.cakestation.backend.mypage.service.MyPageService;
 import com.cakestation.backend.review.controller.ReviewController;
 import com.cakestation.backend.review.service.ReviewQueryService;
 import com.cakestation.backend.review.service.ReviewService;
+import com.cakestation.backend.user.controller.UserController;
+import com.cakestation.backend.user.service.KakaoService;
+import com.cakestation.backend.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -27,7 +31,7 @@ import static org.mockito.Mockito.mockStatic;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @WebMvcTest(value = {CakeStoreController.class,
-        ReviewController.class, MyPageController.class}
+        ReviewController.class, MyPageController.class, UserController.class}
         , excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 
 public class ControllerTest {
@@ -48,6 +52,12 @@ public class ControllerTest {
     protected ReviewQueryService reviewQueryService;
     @MockBean
     protected MyPageService myPageService;
+    @MockBean
+    protected UserService userService;
+    @MockBean
+    protected KakaoService kakaoService;
+    @MockBean
+    protected KakaoConfig kakaoConfig;
     @Autowired
     protected WebApplicationContext ctx;
 

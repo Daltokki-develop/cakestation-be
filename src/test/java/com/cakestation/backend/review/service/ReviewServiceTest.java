@@ -47,7 +47,7 @@ class ReviewServiceTest {
 
     @DisplayName("리뷰를 등록할 수 있다.")
     @Test
-    void saveReview() {
+    void save_review() {
         userRepository.save(new User(null, USERNAME, NICKNAME, EMAIL, RANDOM_NUMBER, ROLE));
         CakeStore cakeStore = cakeStoreRepository.save(new CakeStore(null, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0));
 
@@ -59,7 +59,7 @@ class ReviewServiceTest {
 
     @DisplayName("리뷰를 수정할 수 있다.")
     @Test
-    void updateReview() {
+    void update_review() {
         User user = userRepository.save(new User(null, USERNAME, NICKNAME, EMAIL, RANDOM_NUMBER, ROLE));
         CakeStore cakeStore = cakeStoreRepository.save(new CakeStore(null, NAME_1, ADDRESS, BUSINESS_HOURS, PHONE, THUMNAIL, WEBPAGE_URL, KAKAOMAP_URL, NEARBY_STATION, List.of(), 0, 0));
         Review review = reviewRepository.save(new Review(null, user, cakeStore, List.of(), CAKE_NUMBER, SHEET_TYPE, REQUEST_OPTION, DesignSatisfaction.GOOD, SCORE, List.of(), CONTENT));

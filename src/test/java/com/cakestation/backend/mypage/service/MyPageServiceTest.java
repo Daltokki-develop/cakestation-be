@@ -47,7 +47,7 @@ class MyPageServiceTest {
 
     @DisplayName("리뷰개수가 1개일 때 마이페이지 정보의 리뷰 개수는 1개이다.")
     @Test
-    void getMyPageInfo() {
+    void get_one_result_if_review_count_is_one() {
         User user = new User(null, "유저넴", "닉넴", "mm@mail.com", 1, Role.ROLE_USER);
         CakeStore cakeStore = getCakeStoreEntity();
         Review review = new Review(null, user, cakeStore, List.of(), CAKE_NUMBER, SHEET_TYPE, REQUEST_OPTION, DesignSatisfaction.GOOD, SCORE, List.of(), CONTENT);
