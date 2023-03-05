@@ -1,19 +1,14 @@
 package com.cakestation.backend.review.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.AccessLevel;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Getter
 public class ReviewTag {
 
@@ -28,6 +23,12 @@ public class ReviewTag {
 
     @Enumerated(value = EnumType.STRING)
     private Tag tag;
+
+    public ReviewTag(Review review, Tag tag) {
+        this.id = null;
+        this.review = review;
+        this.tag = tag;
+    }
 
     public void setReview(Review review) {
         this.review = review;

@@ -9,7 +9,6 @@ import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Getter
 public class ReviewImage {
     @Id
@@ -23,6 +22,12 @@ public class ReviewImage {
 
     @Lob
     private String url;
+
+    public ReviewImage(Review review, String url) {
+        this.id = null;
+        this.review = review;
+        this.url = url;
+    }
 
     public void setReview(Review review) {
         this.review = review;
