@@ -31,7 +31,7 @@ public class ReviewFixture {
     public static int SCORE = 5; // 별점
 
     public static List<Tag> TAGS = List.of(Tag.CHEAP);
-    public static List<ReviewTag> REVIEW_TAGS = List.of(new ReviewTag(null, null, Tag.CHEAP));
+    public static List<ReviewTag> REVIEW_TAGS = List.of(new ReviewTag(null, Tag.CHEAP));
     public static String CONTENT = ""; // 내용
 
     public ReviewFixture() throws IOException {
@@ -41,7 +41,6 @@ public class ReviewFixture {
     public static CreateReviewRequest getCreateReviewRequest() throws IOException {
 
         return CreateReviewRequest.builder()
-                .reviewImages(IMAGES)
                 .cakeNumber(CAKE_NUMBER)
                 .sheetType(SHEET_TYPE)
                 .requestOption(REQUEST_OPTION)
@@ -55,7 +54,6 @@ public class ReviewFixture {
     public static CreateReviewDto getCreateReviewDto() {
         return CreateReviewDto.builder()
                 .reviewImages(IMAGES)
-                .imageUrls(IMAGE_URLS)
                 .cakeNumber(CAKE_NUMBER)
                 .sheetType(SHEET_TYPE)
                 .requestOption(REQUEST_OPTION)
@@ -68,25 +66,20 @@ public class ReviewFixture {
 
     public static Review getReviewEntity() {
 
-        ReviewTag reviewTag = new ReviewTag(null, null, Tag.CHEAP);
-
         Review review = Review.builder()
-                .id(REVIEW_ID_1)
-                .reviewImages(REVIEW_IMAGES)
                 .cakeNumber(CAKE_NUMBER)
                 .sheetType(SHEET_TYPE)
                 .requestOption(REQUEST_OPTION)
                 .designSatisfaction(SATISFACTION)
                 .score(SCORE)
                 .content(CONTENT)
-                .reviewTags(List.of(reviewTag))
                 .writer(getUserEntity())
                 .cakeStore(getCakeStoreEntity())
                 .build();
 
-        reviewTag.setReview(review);
+        ReviewTag reviewTag = new ReviewTag(review, Tag.CHEAP);
+        review.addReviewTag(reviewTag.getTag());
 
         return review;
-
     }
 }

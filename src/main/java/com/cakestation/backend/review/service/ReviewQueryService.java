@@ -30,25 +30,28 @@ public class ReviewQueryService {
         Review review = reviewRepository.findById(reviewId).orElseThrow(
                 () -> new InvalidReviewException(ErrorType.NOT_FOUND_REVIEW));
         List<Tag> tags = getTags(review);
+
         return ReviewDto.from(review, tags, getImageUrls(review));
     }
 
     public List<ReviewDto> findReviewsByWriter(Long writerId, Pageable pageable) {
         List<Review> reviews = reviewRepository.findAllByWriterId(writerId, pageable);
+
         return reviews.stream()
                 .map(review -> ReviewDto.from(review, getTags(review), getImageUrls(review)))
                 .collect(Collectors.toList());
     }
 
     public List<ReviewDto> findReviewsByStore(Long cakeStoreId, Pageable pageable) {
-
         List<Review> reviews = reviewRepository.findAllByCakeStoreId(cakeStoreId, pageable);
+
         return reviews.stream()
                 .map(review -> ReviewDto.from(review, getTags(review), getImageUrls(review)))
                 .collect(Collectors.toList());
     }
 
     public Double findReviewAvgByStore(Long storeId) {
+
         return reviewRepository.findAverageByStore(storeId).orElseThrow(
                 () -> new InvalidStoreException(ErrorType.NOT_FOUND_STORE)
         );
@@ -73,10 +76,12 @@ public class ReviewQueryService {
         for (List<ReviewImageDto> imageDtoList : allReviewImageDto) {
             reviewImageDtoList.addAll(imageDtoList);
         }
+
         return reviewImageDtoList;
     }
 
     private List<List<ReviewImageDto>> getAllReviewImageDto(List<Review> reviews) {
+
         return reviews.stream()
                 .map(review -> review.getReviewImages()
                         .stream()
@@ -86,6 +91,7 @@ public class ReviewQueryService {
     }
 
     private List<String> getImageUrls(Review review) {
+
         return review.getReviewImages()
                 .stream()
                 .map(ReviewImage::getUrl)
@@ -93,6 +99,7 @@ public class ReviewQueryService {
     }
 
     private List<Tag> getTags(Review review) {
+
         return review.getReviewTags()
                 .stream()
                 .map(ReviewTag::getTag)

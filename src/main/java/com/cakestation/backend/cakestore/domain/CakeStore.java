@@ -1,24 +1,19 @@
 package com.cakestation.backend.cakestore.domain;
 
-
 import com.cakestation.backend.cakestore.service.dto.CreateCakeStoreDto;
 import com.cakestation.backend.review.domain.Review;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.AccessLevel;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 public class CakeStore {
 
     @Id
@@ -42,12 +37,27 @@ public class CakeStore {
 
     private String nearByStation;
 
-    @Builder.Default
     @OneToMany(mappedBy = "cakeStore")
     private List<Review> reviews = new ArrayList<>();
     private int reviewCount = 0;
 
     private double reviewScore = 0.0;
+
+    @Builder
+    public CakeStore(String name, String address, String businessHours, String phoneNumber, String thumbnail, String webpageUrl, String mapUrl, String nearByStation) {
+        this.id = null;
+        this.name = name;
+        this.address = address;
+        this.businessHours = businessHours;
+        this.phoneNumber = phoneNumber;
+        this.thumbnail = thumbnail;
+        this.webpageUrl = webpageUrl;
+        this.mapUrl = mapUrl;
+        this.nearByStation = nearByStation;
+        this.reviews = new ArrayList<>();
+        this.reviewCount = 0;
+        this.reviewScore = 0.0;
+    }
 
     public static CakeStore createCakeStore(CreateCakeStoreDto createCakeStoreDto) {
         return CakeStore.builder()
@@ -59,8 +69,6 @@ public class CakeStore {
                 .webpageUrl(createCakeStoreDto.getWebpageUrl())
                 .mapUrl(createCakeStoreDto.getMapUrl())
                 .nearByStation(createCakeStoreDto.getNearByStation())
-                .reviewCount(0)
-                .reviewScore(0.0)
                 .build();
     }
 

@@ -27,22 +27,27 @@ public class MyPageService {
         User user = getUser(currentEmail);
         List<Review> reviews = getReviewsByWriter(user);
         int reviewImageCount = getReviewImageCount(reviews);
-        int likeCount = likeStoreRepository.findLikeStoresByUser(user).size();
+        int likeCount = likeStoreRepository.findAllByUser(user.getId()).size();
 
         return MyPageDto.from(
                 user.getNickname(), reviews.size(), reviewImageCount, likeCount, user.getRandomNumber());
     }
 
     private User getUser(String currentEmail) {
+
         return userRepository.findUserByEmail(currentEmail).orElseThrow(
                 () -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
     }
 
     private List<Review> getReviewsByWriter(User user) {
+
         return reviewRepository.findAllByWriter(user.getId());
     }
 
     private int getReviewImageCount(List<Review> reviews) {
-        return reviews.stream().mapToInt(review -> review.getReviewImages().size()).sum();
+
+        return reviews.stream()
+                .mapToInt(review -> review.getReviewImages().size())
+                .sum();
     }
 }

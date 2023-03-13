@@ -20,10 +20,10 @@ public class MyPageController {
 
     private final MyPageService myPageService;
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/mypage")
     public ResponseEntity<ApiResponse<MyPageDto>> getMyPage() {
         MyPageDto myPageInfo = myPageService.getMyPageInfo(getCurrentUserEmail());
+
         return ResponseEntity.ok().body(
                 new ApiResponse<>(HttpStatus.OK.value(), myPageInfo));
     }

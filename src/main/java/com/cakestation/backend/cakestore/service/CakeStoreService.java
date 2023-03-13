@@ -31,6 +31,7 @@ public class CakeStoreService {
     @Transactional
     public Long saveStore(CreateCakeStoreDto createStoreDto) {
         CakeStore store = CakeStore.createCakeStore(createStoreDto);
+
         return cakeStoreRepository.save(store).getId();
     }
 
@@ -61,11 +62,13 @@ public class CakeStoreService {
     }
 
     private CakeStore getCakeStore(Long storeId) {
+
         return cakeStoreRepository.findById(storeId)
                 .orElseThrow(() -> new InvalidStoreException(ErrorType.NOT_FOUND_STORE));
     }
 
     private User getUser(String userEmail) {
+
         return userRepository.findUserByEmail(userEmail)
                 .orElseThrow(() -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
     }

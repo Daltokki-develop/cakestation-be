@@ -17,12 +17,14 @@ public class SubwayService {
     private final SubwayRepository subwayRePository;
 
     public List<Subway> findAll() {
+
         return subwayRePository.findAll();
     }
 
     @Transactional
     public void saveSubway(CreateSubwayDto createSubwayDto) {
         Subway subway = CreateSubwayDto.toEntity(createSubwayDto);
+
         subwayRePository.save(subway);
     }
 }

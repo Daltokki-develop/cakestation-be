@@ -1,6 +1,5 @@
 package com.cakestation.backend.common.auth;
 
-
 import com.cakestation.backend.common.domain.CustomUserDetails;
 import com.cakestation.backend.common.exception.ErrorType;
 import com.cakestation.backend.common.config.JwtProperties;
@@ -43,12 +42,11 @@ public class AuthorizationFilter implements Filter {
             log.info("토큰 검증 완료");
 
             setSecurityContext(user);
-            chain.doFilter(req, res);
         } else {
-            log.info("검증은 없음");
-            chain.doFilter(req, res);
+            log.info("검증 없음");
         }
-
+        chain.doFilter(req, res);
+        log.info("Authorization Filter 통과");
     }
 
     private void setSecurityContext(User user) {

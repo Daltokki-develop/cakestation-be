@@ -24,7 +24,7 @@ public class MyPageControllerTest extends ControllerTest {
 
     @DisplayName("마이페이지 정보를 조회할 수 있다.")
     @Test
-    public void getMyPageInfo() throws Exception {
+    public void get_my_page_info() throws Exception {
 
         MyPageDto myPageDto = new MyPageDto(NICKNAME, 1, 2, 3, 4);
         given(getCurrentUserEmail()).willReturn(EMAIL);
@@ -32,9 +32,9 @@ public class MyPageControllerTest extends ControllerTest {
 
         ApiResponse<MyPageDto> expectedResponse = new ApiResponse<>(HttpStatus.OK.value(), myPageDto);
 
-        String uri = String.format("/api/mypage");
+        String uri = "/api/mypage";
 
-        MvcResult result = mockMvc.perform(
+        mockMvc.perform(
                         MockMvcRequestBuilders.get(uri)
                                 .accept(APPLICATION_JSON)
                                 .contentType(APPLICATION_JSON)

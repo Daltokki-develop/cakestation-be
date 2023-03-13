@@ -43,11 +43,13 @@ public class AwsS3Uploader {
 
             fileUrls.add(amazonS3Client.getUrl(bucketName, fileName).toString());
         }
+
         return fileUrls;
     }
 
     public String buildFileName(String category) {
         String uuid = UUID.randomUUID().toString();
+
         return category + "/" + uuid + FILE_EXTENSION_SEPARATOR + FILE_EXTENSION;
     }
 }

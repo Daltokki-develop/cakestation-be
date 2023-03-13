@@ -82,6 +82,7 @@ public class ReviewService {
     }
 
     private List<Tag> getTags(Review review) {
+
         return review.getReviewTags()
                 .stream()
                 .map(ReviewTag::getTag)

@@ -14,13 +14,11 @@ public class BadgeController {
     
     private final BadgeService badgeService;
 
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/badge")
     public ProvideBage provideBadge(){
-        
+        // TODO(버전 업데이트 시 추후 개발 예정)
         ProvideBage result = badgeService.providebadge();
 
         return result;
     }
-
 }
