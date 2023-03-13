@@ -34,12 +34,10 @@ public class UserController {
     @GetMapping("/oauth")
     public ResponseEntity<ApiResponse<Long>> kakaoCallback(@RequestParam String code) {
 
-        //Token 획득
         TokenDto tokenDto = kakaoService.getKaKaoAccessToken(code);
         KakaoUserDto userInfo = kakaoService.getUserInfo(tokenDto.getAccessToken());
         Long userId = userService.join(userInfo);
 
-        //얻은 토큰을 통한 유저정보 조회 및 저장
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + tokenDto.getAccessToken());
 
@@ -48,7 +46,6 @@ public class UserController {
     }
 
     //로그아웃 API
-    //TODO : Cookie 에 있을 refresh Token 도 삭제 할것
     @PostMapping("/logout/kakao")
     public ResponseEntity<Void> kakaoLogout(@RequestHeader(JwtProperties.HEADER_STRING) String token) throws URISyntaxException {
         kakaoService.logoutToken(token); // Token 강제 만료

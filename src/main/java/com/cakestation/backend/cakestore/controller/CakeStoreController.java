@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,42 +29,40 @@ public class CakeStoreController {
     private final CakeStoreService cakeStoreService;
     private final CakeStoreQueryService cakeStoreQueryService;
 
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/stores")
     public ResponseEntity<ApiResponse<Long>> uploadStore(@RequestBody @Validated CreateCakeStoreDto createStoreDto) {
         Long storeId = cakeStoreService.saveStore(createStoreDto);
-        return ResponseEntity.ok()
-                .body(new ApiResponse<>(HttpStatus.CREATED.value(), storeId));
+
+        return ResponseEntity.created(URI.create("/api/stores/" + storeId)).build();
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/stores/{storeId}")
     public ResponseEntity<ApiResponse<CakeStoreResponse>> showStore(@PathVariable Long storeId) {
         CakeStoreResponse storeResponse = CakeStoreResponse.from(cakeStoreQueryService.findStoreById(storeId));
+
         return ResponseEntity.ok()
                 .body(new ApiResponse<>(HttpStatus.OK.value(), storeResponse));
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/stores/{storeId}")
     public ResponseEntity<Void> deleteStore(@PathVariable Long storeId) {
         cakeStoreService.deleteStore(storeId);
+
         return ResponseEntity.noContent().build();
     }
 
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/stores/all")
     public ResponseEntity<ApiResponse<List<CakeStoreResponse>>> showAllStores() {
         List<CakeStoreResponse> storeResponseList = cakeStoreQueryService.findAllStore()
                 .stream()
                 .map(CakeStoreResponse::from)
                 .collect(Collectors.toList());
+
         return ResponseEntity.ok().body(
                 new ApiResponse<>(HttpStatus.OK.value(), storeResponseList));
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/stores/search/store")
     ResponseEntity<ApiResponse<List<CakeStoreResponse>>> searchStoresByKeyword(
             @RequestParam String name,
@@ -73,6 +72,7 @@ public class CakeStoreController {
                 .stream()
                 .map(CakeStoreResponse::from)
                 .collect(Collectors.toList());
+
         return ResponseEntity.ok()
                 .body(new ApiResponse<>(HttpStatus.OK.value(), storeResponseList));
     }
@@ -87,13 +87,11 @@ public class CakeStoreController {
                 .stream()
                 .map(CakeStoreResponse::from)
                 .collect(Collectors.toList());
+
         return ResponseEntity.ok()
                 .body(new ApiResponse<>(HttpStatus.OK.value(), storeResponseList));
     }
 
-
-    // 가게 좋아요 하기 기능
-    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/stores/{storeId}/like")
     public ResponseEntity<Void> likeStore(@PathVariable Long storeId) {
         cakeStoreService.likeStore(storeId, getCurrentUserEmail());

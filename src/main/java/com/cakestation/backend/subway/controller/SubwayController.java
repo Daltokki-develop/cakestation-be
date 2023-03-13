@@ -23,11 +23,13 @@ public class SubwayController {
     private final SubwayService subwayService;
 
     // 지하철 역 전체 조회
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/subway/all")
     public ResponseEntity<ApiResponse<List<SubwayResponse>>> getAllSubwayStation() {
         List<Subway> subways = subwayService.findAll();
-        List<SubwayResponse> response = subways.stream().map(SubwayResponse::from).collect(Collectors.toList());
+        List<SubwayResponse> response = subways.stream()
+                .map(SubwayResponse::from)
+                .collect(Collectors.toList());
+
         return ResponseEntity.ok().body(new ApiResponse<>(HttpStatus.OK.value(), response));
     }
 }
