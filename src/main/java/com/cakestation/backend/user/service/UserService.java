@@ -61,6 +61,7 @@ public class UserService {
     }
 
     private List<Long> getLikeStoreIds(Long userId) {
+
         return likeStoreRepository.findAllByUser(userId)
                 .stream()
                 .map(LikeStore::getId)
@@ -72,6 +73,7 @@ public class UserService {
         do {
             newNickname = makeNickname();
         } while (validateNicknameExists(newNickname));
+
         return newNickname;
     }
 
@@ -85,15 +87,18 @@ public class UserService {
     }
 
     private boolean validateNicknameExists(String newNickname) {
+
         return userRepository.findByNickname(newNickname).isPresent();
     }
 
     private User getUser(String userEmail) {
+
         return userRepository.findUserByEmail(userEmail)
                 .orElseThrow(() -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
     }
 
     private List<Long> getReviewIdsByWriter(Long userId) {
+
         return reviewRepository.findAllByWriterId(userId, Pageable.unpaged())
                 .stream()
                 .map(Review::getId)

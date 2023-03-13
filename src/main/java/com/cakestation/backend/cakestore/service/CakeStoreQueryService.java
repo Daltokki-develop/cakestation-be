@@ -37,6 +37,7 @@ public class CakeStoreQueryService {
     }
 
     public List<CakeStoreDto> findAllStore() {
+
         return cakeStoreRepository.findAll()
                 .stream()
                 .map(store -> CakeStoreDto.from(store, getReviewImageUrls(store)))
@@ -78,6 +79,7 @@ public class CakeStoreQueryService {
     }
 
     private List<ReviewImage> getReviewImages(CakeStore store) {
+
         return store.getReviews()
                 .stream()
                 .map(Review::getReviewImages)
@@ -86,16 +88,19 @@ public class CakeStoreQueryService {
     }
 
     private User getUser(String userEmail) {
+
         return userRepository.findUserByEmail(userEmail)
                 .orElseThrow(() -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
     }
 
     private CakeStore getCakeStore(Long storeId) {
+
         return cakeStoreRepository.findById(storeId)
                 .orElseThrow(() -> new InvalidStoreException(ErrorType.NOT_FOUND_STORE));
     }
 
     private List<Long> getLikeStoreIdsByUser(User targetUser) {
+
         return likeStoreRepository.findAllByUser(targetUser.getId())
                 .stream()
                 .map(likeStore -> likeStore.getCakeStore().getId())

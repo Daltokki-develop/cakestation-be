@@ -34,15 +34,20 @@ public class MyPageService {
     }
 
     private User getUser(String currentEmail) {
+
         return userRepository.findUserByEmail(currentEmail).orElseThrow(
                 () -> new InvalidUserException(ErrorType.NOT_FOUND_USER));
     }
 
     private List<Review> getReviewsByWriter(User user) {
+
         return reviewRepository.findAllByWriter(user.getId());
     }
 
     private int getReviewImageCount(List<Review> reviews) {
-        return reviews.stream().mapToInt(review -> review.getReviewImages().size()).sum();
+
+        return reviews.stream()
+                .mapToInt(review -> review.getReviewImages().size())
+                .sum();
     }
 }
