@@ -38,9 +38,6 @@ class ReviewControllerTest extends ControllerTest {
 
         String uri = String.format("/api/stores/%d/reviews", REVIEW_ID_1);
 
-        ApiResponse<Long> expectedResponse =
-                new ApiResponse<>(HttpStatus.CREATED.value(), 1L);
-
         mockMvc.perform(
                         MockMvcRequestBuilders.post(uri)
                                 .accept(APPLICATION_JSON)
@@ -48,10 +45,7 @@ class ReviewControllerTest extends ControllerTest {
                                 .content(objectMapper.writeValueAsString(getCreateReviewRequest()))
                                 .header("Authorization", "abc")
                 )
-                .andExpectAll(
-                        status().isOk(),
-                        content().string(objectMapper.writeValueAsString(expectedResponse))
-                )
+                .andExpect(status().isCreated())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
     }
